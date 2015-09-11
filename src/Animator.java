@@ -44,7 +44,7 @@ public class Animator implements Runnable {
             gameData.update();
             try {
                 gamePanel.gameRender(x, y);
-                if (x < -1296) { //scrolling background loop
+                if (x < -1275) { //scrolling background loop
                     x = 0;
                 }
             } catch (IOException ex) {
