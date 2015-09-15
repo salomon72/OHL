@@ -1,5 +1,9 @@
 
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,24 +12,40 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class Main extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
-// comment
+
     private final GamePanel gamePanel;
     private final GameData gameData;
     private final Animator animator;
+    
+    private final JTextField text;
+    private final JButton startButton;
+    private final JButton restartButton; 
+    //private final JButton SettingsButton;
     private final JButton quitButton;
+    
+    // button's font & Colors
+    Font btnFont;
+    Border borderLine;
+    Color btnColor;
+    
     private final Ship playerShip;
     private long playerMissle = 0;
     private final long firingInterval = 40;//interval between player missles
-
+    private final char key;
+    
     public Main() throws IOException {
         setSize(1275, 610);//size of initial window
-        setLocation(100, 100);//location of initial window
+        setLocation(50, 100);//location of initial window
         setTitle("Galileo!!");//title of the initial window
         Container c = getContentPane();//container for JPanel items
         animator = new Animator();
@@ -36,24 +56,77 @@ public class Main extends JFrame
         c.add(gamePanel, "Center");//centers the gamePanel on the JPanel
 
         JPanel southPanel = new JPanel();
+        
+        key = 'p'; // for test, player want to shoot using 'p'
+        
+        text = new JTextField(50); // for test to show what is used for control spaceship
+        text.setEditable(false);
+        text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting. ## PRESS 'm' TO SWITCH ");
+        text.setVisible(false);
+        southPanel.add(text);
+        
+        // Buttons' fonts
+        btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
+        borderLine = new LineBorder(Color.BLUE, 5);
+        btnColor = new Color(190,175,170);
+                   
+        startButton = new JButton("Start Game");
+        startButton.setFont(btnFont);
+        startButton.setBorder(borderLine);
+        startButton.setBackground(btnColor);
+        southPanel.add(startButton);
+        
+        restartButton = new JButton("ReStart Game");
+        restartButton.setVisible(false);
+        restartButton.setFont(btnFont);
+        restartButton.setBorder(borderLine);
+        restartButton.setBackground(btnColor);
+        southPanel.add(restartButton);
 
         quitButton = new JButton("Quit");
+        quitButton.setVisible(false);
+        quitButton.setFont(btnFont);
+        quitButton.setBorder(borderLine);
+        quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
         c.add(southPanel, "South");
 
         gamePanel.addMouseListener(this);
+        gamePanel.addMouseMotionListener(this);
+                
         gamePanel.setFocusable(true); // receives keyboard data
         gamePanel.addKeyListener(this);
+        
+        text.setFocusable(false);
+        text.addActionListener(this);
+        
+        startButton.setFocusable(false);
+        startButton.addActionListener(this);
+        
+        restartButton.setFocusable(false);
+        restartButton.addActionListener(this);
+                 
         quitButton.addActionListener(this);
-        gamePanel.addMouseMotionListener(this);
+        quitButton.setFocusable(false); // "Quit" button should not receive keyboard data   
+        
         playerShip = (Ship) gameData.figures.get(0); //gets player ship object from figures
-        gamePanel.startGame();//starts the game 
+         
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {//controls the quit button
+        if (ae.getSource() == startButton) { // start game.
+            gamePanel.startGame();
+            text.setVisible(true);
+            startButton.setVisible(false);
+            //restartButton.setVisible(true);
+            quitButton.setVisible(true);        
+        } /* else if (ae.getSource() == restartButton) { // restart game.
+           gameData.reset();
+                        
+        } */
         if (ae.getSource() == quitButton) {
-            System.exit(0);
+            animator.running = false;
         }
     }
 
@@ -64,25 +137,62 @@ public class Main extends JFrame
 
     @Override
     public void keyPressed(KeyEvent ke) {//changes player ship position and fires based on key pressed
+        // spaceship fires whenever the default key for shooting
+        // has been changed by the player.
+        if(ke.getKeyChar() == key){
+            if(!playerShip.mouseable){ // == false. meaning not mouseable
+                    playerMissle = System.currentTimeMillis();
+                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+                    synchronized (gameData.figures) {
+                        gameData.figures.add(f);
+                    }
+                }
+        }
+        
         switch (ke.getKeyCode()) {
             case KeyEvent.VK_UP:
-                if (playerShip.y > 4) {
-                    playerShip.y -= 15;
+                if(!playerShip.mouseable){
+                    playerShip.y -= 25;
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if (playerShip.y < GamePanel.PHEIGHT - 123) {
-                    playerShip.y += 15;
+                if(!playerShip.mouseable){                    
+                        playerShip.y += 25;                    
+                }
+                break;
+                case KeyEvent.VK_LEFT:
+                if(!playerShip.mouseable){                 
+                        playerShip.x -= 25;                
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                if(!playerShip.mouseable){                  
+                        playerShip.x += 25;                 
+                }
+                break;
+            case KeyEvent.VK_M: // activate or de-activate mouse control
+                playerShip.mouseable = !playerShip.mouseable;
+                
+                // Notify the user about the changes%%
+                if(!playerShip.mouseable){
+                    text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
+                    showMouse();
+                }
+                else{
+                    text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
+                    hideMouse();
                 }
                 break;
             case KeyEvent.VK_SPACE:
-                if (System.currentTimeMillis() - playerMissle < firingInterval) {
-                    break;
-                }
-                playerMissle = System.currentTimeMillis();
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
-                synchronized (gameData.figures) {
-                    gameData.figures.add(f);
+                if(!playerShip.mouseable){ // == false. meaning not mouseable
+                    if (System.currentTimeMillis() - playerMissle < firingInterval) {
+                        break;
+                    }
+                    playerMissle = System.currentTimeMillis();
+                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+                    synchronized (gameData.figures) {
+                        gameData.figures.add(f);
+                    }
                 }
                 break;
         }
@@ -90,13 +200,15 @@ public class Main extends JFrame
 
     @Override
     public void mouseClicked(MouseEvent me) { //fires a missle from the player on a normal mouse click
-        if (System.currentTimeMillis() - playerMissle < firingInterval) {
-            return;
-        }
-        playerMissle = System.currentTimeMillis();
-        Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
-        synchronized (gameData.figures) {
-            gameData.figures.add(f);
+        if(playerShip.mouseable){ // == true.        
+            if (System.currentTimeMillis() - playerMissle < firingInterval) {
+                return;
+            }
+            playerMissle = System.currentTimeMillis();
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+            synchronized (gameData.figures) {
+                gameData.figures.add(f);
+            }
         }
     }
 
@@ -122,24 +234,51 @@ public class Main extends JFrame
 
     @Override
     public void mouseDragged(MouseEvent e) {//fires missles from the player as long as the player clicks and drags, also updates position
-        playerShip.x = e.getX() - 10;
-        playerShip.y = e.getY() - 25;
-        if (System.currentTimeMillis() - playerMissle < firingInterval) {
-            return;
+        if(playerShip.mouseable){ // == true
+            playerShip.x = e.getX();
+            playerShip.y = e.getY();
+            if (System.currentTimeMillis() - playerMissle < firingInterval) {
+                return;
+            }
+            playerMissle = System.currentTimeMillis();
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+            synchronized (gameData.figures) {
+                gameData.figures.add(f);
+            }
         }
-        playerMissle = System.currentTimeMillis();
-        Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
-        synchronized (gameData.figures) {
-            gameData.figures.add(f);
-        }
-
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {//updates position based on mouse
-        playerShip.x = e.getX() - 10;
-        playerShip.y = e.getY() - 25;
+        if(gamePanel.running){ // == true. When player start Game; meaning player click on start Button.           
+        
+            if(playerShip.mouseable){ // == true
+                
+                playerShip.x = e.getX();
+                playerShip.y = e.getY();
+
+                if(e.getX() > 0 && e.getX() < GamePanel.PWIDTH - playerShip.playerImage.getWidth(null) &&
+                        e.getY() > 0 && e.getY() < GamePanel.PHEIGHT - playerShip.playerImage.getHeight(null) )
+                    hideMouse();    // hide mouse cursor when cursor is in the war zone; the gamePanel area 
+                else
+                    showMouse(); // show cursor otherwise
+            }
+                
+        }
     }
+    
+        //==================================================================
+    private void hideMouse(){ // hide Cursor
+        ImageIcon invisi = new ImageIcon(new byte[0]);
+        Cursor invisible = getToolkit().createCustomCursor(
+                invisi.getImage(), new Point(0, 0), "Hiding");
+        gamePanel.setCursor(invisible);
+    }
+    
+    private void showMouse(){ // show Cursor
+        gamePanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+    //==================================================================
 
     public static void main(String[] args) throws IOException {//runs the Main constructor that ultimately starts the entire game
         JFrame game = new Main();
