@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class Main extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
-
+// comment
     private final GamePanel gamePanel;
     private final GameData gameData;
     private final Animator animator;
