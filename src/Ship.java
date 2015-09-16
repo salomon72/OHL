@@ -25,7 +25,7 @@ public class Ship implements GameFigure {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
-                + "ship1.png");
+                + "playerShip.png");
         this.setAttributes(i, 10);
         this.observers = new ArrayList<>();
         this.x = x;
@@ -46,12 +46,12 @@ public class Ship implements GameFigure {
     // Missile shoot location
     @Override
     public float getXofMissileShoot() {
-        return x + 30;
+        return x + 47;
     }
 
     @Override
     public float getYofMissileShoot() {
-        return y + 17;
+        return y + 39;
     }
 
     @Override
