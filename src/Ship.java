@@ -12,7 +12,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Ship implements GameFigure {
-
+    boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
+                            // false : means user should use key directions
+    
     Image playerImage;
     float x, y;
     int state = STATE_TRAVELING;
@@ -23,7 +25,7 @@ public class Ship implements GameFigure {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
-                + "ship1.png");
+                + "playerShip.png");
         this.setAttributes(i, 10);
         this.observers = new ArrayList<>();
         this.x = x;
@@ -44,12 +46,12 @@ public class Ship implements GameFigure {
     // Missile shoot location
     @Override
     public float getXofMissileShoot() {
-        return x + 30;
+        return x + 47;
     }
 
     @Override
     public float getYofMissileShoot() {
-        return y + 17;
+        return y + 39;
     }
 
     @Override
@@ -59,6 +61,21 @@ public class Ship implements GameFigure {
 
     @Override
     public void update() {
+        // set boundaries of the ship (player):
+        
+        // on X axis
+        if(x < GamePanel.WIDTH)
+            x = GamePanel.WIDTH;
+        
+        if(x > GamePanel.PWIDTH - playerImage.getWidth(null))
+            x = GamePanel.PWIDTH - playerImage.getWidth(null);
+        
+        // on Y axis
+        if(y < GamePanel.HEIGHT)
+            y = GamePanel.HEIGHT;
+        
+        if(y > GamePanel.PHEIGHT - playerImage.getHeight(null))
+            y = GamePanel.PHEIGHT - playerImage.getHeight(null);
     }
 
     @Override

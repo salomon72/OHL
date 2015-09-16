@@ -25,15 +25,15 @@ public class GameData {
         //spawn player ship and add to figures list here
         GameFigureFactory factory = new Factory("Ship");//example of player ship spawn
         figures.add(factory.createFigure());//adds player ship to figures
-        //startSpawner();//spawner thread for enemies
+        startSpawner();//spawner thread for enemies
         //startFiring();//thread that has enemies fire
 
     }
 
     public void spawnEnemy() {
         //use the GameFigureFactory to create new instances of enemy objects
-        //example: GameFigureFactory factory = new Factory("Enemy1");
-        //then you need to add the object to the figures list: figures.add(factory.createFigure());
+        GameFigureFactory factory = new Factory("Enemy");
+        figures.add(factory.createFigure());
     }
 
     public void spawnBoss() {

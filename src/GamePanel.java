@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,18 +17,27 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
     public static final int PWIDTH = 1275; // size of the game panel
-    public static final int PHEIGHT = 589;
+    public static final int PHEIGHT = 530;
+
+    public boolean running; // state of the game.
 
     private final Animator animator;//Animator object for the game panel
     private final GameData gameData;//GameData object for the game panel
     private Graphics graphics; //graphics object for the game panel to use to render
+
     private Image dbImage = null;
     private final Image gameOver;//image to display upon game over
+
     private BufferedImage backgroundImage;//image for the background of the game
+    private BufferedImage planetImage;//test planet image
+    private BufferedImage planetImageTransformed;//test planet image
+    private float scale = 1;
+    private int scaleCount;
 
     public GamePanel(Animator animator, GameData gameData) throws IOException {
         this.animator = animator;
         this.gameData = gameData;
+
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         gameOver = getImage(imagePath + separator + "images" + separator //load game over screen from image file
@@ -36,9 +47,19 @@ public class GamePanel extends JPanel {
         File file = new File(imagePath + separator + "images" + separator //load
                 + "background.gif");
         backgroundImage = ImageIO.read(file);
+        file = new File(imagePath + separator + "images" + separator //load
+                + "planet.png");
+        planetImage = ImageIO.read(file);
+        AffineTransform tx = new AffineTransform();
+        tx.scale(0.5, 0.5);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        planetImage = op.filter(planetImage, null);
+        planetImageTransformed = planetImage;
+        scaleCount = 0;
     }
 
     public void startGame() { //starts the threat for the animator
+        running = true;
         Thread t = new Thread(animator);
         t.start();
     }
@@ -47,6 +68,7 @@ public class GamePanel extends JPanel {
         if (dbImage == null) {
             dbImage = createImage(PWIDTH, PHEIGHT);
             if (dbImage == null) {
+                System.out.println("dbImage is null");
                 return;
             } else {
                 graphics = dbImage.getGraphics();
@@ -56,6 +78,7 @@ public class GamePanel extends JPanel {
         int height = backgroundImage.getHeight();//height of background image
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
+        graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
             for (int i = 0; i < gameData.figures.size(); i++) {
@@ -64,6 +87,17 @@ public class GamePanel extends JPanel {
             }
         }
 
+    }
+
+    public void transformPlanet() {
+        if (scaleCount <= 1000) {
+            AffineTransform tx = new AffineTransform();
+            tx.scale(scale, scale);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+            planetImageTransformed = op.filter(planetImage, null);
+            scale = (float) (scale + 0.001);
+            scaleCount++;
+        }
     }
 
     public static Image getImage(String fileName) {//functions that reads image files
@@ -87,7 +121,7 @@ public class GamePanel extends JPanel {
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
         } catch (Exception e) {
-
+            System.out.println("Graphics error: " + e);
         }
     }
 

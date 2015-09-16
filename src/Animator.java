@@ -16,7 +16,8 @@ public class Animator implements Runnable {
     GameData gameData = null;
     private int x = 0;
     private int y = 0;
-    private Timer time;
+    private final Timer backgroundScrollTimer;
+    private final Timer planetScaleTimer;
 
     public Animator() {
         ActionListener backgroundRender = new ActionListener() { //scrolling background
@@ -25,7 +26,14 @@ public class Animator implements Runnable {
                 x -= 1;
             }
         };
-        time = new Timer(30, backgroundRender);//scrolling background timer
+        ActionListener planetScale = new ActionListener() { //scrolling background
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gamePanel.transformPlanet();
+            }
+        };
+        backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+        planetScaleTimer = new Timer(100, planetScale);
     }
 
     public void setGamePanel(GamePanel gamePanel) {
@@ -39,7 +47,8 @@ public class Animator implements Runnable {
     @Override
     public void run() {
         running = true;
-        time.start();
+        backgroundScrollTimer.start();
+        planetScaleTimer.start();
         while (running) {
             gameData.update();
             try {
