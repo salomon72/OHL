@@ -1,3 +1,6 @@
+
+import java.util.Random;
+
 /*
  class that is used to create new iinstances of GameFigure classes.
  */
@@ -17,7 +20,10 @@ public class Factory implements GameFigureFactory {
             case "Ship":
                 type = new Ship(0, GamePanel.PHEIGHT / 2 - 30);//example of object creation
                 return type;
-            case "case2": {
+            case "Enemy": {
+                Random randomGenerator = new Random();
+                int temp = randomGenerator.nextInt(1000);
+                type = new Enemy(GamePanel.PWIDTH-100, temp, 81, 81);
                 return type;
             }
             case "case3": {

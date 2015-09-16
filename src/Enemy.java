@@ -17,12 +17,12 @@ public class Enemy implements GameFigure {
     private int health;
     private ArrayList<Observer> observers;
 
-    Enemy(float x, float y, String shipFile, int height, int weight)
+    Enemy(float x, float y, int height, int weight)
     {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
-                + "Enemy1.png");
+                + "Enemy4.png");
         this.setAttributes(i, 10);
         this.observers = new ArrayList<>();
         this.x = x;
