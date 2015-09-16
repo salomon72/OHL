@@ -142,10 +142,16 @@ public class Main extends JFrame
     }
 
     public static void main(String[] args) throws IOException {//runs the Main constructor that ultimately starts the entire game
-        JFrame game = new Main();
+       /* JFrame game = new Main();
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setResizable(false);
-        game.setVisible(true);
+        game.setVisible(true);*/
+        
+        JFrame menu = new InterfaceForm();
+        menu.setSize(500, 350);
+        menu.setLocation(300,100);
+        menu.setResizable(false);
+        menu.setVisible(true);
     }
 
 }
