@@ -77,6 +77,7 @@ public class Main extends JFrame
         btnColor = new Color(190, 175, 170);
 
         startButton = new JButton("Start Game");
+        startButton.setVisible(false);
         startButton.setFont(btnFont);
         startButton.setBorder(borderLine);
         startButton.setBackground(btnColor);
@@ -90,7 +91,7 @@ public class Main extends JFrame
         southPanel.add(restartButton);
 
         quitButton = new JButton("Quit");
-        quitButton.setVisible(false);
+        quitButton.setVisible(true);
         quitButton.setFont(btnFont);
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
@@ -116,18 +117,18 @@ public class Main extends JFrame
         quitButton.setFocusable(false); // "Quit" button should not receive keyboard data   
 
         playerShip = (Ship) gameData.figures.get(0); //gets player ship object from figures
-
+        gamePanel.startGame();
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {//controls the quit button
-        if (ae.getSource() == startButton) { // start game.
-            gamePanel.startGame();
-            text.setVisible(true);
-            startButton.setVisible(false);
-            //restartButton.setVisible(true);
-            quitButton.setVisible(true);
-        } /* else if (ae.getSource() == restartButton) { // restart game.
+        /*if (ae.getSource() == startButton) { // start game.
+        gamePanel.startGame();
+        text.setVisible(true);
+        startButton.setVisible(false);
+        //restartButton.setVisible(true);
+        quitButton.setVisible(true);
+        }*/ /* else if (ae.getSource() == restartButton) { // restart game.
          gameData.reset();
                         
          } */
