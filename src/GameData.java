@@ -26,7 +26,7 @@ public class GameData {
         GameFigureFactory factory = new Factory("Ship");//example of player ship spawn
         figures.add(factory.createFigure());//adds player ship to figures
         startSpawner();//spawner thread for enemies
-        //startFiring();//thread that has enemies fire
+        startFiring();//thread that has enemies fire
 
     }
 
@@ -71,9 +71,9 @@ public class GameData {
                         if (temp <= 90 && temp >= 30) {//if random number is between 90 and 30, enemy will fire
                             f = figures.get(i);//get enemy to fire
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
-                                //Missile m = new Missile(f.getXofMissileShoot(), f.getYofMissileShoot()); creates new enemy missle to fire
+                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot());
                                 synchronized (figures) {
-                                    //figures.add(m); send the missle to be rendered
+                                    figures.add(m);
                                 }
                             }
                         }

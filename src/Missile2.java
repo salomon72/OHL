@@ -1,36 +1,36 @@
-import java.awt.Graphics;
+/*
+ GameFigure class for the missle that the player ship fires, follows GameFigure interface
+ */
+
 import java.awt.Image;
+import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-public class Enemy implements GameFigure {
-    
-    Image enemyImage;
-    float x, y;
-    int w, h;
-    int state = STATE_TRAVELING;
-    private int health;
-    private ArrayList<Observer> observers;
+public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
-    Enemy(float x, float y, int height, int weight)
-    {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-        Image i = getImage(imagePath + separator + "images" + separator
-                + "Enemy4.png");
-        this.setAttributes(i, 10);
+    Point2D.Float target;
+    private int state = STATE_TRAVELING;
+    private static final int UNIT_TRAVEL_DISTANCE = 6;
+    int health = 1;
+    private final ArrayList<Observer> observers;
+
+    String imagePath = System.getProperty("user.dir");
+    String separator = System.getProperty("file.separator");
+    Image missileImage = getImage(imagePath + separator + "images" + separator
+            + "missile3.png");
+
+    public Missile2(float x, float y) {
         this.observers = new ArrayList<>();
-        this.x = x;
-        this.y = y;
-        w = weight;
-        h = height;
+        setFrameFromCenter(x, y, x, y);
     }
-    
+
     public static Image getImage(String fileName) {
         Image image = null;
         try {
@@ -41,25 +41,25 @@ public class Enemy implements GameFigure {
         }
         return image;
     }
-    
+
     @Override
     public void render(Graphics g) {
-        g.drawImage(enemyImage, (int) x, (int) y, null);
+        g.drawImage(missileImage, (int) x, (int) y, null);
     }
 
     @Override
     public void update() {
-        Random rand = new Random();
-        int dx = rand.nextInt(3) - 1;
-        // move randomly in 4 direction
-        this.x += 2*dx;
-        int dy = rand.nextInt(3) - 1;
-        this.y += 2*dy;
+        x -= UNIT_TRAVEL_DISTANCE;
     }
 
-    @Override
-    public void updateState(int state) {
-        this.state = state;
+    public void updateState() {
+        if (state == STATE_TRAVELING) {
+            double distance = target.distance(getCenterX(), getCenterY());
+            boolean targetReached = distance <= 2.0;
+            if (targetReached) {
+
+            }
+        }
     }
 
     @Override
@@ -68,13 +68,23 @@ public class Enemy implements GameFigure {
     }
 
     @Override
+    public Rectangle collision() {
+        return new Rectangle((int) x, (int) y, 23, 17);
+    }
+
+    @Override
     public int isMissile() {
-        return 2;
+        return 1;
+    }
+
+    @Override
+    public void updateState(int state) {
+        this.state = state;
     }
 
     @Override
     public int isPlayer() {
-        return 1;
+        return -1;
     }
 
     @Override
@@ -87,22 +97,11 @@ public class Enemy implements GameFigure {
 
     @Override
     public float getXofMissileShoot() {
-        // CHECK
-        return x - 30;
-    }
-
-    @Override
-    public float getYofMissileShoot() {
-        return y + 17;
-    }
-
-    @Override
-    public float getXcoor() {
         return x;
     }
 
     @Override
-    public float getYcoor() {
+    public float getYofMissileShoot() {
         return y;
     }
 
@@ -125,14 +124,16 @@ public class Enemy implements GameFigure {
 
     @Override
     public void setAttributes(Image i, int health) {
-        this.health = health;
-        enemyImage = i;
     }
 
     @Override
-    public Rectangle collision() {
-        // CHANGE SIZE OF IMAGE
-        return new Rectangle((int) x, (int) y, 30, 44);
+    public float getXcoor() {
+        return x;
     }
-    
+
+    @Override
+    public float getYcoor() {
+        return y;
+    }
+
 }

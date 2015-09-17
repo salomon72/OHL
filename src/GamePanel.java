@@ -41,7 +41,7 @@ public class GamePanel extends JPanel {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         gameOver = getImage(imagePath + separator + "images" + separator //load game over screen from image file
-                + "win.jpg");
+                + "win2.gif");
         setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
         File file = new File(imagePath + separator + "images" + separator //load

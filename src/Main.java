@@ -68,7 +68,7 @@ public class Main extends JFrame
         text = new JTextField(50); // for test to show what is used for control spaceship
         text.setEditable(false);
         text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting. ## PRESS 'm' TO SWITCH ");
-        text.setVisible(false);
+        text.setVisible(true);
         southPanel.add(text);
 
         // Buttons' fonts
@@ -153,7 +153,7 @@ public class Main extends JFrame
     //below are all of the different keyboard and action events, some are filled some are not
     @Override
     public void mousePressed(MouseEvent me) {
-        timer.scheduleAtFixedRate(task, 0, 40);
+        //timer.scheduleAtFixedRate(task, 0, 40);
     }
 
     @Override
@@ -234,7 +234,7 @@ public class Main extends JFrame
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        timer.cancel();
+        //timer.cancel();
     }
 
     @Override
