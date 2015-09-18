@@ -43,11 +43,11 @@ public class Main extends JFrame
 
     private final Ship playerShip;
     private long playerMissle = 0;
-    private final long firingInterval = 40;//interval between player missles
+    private final long firingInterval = 90;//interval between player missles
     private final char key;
 
-    private Timer timer = new Timer();
-    private TimerTask task = new FireTimerTask();
+    private Timer timer;
+    private TimerTask task;
 
     public Main() throws IOException {
         setSize(1275, 610);//size of initial window
@@ -123,12 +123,12 @@ public class Main extends JFrame
     @Override
     public void actionPerformed(ActionEvent ae) {//controls the quit button
         /*if (ae.getSource() == startButton) { // start game.
-        gamePanel.startGame();
-        text.setVisible(true);
-        startButton.setVisible(false);
-        //restartButton.setVisible(true);
-        quitButton.setVisible(true);
-        }*/ /* else if (ae.getSource() == restartButton) { // restart game.
+         gamePanel.startGame();
+         text.setVisible(true);
+         startButton.setVisible(false);
+         //restartButton.setVisible(true);
+         quitButton.setVisible(true);
+         }*/ /* else if (ae.getSource() == restartButton) { // restart game.
          gameData.reset();
                         
          } */
@@ -153,7 +153,9 @@ public class Main extends JFrame
     //below are all of the different keyboard and action events, some are filled some are not
     @Override
     public void mousePressed(MouseEvent me) {
-        //timer.scheduleAtFixedRate(task, 0, 40);
+        timer = new Timer();
+        task = new FireTimerTask();
+        timer.scheduleAtFixedRate(task, 0, 90);
     }
 
     @Override
@@ -234,7 +236,7 @@ public class Main extends JFrame
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        //timer.cancel();
+        timer.cancel();
     }
 
     @Override
@@ -296,13 +298,13 @@ public class Main extends JFrame
 
     public static void main(String[] args) throws IOException {//runs the Main constructor that ultimately starts the entire game
        /* JFrame game = new Main();
-        game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        game.setResizable(false);
-        game.setVisible(true);*/
-        
+         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         game.setResizable(false);
+         game.setVisible(true);*/
+
         JFrame menu = new InterfaceForm();
         menu.setSize(500, 350);
-        menu.setLocation(300,100);
+        menu.setLocation(300, 100);
         menu.setResizable(false);
         menu.setVisible(true);
     }
