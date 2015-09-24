@@ -53,7 +53,7 @@ public class Animator implements Runnable {
             gameData.update();
             try {
                 gamePanel.gameRender(x, y);
-                if (x < -1275) { //scrolling background loop
+                if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
                     x = 0;
                 }
             } catch (IOException ex) {

@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
     public static final int PWIDTH = 1275; // size of the game panel
-    public static final int PHEIGHT = 530;
+    public static final int PHEIGHT = 587;
 
     public boolean running; // state of the game.
 
@@ -32,12 +32,20 @@ public class GamePanel extends JPanel {
     private BufferedImage backgroundImage;//image for the background of the game
     private BufferedImage planetImage;//test planet image
     private BufferedImage planetImageTransformed;//test planet image
-    private float scale = 1;
+    private float scale;
     private int scaleCount;
+    private int nextStage;
+    private boolean stageChange;
+
+    private Stage currentStage;
 
     public GamePanel(Animator animator, GameData gameData) throws IOException {
         this.animator = animator;
         this.gameData = gameData;
+
+        currentStage = new Stage1();
+        nextStage = 1;
+        stageChange = false;
 
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
@@ -45,10 +53,8 @@ public class GamePanel extends JPanel {
                 + "win2.gif");
         setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
+        collectFromStage();
         File file = new File(imagePath + separator + "images" + separator //load
-                + "background.gif");
-        backgroundImage = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
                 + "planet.png");
         planetImage = ImageIO.read(file);
         AffineTransform tx = new AffineTransform();
@@ -57,10 +63,11 @@ public class GamePanel extends JPanel {
         planetImage = op.filter(planetImage, null);
         planetImageTransformed = planetImage;
         scaleCount = 0;
+        scale = 1;
         health = new HealthBar(1, null);
     }
 
-    public void startGame() { //starts the threat for the animator
+    public void startGame() { //starts the thread for the animator
         running = true;
         Thread t = new Thread(animator);
         t.start();
@@ -77,13 +84,37 @@ public class GamePanel extends JPanel {
             }
         }
         int width = backgroundImage.getWidth();//width of background image
-        int height = backgroundImage.getHeight();//height of background image
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
-        graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
-        for(int i = 0; i < 5; i++){
-            graphics.drawImage(health.getHealthimage(),20*i,10,30,30,null);
-        }        
+        if (nextStage == 1) {
+            graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
+        }
+        for (int i = 0; i < 5; i++) {
+            graphics.drawImage(health.getHealthimage(), 20 * i, 10, 30, 30, null);
+        }
+
+        if (stageChange) {
+
+            if (nextStage == 1) {
+                currentStage = new Stage1();
+                planetImageTransformed = planetImage;
+                scaleCount = 0;
+                scale = 1;
+                collectFromStage();
+            }
+
+            if (nextStage == 2) {
+                currentStage = new Stage2();
+                collectFromStage();
+            }
+            
+            if (nextStage == 3) {
+                currentStage = new Stage3();
+                collectFromStage();
+            }
+
+            stageChange = false;
+        }
 
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
@@ -92,17 +123,22 @@ public class GamePanel extends JPanel {
                 f.render(graphics);
             }
         }
+    }
 
+    private void collectFromStage() {
+        backgroundImage = currentStage.getBackgroundImage();
     }
 
     public void transformPlanet() {
-        if (scaleCount <= 1000) {
-            AffineTransform tx = new AffineTransform();
-            tx.scale(scale, scale);
-            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-            planetImageTransformed = op.filter(planetImage, null);
-            scale = (float) (scale + 0.001);
-            scaleCount++;
+        if (nextStage == 1) {
+            if (scaleCount <= 1000) {
+                AffineTransform tx = new AffineTransform();
+                tx.scale(scale, scale);
+                AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+                planetImageTransformed = op.filter(planetImage, null);
+                scale = (float) (scale + 0.001);
+                scaleCount++;
+            }
         }
     }
 
@@ -152,4 +188,25 @@ public class GamePanel extends JPanel {
             System.out.println("Graphics error: " + e);
         }
     }
+
+    public Stage getCurrentStage() {
+        return currentStage;
+    }
+
+    public int getNextStage() {
+        return nextStage;
+    }
+
+    public void setNextStage(int nextStage) {
+        this.nextStage = nextStage;
+    }
+
+    public boolean isStageChange() {
+        return stageChange;
+    }
+
+    public void setStageChange(boolean stageChange) {
+        this.stageChange = stageChange;
+    }
+
 }
