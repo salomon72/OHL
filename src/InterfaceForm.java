@@ -20,16 +20,10 @@ public class InterfaceForm extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfaceForm
+     * @throws java.io.IOException
      */
-    private final File labelFile;
-    private final ImageIcon label;
 
     public InterfaceForm() throws IOException {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-        labelFile = new File(imagePath + separator + "images" + separator //load
-                + "Stage1Background.gif");
-        label = new ImageIcon(ImageIO.read(labelFile));
         initComponents();
     }
 
@@ -90,7 +84,7 @@ public class InterfaceForm extends javax.swing.JFrame {
         getContentPane().add(B_QUIT);
         B_QUIT.setBounds(20, 120, 90, 25);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Brandon Snell\\Dropbox\\SDD-Project\\images\\Stage1Background.gif")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2);
         jLabel2.setBounds(0, 0, 1170, 590);

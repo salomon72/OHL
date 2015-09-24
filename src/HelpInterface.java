@@ -20,17 +20,10 @@ public class HelpInterface extends javax.swing.JFrame {
 
     /**
      * Creates new form HelpInterface
+     * @throws java.io.IOException
      */
     
-    private final File labelFile;
-    private final ImageIcon label;
-    
     public HelpInterface() throws IOException {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-        labelFile = new File(imagePath + separator + "images" + separator //load
-                + "Stage1Background.gif");
-        label = new ImageIcon(ImageIO.read(labelFile));
         initComponents();
     }
 
@@ -73,7 +66,7 @@ public class HelpInterface extends javax.swing.JFrame {
         getContentPane().add(B_BACK);
         B_BACK.setBounds(210, 220, 100, 25);
 
-        jLabel1.setIcon(label);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1100, 590);
