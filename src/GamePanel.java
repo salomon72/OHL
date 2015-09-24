@@ -27,6 +27,7 @@ public class GamePanel extends JPanel {
 
     private Image dbImage = null;
     private final Image gameOver;//image to display upon game over
+    private HealthBar health;
 
     private BufferedImage backgroundImage;//image for the background of the game
     private BufferedImage planetImage;//test planet image
@@ -56,6 +57,7 @@ public class GamePanel extends JPanel {
         planetImage = op.filter(planetImage, null);
         planetImageTransformed = planetImage;
         scaleCount = 0;
+        health = new HealthBar(1, null);
     }
 
     public void startGame() { //starts the threat for the animator
@@ -79,6 +81,10 @@ public class GamePanel extends JPanel {
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
         graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
+        for(int i = 0; i < 5; i++){
+            graphics.drawImage(health.getHealthimage(),20*i,10,30,30,null);
+        }        
+
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
             for (int i = 0; i < gameData.figures.size(); i++) {
