@@ -1,3 +1,11 @@
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,8 +20,10 @@ public class HelpInterface extends javax.swing.JFrame {
 
     /**
      * Creates new form HelpInterface
+     * @throws java.io.IOException
      */
-    public HelpInterface() {
+    
+    public HelpInterface() throws IOException {
         initComponents();
     }
 
@@ -54,18 +64,22 @@ public class HelpInterface extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_BACK);
-        B_BACK.setBounds(210, 220, 83, 29);
+        B_BACK.setBounds(210, 220, 100, 25);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/davidalba/SDD-Project/images/background.gif")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 530, 300);
+        jLabel1.setBounds(0, 0, 1100, 590);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_BACKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_BACKActionPerformed
-        new HelpInterface().setVisible(true); //show JFrame or JDialog 
+        try {
+            new HelpInterface().setVisible(true); //show JFrame or JDialog 
+        } catch (IOException ex) {
+            Logger.getLogger(HelpInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
       dispose(); 
     }//GEN-LAST:event_B_BACKActionPerformed
 
@@ -99,7 +113,11 @@ public class HelpInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HelpInterface().setVisible(true);
+                try {
+                    new HelpInterface().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(HelpInterface.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

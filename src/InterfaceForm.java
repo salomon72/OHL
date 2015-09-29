@@ -1,19 +1,11 @@
 
-import javax.swing.JFrame;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,15 +18,15 @@ import javax.swing.JPanel;
  */
 public class InterfaceForm extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form InterfaceForm
+     * @throws java.io.IOException
      */
-    public InterfaceForm() {
+
+    public InterfaceForm() throws IOException {
         initComponents();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,7 +49,7 @@ public class InterfaceForm extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("MENU");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(250, 10, 40, 16);
+        jLabel1.setBounds(250, 10, 37, 18);
 
         B_START.setBackground(new java.awt.Color(204, 204, 0));
         B_START.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -68,7 +60,7 @@ public class InterfaceForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_START);
-        B_START.setBounds(20, 40, 91, 29);
+        B_START.setBounds(20, 40, 90, 25);
 
         B_HELP.setBackground(new java.awt.Color(204, 204, 0));
         B_HELP.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -79,7 +71,7 @@ public class InterfaceForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_HELP);
-        B_HELP.setBounds(20, 80, 90, 29);
+        B_HELP.setBounds(20, 80, 90, 25);
 
         B_QUIT.setBackground(new java.awt.Color(204, 204, 0));
         B_QUIT.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -90,12 +82,12 @@ public class InterfaceForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_QUIT);
-        B_QUIT.setBounds(20, 120, 90, 29);
+        B_QUIT.setBounds(20, 120, 90, 25);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("/Users/davidalba/SDD-Project/images/background.gif")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(0, 0, 550, 300);
+        jLabel2.setBounds(0, 0, 1170, 590);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -117,11 +109,16 @@ public class InterfaceForm extends javax.swing.JFrame {
     }//GEN-LAST:event_B_STARTActionPerformed
 
     private void B_HELPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_HELPActionPerformed
-         HelpInterface h = new HelpInterface();
-        h.setSize(500, 400);
-        h.setLocation(300, 100); //400, 200
-        h.setResizable(false);
-        h.setVisible(true);
+        HelpInterface h;
+        try {
+            h = new HelpInterface();
+            h.setSize(500, 400);
+            h.setLocation(300, 100); //400, 200
+            h.setResizable(false);
+            h.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(InterfaceForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_B_HELPActionPerformed
 
     private void B_QUITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_QUITActionPerformed
@@ -158,7 +155,11 @@ public class InterfaceForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfaceForm().setVisible(true);
+                try {
+                    new InterfaceForm().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(InterfaceForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -31,9 +31,9 @@ public class Main extends JFrame
     private final Animator animator;
 
     private final JTextField text;
-    private final JButton startButton;
-    private final JButton restartButton;
-    //private final JButton SettingsButton;
+    private final JButton stage1test;
+    private final JButton stage2test;
+    private final JButton stage3test;
     private final JButton quitButton;
 
     // button's font & Colors
@@ -78,26 +78,45 @@ public class Main extends JFrame
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
 
-        startButton = new JButton("Start Game");
-        startButton.setVisible(false);
-        startButton.setFont(btnFont);
-        startButton.setBorder(borderLine);
-        startButton.setBackground(btnColor);
-        southPanel.add(startButton);
-
-        restartButton = new JButton("ReStart Game");
-        restartButton.setVisible(false);
-        restartButton.setFont(btnFont);
-        restartButton.setBorder(borderLine);
-        restartButton.setBackground(btnColor);
-        southPanel.add(restartButton);
-
         quitButton = new JButton("Quit");
         quitButton.setVisible(true);
         quitButton.setFont(btnFont);
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
+        
+        //BEGIN TEMPORARY BUTTONS
+        stage1test = new JButton("Stage1");
+        stage1test.setVisible(true);
+        stage1test.setFont(btnFont);
+        stage1test.setBorder(borderLine);
+        stage1test.setBackground(btnColor);
+        southPanel.add(stage1test);
+
+        stage2test = new JButton("Stage2");
+        stage2test.setVisible(true);
+        stage2test.setFont(btnFont);
+        stage2test.setBorder(borderLine);
+        stage2test.setBackground(btnColor);
+        southPanel.add(stage2test);
+        
+        stage3test = new JButton("Stage3");
+        stage3test.setVisible(true);
+        stage3test.setFont(btnFont);
+        stage3test.setBorder(borderLine);
+        stage3test.setBackground(btnColor);
+        southPanel.add(stage3test);
+        
+        stage1test.setFocusable(false);
+        stage1test.addActionListener(this);
+
+        stage2test.setFocusable(false);
+        stage2test.addActionListener(this);
+        
+        stage3test.setFocusable(false);
+        stage3test.addActionListener(this);
+        //END TEMPORARY BUTTONS
+        
         c.add(southPanel, "South");
 
         gamePanel.addMouseListener(this);
@@ -108,13 +127,7 @@ public class Main extends JFrame
 
         text.setFocusable(false);
         text.addActionListener(this);
-
-        startButton.setFocusable(false);
-        startButton.addActionListener(this);
-
-        restartButton.setFocusable(false);
-        restartButton.addActionListener(this);
-
+        
         quitButton.addActionListener(this);
         quitButton.setFocusable(false); // "Quit" button should not receive keyboard data   
 
@@ -124,20 +137,23 @@ public class Main extends JFrame
 
     @Override
     public void actionPerformed(ActionEvent ae) {//controls the quit button
-        /*if (ae.getSource() == startButton) { // start game.
-         gamePanel.startGame();
-         text.setVisible(true);
-         startButton.setVisible(false);
-         //restartButton.setVisible(true);
-         quitButton.setVisible(true);
-         }*/ /* else if (ae.getSource() == restartButton) { // restart game.
-         gameData.reset();
-                        
-         } */
-
         if (ae.getSource() == quitButton) {
             animator.running = false;
         }
+        //BEGIN TEMPRARY BUTTON LISTENERS
+        if(ae.getSource() == stage1test){
+            animator.gamePanel.setNextStage(1);
+            animator.gamePanel.setStageChange(true);
+        }
+        if(ae.getSource() == stage2test){
+            animator.gamePanel.setNextStage(2);
+            animator.gamePanel.setStageChange(true);
+        }
+        if(ae.getSource() == stage3test){
+            animator.gamePanel.setNextStage(3);
+            animator.gamePanel.setStageChange(true);
+        }
+        //END TEMPORARY BUTTON LISTENERS
     }
 
     private class FireTimerTask extends TimerTask {
