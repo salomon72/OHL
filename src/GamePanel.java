@@ -64,12 +64,8 @@ public class GamePanel extends JPanel {
         planetImage = op.filter(planetImage, null);
         planetImageTransformed = planetImage;
         scaleCount = 0;
-<<<<<<< HEAD
         health = new HealthBar(1,null);
-=======
         scale = 1;
-        health = new HealthBar(1, null);
->>>>>>> origin/master
     }
    
 
@@ -89,31 +85,22 @@ public class GamePanel extends JPanel {
                 graphics = dbImage.getGraphics();
             }
         }
-        //GameFigure gf;
-        //gf = gameData.figures.get(0);
-       // gf.Health(y);
-        
-        //gameData.figures
+       
        
         int width = backgroundImage.getWidth();//width of background image
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
-<<<<<<< HEAD
         graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         System.out.println("y is" + Ship.health);
         for(int i = 0; i < Ship.health; i++){ //i < 5
             
           graphics.drawImage(health.getHealthimage(),30*i,10,30,30,null); //20*i, 10, 30, 30, nul   
         }        
-     
-=======
+    
         if (nextStage == 1) {
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
-        for (int i = 0; i < 5; i++) {
-            graphics.drawImage(health.getHealthimage(), 20 * i, 10, 30, 30, null);
-        }
-
+        
         if (stageChange) {
 
             if (nextStage == 1) {
@@ -137,7 +124,6 @@ public class GamePanel extends JPanel {
             stageChange = false;
         }
 
->>>>>>> origin/master
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
             for (int i = 0; i < gameData.figures.size(); i++) {
