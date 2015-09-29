@@ -48,6 +48,8 @@ public class Main extends JFrame
 
     private Timer timer;
     private TimerTask task;
+    
+   
 
     public Main() throws IOException {
         setSize(1275, 610);//size of initial window
