@@ -90,7 +90,9 @@ public class GamePanel extends JPanel {
         int width = backgroundImage.getWidth();//width of background image
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
-        graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
+        if (nextStage == 1) {
+                graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
+            }
         System.out.println("y is" + Ship.health);
         for(int i = 0; i < Ship.health; i++){ //i < 5
             
