@@ -106,7 +106,7 @@ public class Enemy implements GameFigure {
                 if(power.getState() == STATE_DONE){
                     state = STATE_DONE;
                 }
-                else state = STATE_DEAD;
+                else state = STATE_DONE;
             }
             else {
                 state = STATE_DONE;

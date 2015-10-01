@@ -118,7 +118,7 @@ public class GameData {
                     if (f.getXofMissileShoot() < 0) {
                         f.updateState(0);
                     }
-                    if (g.isMissile() == 0 && (f.isMissile() != 1 || f.isMissile() != 0)) {
+                    if (g.isMissile() == 0 && (f.isMissile() != 1 || f.isMissile() != 0)) { //
                         if (g.collision().intersects(f.collision()) && f.isPlayer() >= 1) {
                             g.updateState(0);
                             f.Health(1);//subtract 1 from GameFigure health
@@ -126,6 +126,7 @@ public class GameData {
                         if (f.getState() == GameFigure.STATE_DONE) {//remove destroyed GameFigures
                             f.registerObserver(score);//update score upone each enemy destroyed
                             if (f.isPlayer() == 1) {
+                                System.out.println("##################Enemy is dying @  : " + f.getXcoor() + " , " + f.getYcoor() );
                                 f.notifyObservers(5);
                             }
                             if (f.isPlayer() == 2) {
@@ -137,7 +138,7 @@ public class GameData {
                             remove.add(f);//remove destroyed enemies from figures list
                         }
                     }
-                    if (g.isMissile() == 1 && (f.isMissile() != 1 || f.isMissile() != 0)) {
+                    if (g.isMissile() == 1 && (f.isMissile() != 1 || f.isMissile() != 0)) {//collision with player
                         if (g.collision().intersects(f.collision()) && f.isPlayer() == 0) {
                             g.updateState(0);
                             f.Health(1);//subtract 1 from GameFigure health
@@ -146,6 +147,18 @@ public class GameData {
                             remove.add(f);
                         }
                     }
+                    
+                    if (g.isMissile() == 30 && (f.isMissile() != 30 || f.isMissile() != 0)) {//collision with power
+                        System.out.println("is power UP");
+                        if (g.collision().intersects(f.collision()) && f.isPlayer() == 0) {
+                            g.updateState(0);
+                            f.Health(1);//subtract 1 from GameFigure health
+                        }
+                        if (f.getState() == GameFigure.STATE_DONE) {
+                            remove.add(f);
+                        }
+                    }
+                    
                 }
                 if (figures.get(0).isPlayer() == 0) {//if player is destoyed, end game
                 } else {

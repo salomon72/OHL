@@ -126,12 +126,12 @@ public class PowerUp implements GameFigure {
 
     @Override
     public int isMissile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 30;
     }
 
     @Override
     public int isPlayer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 31;
     }
 
     @Override
