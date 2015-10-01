@@ -15,6 +15,8 @@ public class Enemy implements GameFigure {
     int w, h;
     int state = STATE_TRAVELING;
     private int health;
+    private PowerUp power;
+    
     private ArrayList<Observer> observers;
 
     Enemy(float x, float y, int height, int weight)
@@ -29,6 +31,11 @@ public class Enemy implements GameFigure {
         this.y = y;
         w = weight;
         h = height;
+        
+        Random rand = new Random();
+        int r = rand.nextInt(5) + 1;       
+        power = new PowerUp(3);
+        
     }
     
     public static Image getImage(String fileName) {
@@ -44,7 +51,11 @@ public class Enemy implements GameFigure {
     
     @Override
     public void render(Graphics g) {
-        g.drawImage(enemyImage, (int) x, (int) y, null);
+         if(state != STATE_DEAD)
+            g.drawImage(enemyImage, (int) x, (int) y, null);
+         
+         if(power.isEnabled() && power.isReleased())
+            power.render(g);
     }
 
     @Override
@@ -55,6 +66,16 @@ public class Enemy implements GameFigure {
         this.x += 2*dx;
         int dy = rand.nextInt(3) - 1;
         this.y += 2*dy;
+        
+        if(health > 0)
+            power.setLocation((int)this.x, (int)this.y);
+        else
+            power.setReleased(true);
+        
+        if(power.isEnabled() && power.getPower() != null) {
+            power.update();
+        }
+        
     }
 
     @Override
@@ -80,8 +101,16 @@ public class Enemy implements GameFigure {
     @Override
     public void Health(int i) {
         health -= i;
-        if (health == 0) {
-            state = 0;
+        if (health <= 0) {
+            if(power.isEnabled()){
+                if(power.getState() == STATE_DONE){
+                    state = STATE_DONE;
+                }
+                else state = STATE_DEAD;
+            }
+            else {
+                state = STATE_DONE;
+            }
         }
     }
 
