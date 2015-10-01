@@ -45,4 +45,5 @@ public interface GameFigure {
     static final int STATE_TRAVELING = 1;
     static final int STATE_EXPLODING = 2;
     static final int STATE_DONE = 0;
+    static final int STATE_ALIVE = 3;
 }

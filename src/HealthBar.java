@@ -8,6 +8,7 @@
  *
  * @author davidalba
  */
+
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Image;
@@ -23,6 +24,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,10 +41,13 @@ import java.awt.event.*;
 public class HealthBar extends JFrame implements GameFigure
 {
    //private double maxHP;
-   private ImageIcon health0 = new ImageIcon("heart.png");
-   private ImageIcon health1 = new ImageIcon("heart.png");
-   private ImageIcon health2 = new ImageIcon("heart.png");
-   private ImageIcon health3 = new ImageIcon("heart.png");
+   //private ImageIcon health0 = new ImageIcon("heart.png");
+   //private ImageIcon health1 = new ImageIcon("heart.png");
+   //private ImageIcon health2 = new ImageIcon("heart.png");
+   //private ImageIcon health3 = new ImageIcon("heart.png");
+   Point2D.Float target;
+    private int state = STATE_TRAVELING;
+    private final ArrayList<Observer> observers;
    
    private GridLayout world;
    private Bar[] healthbar;
@@ -50,6 +57,8 @@ public class HealthBar extends JFrame implements GameFigure
    
    
    public HealthBar(int s, String name){
+       this.observers = new ArrayList<>();
+        
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         
@@ -58,14 +67,16 @@ public class HealthBar extends JFrame implements GameFigure
       //super(1,name);
        add(new JLabel());
        
-       size = 5;
-       healthbar = new Bar[size];
+       //size = 5;
+       int health = 5;
+       //healthbar = new Bar[size];
        
-       world = new GridLayout(1,size,1,1);
-       this.setLayout(world);
+       //world = new GridLayout(1,size,1,1);
+       //this.setLayout(world);
        
        
    }
+   
 
     public Image getHealthimage() {
         return healthimage;
@@ -92,7 +103,7 @@ public static Image getImage(String fileName) {
        return health;
    }
    
-   public void update(int num){
+  /* public void update(int num){
        health = num;
        for(int j=0; j< size; j++)
            healthbar[j].setIcon(health0);
@@ -102,18 +113,18 @@ public static Image getImage(String fileName) {
            if(length<3) healthbar[i].setIcon(health2);
            if(length>=5) healthbar[i].setIcon(health1);
        }
-   }
+   }*/
    
-   private void build(ImageIcon im){
+  /* private void build(ImageIcon im){
        for(int i = 0; i < size; i++){
            healthbar[i] = new Bar(im);
            this.add(healthbar[i]);
        }
-   }
+   }*/
 
     @Override
     public void render(Graphics g) {
-       
+      // g.drawImage(healthimage, (int) x, (int) y, null);
     }
 
     @Override
@@ -138,7 +149,10 @@ public static Image getImage(String fileName) {
 
     @Override
     public void Health(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          health -= i;
+        if (health == 0) {
+            state = 0;
+        }
     }
 
     @Override
@@ -185,22 +199,29 @@ public static Image getImage(String fileName) {
     public Rectangle collision() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    private void setFrameFromCenter(int x, int y, int x0, int y0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
    
     
-    private class Bar extends JLabel {
+   private class Bar extends JLabel {	
 		
-		/**
-		* Default Bar constructor.
-		*/
-		public Bar() {super();}
+		 //Default Bar constructor.
 		
-		/**
-		* Bar constructor.
-		*
-		* @param im		the ImageIcon used in the bar 
-		*/
-		public Bar(ImageIcon im) {super(); this.setIcon(im);}
-	}
+		public Bar() {
+                    super();
+                }
+		
+		
+		// Bar constructor.
+		
+		//the ImageIcon used in the bar 
+		
+		public Bar(ImageIcon im) {
+                    super(); this.setIcon(im);
+                }
+    }
 }
 
 

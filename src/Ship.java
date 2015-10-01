@@ -18,7 +18,7 @@ public class Ship implements GameFigure {
     Image playerImage;
     float x, y;
     int state = STATE_TRAVELING;
-    private int health;
+    static int health;
     private ArrayList<Observer> observers;
 
     public Ship(float x, float y) {
@@ -26,7 +26,7 @@ public class Ship implements GameFigure {
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
                 + "playerShip.png");
-        this.setAttributes(i, 10);
+        this.setAttributes(i, 5); //ship's health
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
