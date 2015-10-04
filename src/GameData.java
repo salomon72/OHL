@@ -90,6 +90,14 @@ public class GameData {
         enemyShoot.start();//start the enemy shooting thread.
     }
 
+    private void addPower(int x, int y){
+        PowerUp pw = new PowerUp(4);
+        pw.setLocation(x,y+5);
+        pw.setReleased(true);
+        pw.setEnabled(true);
+        pw.updateState(1);
+        figures.add(pw);
+    }
     public void update() {
         List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
         GameFigure h;
@@ -126,7 +134,7 @@ public class GameData {
                         if (f.getState() == GameFigure.STATE_DONE) {//remove destroyed GameFigures
                             f.registerObserver(score);//update score upone each enemy destroyed
                             if (f.isPlayer() == 1) {
-                                System.out.println("##################Enemy is dying @  : " + f.getXcoor() + " , " + f.getYcoor() );
+                                addPower((int) f.getXcoor(),(int) f.getYcoor());
                                 f.notifyObservers(5);
                             }
                             if (f.isPlayer() == 2) {

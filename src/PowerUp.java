@@ -13,12 +13,13 @@ public class PowerUp implements GameFigure {
     private int x;
     private int y;
     private int type;
-    private int state = -1;
+    private int state = STATE_TRAVELING;
     private Color color;
     private int radius;
     private boolean released;
     
     private int speed;
+    
     
     public PowerUp(int type){      
         
@@ -28,7 +29,8 @@ public class PowerUp implements GameFigure {
             createPower();
             
         }
-        else enabled = false;
+        else 
+            enabled = false;
         
         pRect = new Rectangle(x, y, radius, radius);       
     }
@@ -46,12 +48,12 @@ public class PowerUp implements GameFigure {
             radius = 20;
             color = Color.GREEN;
         }
-        /*
+        
         else if(type == 5){ // launcher shield
             radius = 20;
             color = Color.BLUE;
         }
-        */
+        
     }
     
     public boolean isEnabled() {
@@ -121,7 +123,7 @@ public class PowerUp implements GameFigure {
     
     @Override
     public void updateState(int state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -136,52 +138,52 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void Health(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return;
     }
 
     @Override
     public float getXofMissileShoot() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
 
     @Override
     public float getYofMissileShoot() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
 
     @Override
     public float getXcoor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return pRect.x;
     }
 
     @Override
     public float getYcoor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return pRect.y;
     }
 
     @Override
     public void registerObserver(Observer o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return;
     }
 
     @Override
     public void removeObserver(Observer o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return;
     }
 
     @Override
     public void notifyObservers(int amount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return;
     }
 
     @Override
     public void setAttributes(Image i, int health) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public Rectangle collision() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return pRect;
     }
     
 }
