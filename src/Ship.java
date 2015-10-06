@@ -90,7 +90,7 @@ public class Ship implements GameFigure {
 
     @Override
     public int isMissile() {
-        return 3;
+        return -1;
     }
 
     @Override

@@ -93,7 +93,7 @@ public class GamePanel extends JPanel {
         if (nextStage == 1) {
                 graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
             }
-        System.out.println("y is" + Ship.health);
+        //System.out.println("y is" + Ship.health);
         for(int i = 0; i < Ship.health; i++){ //i < 5
             
           graphics.drawImage(health.getHealthimage(),30*i,10,30,30,null); //20*i, 10, 30, 30, nul   

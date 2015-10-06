@@ -98,12 +98,123 @@ public class GameData {
         pw.updateState(1);
         figures.add(pw);
     }
+    
+    private void playerCheck(GameFigure player){
+        GameFigure g;
+        for (int i = 0; i < figures.size(); i++) {
+            
+            
+        }
+        
+    }
+    
+    private void enemyCheck(GameFigure f){
+        
+    }
+
+    private void playMissileCheck(GameFigure f){
+        GameFigure g;
+        synchronized (figures) {
+        for (int i=0; i < figures.size(); i++){
+            g =  figures.get(i); 
+            if(!f.equals(g) && g.isPlayer()==1 ){
+                if(f.collision().intersects(g.collision())){
+                    f.updateState(GameFigure.STATE_DONE);
+                    g.Health(1);//subtract 1 from Enemy's health
+                    
+                    if(g.getState()==GameFigure.STATE_DONE){
+                        f.registerObserver(score);//update score upone each enemy destroyed
+                        addPower((int) f.getXcoor(),(int) f.getYcoor()); // release POWER
+                        f.notifyObservers(5);                        
+                    }
+                    //System.out.println("Score :  " + score.score);
+                }             
+            }
+        }
+        }
+    }
+   
+    private void enemMissileCheck(GameFigure f){
+        GameFigure g;
+        synchronized (figures) {
+        for (int i=0; i < figures.size(); i++){
+            g =  figures.get(i); 
+            if(!f.equals(g) && g.isPlayer()==0){
+                if(f.collision().intersects(g.collision())){
+                    f.updateState(GameFigure.STATE_DONE);
+                    g.Health(1);//subtract 1 from Player's health                    
+                }             
+            }
+        }
+        }
+    }
+    
+    private void powCheck(GameFigure f){
+        synchronized (figures) {
+            
+        GameFigure g;
+        for(int i=0; i < figures.size(); i++){
+            g = figures.get(i);
+            if(!g.equals(f) && g.isPlayer()==0 && f.getState()==GameFigure.STATE_TRAVELING ){
+                if(f.collision().intersects(g.collision())){
+                    f.updateState(GameFigure.STATE_DONE);
+                    g.Health(-1);//subtract 1 from Player's health
+                    //System.out.println("Collision");
+                }
+            }
+        }
+        
+        }
+    }
+
+    public void update(){
+        List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
+        GameFigure f;
+        synchronized (figures) {
+            for (int i = 0; i < figures.size(); i++) {
+                f = figures.get(i);
+                f.update(); // call update from all classes.
+                
+                if(f.isMissile() == 0) { // if player's missile
+                   playMissileCheck(f);
+                }
+                
+                else if(f.isMissile() == 1){ // if enemy's missile
+                    enemMissileCheck(f);
+                }
+                
+                else if(f.isPlayer() == 31){ // if power 
+                    powCheck(f);
+                }
+                /*
+                else if(f.isPlayer() == 30){
+                    powerCheck(f);
+                }
+                */
+                
+                
+                if (f.getState() == GameFigure.STATE_DONE) {
+                    remove.add(f);
+                }       
+                
+                if (figures.get(0).isPlayer() == 0) {//if player is destoyed, end game
+                }
+                else {
+                    FINISHED = true;
+                }
+            }
+            
+            figures.removeAll(remove);
+        }
+    }
+    /*
     public void update() {
         List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
         GameFigure h;
         GameFigure f;
         GameFigure g;
         synchronized (figures) {
+            /*
             enemiesSpawned = 0;//count of enemies on game panel
             for (int d = 0; d < figures.size(); d++) {
                 h = figures.get(d);//get each GameFigure on game panel
@@ -112,6 +223,8 @@ public class GameData {
                     enemiesSpawned++;//count each non-player GameFigure
                 }
             }
+            */
+            /*
             for (int j = 0; j < figures.size(); j++) {//collision detection loop, checks each GameFigure for collisions between figures.
                 g = figures.get(j);
                 if (g.getXcoor() >= 1296) {
@@ -126,10 +239,10 @@ public class GameData {
                     if (f.getXofMissileShoot() < 0) {
                         f.updateState(0);
                     }
-                    if (g.isMissile() == 0 && (f.isMissile() != 1 || f.isMissile() != 0)) { //
-                        if (g.collision().intersects(f.collision()) && f.isPlayer() >= 1) {
+                    if (g.isMissile() == 0 && (f.isMissile() != 1 || f.isMissile() != 0)) { // Collision between Player Ship missile & Enemy
+                        if (g.collision().intersects(f.collision()) && f.isPlayer() == 1) {
                             g.updateState(0);
-                            f.Health(1);//subtract 1 from GameFigure health
+                            f.Health(1);//subtract 1 from Enemy's health
                         }
                         if (f.getState() == GameFigure.STATE_DONE) {//remove destroyed GameFigures
                             f.registerObserver(score);//update score upone each enemy destroyed
@@ -146,7 +259,7 @@ public class GameData {
                             remove.add(f);//remove destroyed enemies from figures list
                         }
                     }
-                    if (g.isMissile() == 1 && (f.isMissile() != 1 || f.isMissile() != 0)) {//collision with player
+                    if (g.isMissile() == 1 && (f.isMissile() != 1 || f.isMissile() != 0)) {// Collision between Enemy missile & Player Ship
                         if (g.collision().intersects(f.collision()) && f.isPlayer() == 0) {
                             g.updateState(0);
                             f.Health(1);//subtract 1 from GameFigure health
@@ -176,4 +289,7 @@ public class GameData {
             }
         }
     }
+    */
+
+    
 }

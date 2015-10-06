@@ -106,7 +106,7 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void update() {
-        if(pRect != null){
+        if(pRect != null || state != STATE_DONE){
             x -= 5;
             pRect.setLocation(x, y);
             if (y + radius > GamePanel.PWIDTH) {
@@ -123,12 +123,12 @@ public class PowerUp implements GameFigure {
     
     @Override
     public void updateState(int state) {
-        
+        this.state = state;
     }
 
     @Override
     public int isMissile() {
-        return 30;
+        return -1;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void Health(int i) {
-        return;
+        
     }
 
     @Override
