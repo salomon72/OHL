@@ -158,7 +158,7 @@ public class Enemy implements GameFigure {
 
     @Override
     public int isMissile() {
-        return 2;
+        return -1;
     }
 
     @Override

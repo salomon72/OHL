@@ -90,6 +90,18 @@ public class GamePanel extends JPanel {
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
         if (nextStage == 1) {
+<<<<<<< HEAD
+=======
+                graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
+            }
+        //System.out.println("y is" + Ship.health);
+        for(int i = 0; i < Ship.health; i++){ //i < 5
+            
+          graphics.drawImage(health.getHealthimage(),30*i,10,30,30,null); //20*i, 10, 30, 30, nul   
+        }        
+    
+        if (nextStage == 1) {
+>>>>>>> origin/master
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
         int healthmap = gameData.score.health*5/GameData.MAXHEALTH;
