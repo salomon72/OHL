@@ -1,4 +1,4 @@
-//hi
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -48,13 +48,12 @@ public class Main extends JFrame
 
     private Timer timer;
     private TimerTask task;
-    
-   
 
     public Main() throws IOException {
         setSize(1275, 610);//size of initial window
         setLocation(50, 100);//location of initial window
         setTitle("Galileo!!");//title of the initial window
+        GameData.setphase(PHASE.ONE);
         Container c = getContentPane();//container for JPanel items
         animator = new Animator();
         gameData = new GameData();
@@ -142,16 +141,22 @@ public class Main extends JFrame
         }
         //BEGIN TEMPRARY BUTTON LISTENERS
         if(ae.getSource() == stage1test){
+            GameData.setphase(PHASE.ONE);
             animator.gamePanel.setNextStage(1);
             animator.gamePanel.setStageChange(true);
+            gameData.setStateChanged(true);
         }
         if(ae.getSource() == stage2test){
+            GameData.setphase(PHASE.TWO);
             animator.gamePanel.setNextStage(2);
             animator.gamePanel.setStageChange(true);
+            gameData.setStateChanged(true);
         }
         if(ae.getSource() == stage3test){
+            GameData.setphase(PHASE.THREE);
             animator.gamePanel.setNextStage(3);
             animator.gamePanel.setStageChange(true);
+            gameData.setStateChanged(true);
         }
         //END TEMPORARY BUTTON LISTENERS
     }
@@ -161,7 +166,7 @@ public class Main extends JFrame
         @Override
         public void run() {
             playerMissle = System.currentTimeMillis();
-            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
             synchronized (gameData.figures) {
                 gameData.figures.add(f);
             }
@@ -183,7 +188,7 @@ public class Main extends JFrame
         if (ke.getKeyChar() == key) {
             if (!playerShip.mouseable) { // == false. meaning not mouseable
                 playerMissle = System.currentTimeMillis();
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
                 synchronized (gameData.figures) {
                     gameData.figures.add(f);
                 }
@@ -229,7 +234,7 @@ public class Main extends JFrame
                         break;
                     }
                     playerMissle = System.currentTimeMillis();
-                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
                     synchronized (gameData.figures) {
                         gameData.figures.add(f);
                     }
@@ -245,7 +250,7 @@ public class Main extends JFrame
                 return;
             }
             playerMissle = System.currentTimeMillis();
-            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot());
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
             synchronized (gameData.figures) {
                 gameData.figures.add(f);
             }
@@ -326,7 +331,5 @@ public class Main extends JFrame
         menu.setResizable(false);
         menu.setVisible(true);
     }
-    
-    
 
 }

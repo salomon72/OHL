@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -29,6 +28,7 @@ public class GamePanel extends JPanel {
     private Image dbImage = null;
     private final Image gameOver;//image to display upon game over
     private HealthBar health;
+    private final Image gamewin;
 
     private BufferedImage backgroundImage;//image for the background of the game
     private BufferedImage planetImage;//test planet image
@@ -51,7 +51,9 @@ public class GamePanel extends JPanel {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         gameOver = getImage(imagePath + separator + "images" + separator //load game over screen from image file
-                + "win2.gif");
+                + "gameover.gif");
+        gamewin = getImage(imagePath + separator + "images" + separator //load game over screen from image file
+                + "win.gif");
         setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
         collectFromStage();
@@ -64,10 +66,9 @@ public class GamePanel extends JPanel {
         planetImage = op.filter(planetImage, null);
         planetImageTransformed = planetImage;
         scaleCount = 0;
-        health = new HealthBar(1,null);
         scale = 1;
+        health = new HealthBar(1, null);
     }
-   
 
     public void startGame() { //starts the thread for the animator
         running = true;
@@ -85,24 +86,21 @@ public class GamePanel extends JPanel {
                 graphics = dbImage.getGraphics();
             }
         }
-       
-       
         int width = backgroundImage.getWidth();//width of background image
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
         if (nextStage == 1) {
-                graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
-            }
-        System.out.println("y is" + Ship.health);
-        for(int i = 0; i < Ship.health; i++){ //i < 5
-            
-          graphics.drawImage(health.getHealthimage(),30*i,10,30,30,null); //20*i, 10, 30, 30, nul   
-        }        
-    
-        if (nextStage == 1) {
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
-        
+        int healthmap = gameData.score.health*5/GameData.MAXHEALTH;
+        if(healthmap == 0) healthmap =1;
+       // System.out.println("healthmap:"+healthmap);
+        for (int i = 0; i < 5; i++) {
+            if(i < healthmap)
+            graphics.drawImage(health.getHealthimage(), 20 * i, 10, 30, 30, null);
+            else graphics.drawImage(health.getHealthimageBreak(), 20 * i, 10, 30, 30, null);
+        }
+         //health.update(gameData.score.health);
         if (stageChange) {
 
             if (nextStage == 1) {
@@ -167,13 +165,22 @@ public class GamePanel extends JPanel {
         Graphics g;
         try {
             g = this.getGraphics();
+            g.setColor(Color.red);
             if ((g != null) && (dbImage != null)) {
                 g.drawImage(dbImage, 0, 0, null);
+                String text = "Score:" + gameData.score.score;//text of displated score
+               // System.out.println(text);
+                g.drawString(text, 50, 50);
+                
+                
+            }else {
+                System.out.println("printScreen:graphic is null");
             }
+            //System.out.println("Toolkit.getDefaultToolkit().sync();");
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
         } catch (Exception e) {
-            System.out.println("Graphics error: " + e);
+            System.out.println("Graphics error1: " + e);
         }
     }
 
@@ -195,7 +202,28 @@ public class GamePanel extends JPanel {
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
             g.dispose();
         } catch (InterruptedException e) {
-            System.out.println("Graphics error: " + e);
+            System.out.println("Graphics error2: " + e);
+        }
+    }
+    public void gameWin() {//game over function
+        Graphics g;
+        int score = gameData.score.score;//collect score from observers
+        try {
+            g = this.getGraphics();
+            Font font = new Font("Impact", Font.BOLD, 40);//font of displayed score
+            String text = "Your final score was: " + score;//text of displated score
+            Color textColor = Color.WHITE; //color of score text
+            g.setFont(font);
+            g.setColor(textColor);
+            if (gamewin != null) {//drawns the gave over image and displays the text
+                g.drawImage(gamewin, 0, 0, null);
+                g.drawString(text, 50, 50);
+            }
+            Thread.sleep(7000);//after sleep, game exits
+            Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
+            g.dispose();
+        } catch (InterruptedException e) {
+            System.out.println("Graphics error2: " + e);
         }
     }
 

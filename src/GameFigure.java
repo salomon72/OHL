@@ -5,11 +5,20 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
+enum OPERATION{ALL,FLY,SWIM,RUN};
+
 
 public interface GameFigure {
-
+    static  int SPACE = 300;
+    static int MARGIN = 40;
+    static  int WATER = 330;
+    static  int GROUND = 345;
+    public int getDamage();
+    public PHASE getphase();
+    public OPERATION canDo();
+    public int getMyType();
+    public int getHealth();
     public void render(Graphics g);//draws the figure on the GamePanel
-
     public void update();//updates position, for use on GameFigures that move themselves(non-player figures)
 
     public void updateState(int state);//changes state of GameFigure, states can be any string that indicates a change, 
@@ -45,6 +54,4 @@ public interface GameFigure {
     static final int STATE_TRAVELING = 1;
     static final int STATE_EXPLODING = 2;
     static final int STATE_DONE = 0;
-    static final int STATE_ALIVE = 3;
-    static final int STATE_DEAD = 4;
 }

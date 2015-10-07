@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 
-public class PowerUp implements GameFigure { 
+public abstract class PowerUp implements GameFigure { 
     
     private Rectangle pRect;
     private boolean enabled = true;

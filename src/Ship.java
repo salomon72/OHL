@@ -2,6 +2,7 @@
  GameFigure for player ship, follows GameFigure interface
  */
 
+//import static GameFigure.STATE_TRAVELING;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -18,18 +19,40 @@ public class Ship implements GameFigure {
     Image playerImage;
     float x, y;
     int state = STATE_TRAVELING;
-    static int health;
+    private int health = GameData.MAXHEALTH;
     private ArrayList<Observer> observers;
-
+   public PHASE getphase()
+   {
+       throw new UnsupportedOperationException("Not implement!");
+   }
+   private OPERATION cando = OPERATION.ALL;
+    public OPERATION canDo()
+    {
+        return cando;
+    }
+    public int getMyType()
+    {
+        return 1;
+    }
+    public int getHealth()
+    {
+        return health;
+    }
+    public int getDamage()
+     {
+        return 2;
+     }
     public Ship(float x, float y) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
                 + "playerShip.png");
-        this.setAttributes(i, 5); //ship's health
+        this.setAttributes(i, GameData.MAXHEALTH);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
+       // System.out.println("Ship:"+health);
+        //this.health = GameData.MAXHEALTH;
     }
 
     public static Image getImage(String fileName) {
@@ -106,6 +129,7 @@ public class Ship implements GameFigure {
     @Override
     public void Health(int i) {
         health -= i;
+        if(health > GameData.MAXHEALTH) health = GameData.MAXHEALTH;
         if (health == 0) {
             state = 0;
         }

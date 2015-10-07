@@ -20,17 +20,39 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
     private static final int UNIT_TRAVEL_DISTANCE = 6;
     int health = 1;
     private final ArrayList<Observer> observers;
-
+    int type;
+     public PHASE getphase()
+   {
+       return GameData.getphase();
+   }
+    private OPERATION cando = OPERATION.ALL;
+    public OPERATION canDo()
+    {
+        return cando;
+    }
+    public int getDamage()
+     {
+         if(type == 0) return 1;
+         else return type;
+     }
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
     Image missileImage = getImage(imagePath + separator + "images" + separator
-            + "missile1.png");
+            + "missile0.png");//use 1 onley
 
-    public Missile(float x, float y) {
+    public Missile(float x, float y,int type) {
         this.observers = new ArrayList<>();
         setFrameFromCenter(x, y, x, y);
+        this.type = type;
     }
-
+    public int getMyType()
+    {
+        return type;
+    }
+    public int getHealth()
+    {
+        return health;
+    }
     public static Image getImage(String fileName) {
         Image image = null;
         try {

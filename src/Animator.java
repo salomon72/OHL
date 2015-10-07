@@ -32,7 +32,7 @@ public class Animator implements Runnable {
                 gamePanel.transformPlanet();
             }
         };
-        backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+        backgroundScrollTimer = new Timer(90, backgroundRender);//scrolling background timer
         planetScaleTimer = new Timer(100, planetScale);
     }
 
@@ -59,13 +59,23 @@ public class Animator implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
             }
+           // System.out.println("call printScreen()");
             gamePanel.printScreen();
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
             }
             if (gameData.FINISHED) {
-                gamePanel.gameOver();
+                System.out.println("health:"+this.gameData.score.health+",new healh:"+this.gameData.getHealth());
+                if(this.gameData.getHealth() <= 1)
+                {
+                    gamePanel.gameOver();
+                    System.out.println("Over");
+                }
+                else {
+                    System.out.println("Win");
+                    gamePanel.gameWin();
+                }
                 running = false;
             }
         }
