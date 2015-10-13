@@ -323,7 +323,7 @@ public class GameData {
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), f.getMyType());
                                 //System.out.println(f.getType());
-                                //ThreadPlayer.play(missilelaunch);
+                                ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
