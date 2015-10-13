@@ -29,6 +29,7 @@ public class Main extends JFrame
     private final GamePanel gamePanel;
     private final GameData gameData;
     private final Animator animator;
+   // private final TutorialPanel tutorialPanel;
 
     private final JTextField text;
     private final JButton stage1test;
@@ -58,7 +59,9 @@ public class Main extends JFrame
         animator = new Animator();
         gameData = new GameData();
         gamePanel = new GamePanel(animator, gameData);
+        //tutorialPanel = new TutorialPanel(animator, gameData);
         animator.setGamePanel(gamePanel);//sets the gamePanel object for animator to use
+        //animator.setTutorialPanel(tutorialPanel);
         animator.setGameData(gameData);//sets gameData object for animator to use
         c.add(gamePanel, "Center");//centers the gamePanel on the JPanel
 
@@ -221,10 +224,10 @@ public class Main extends JFrame
 
                 // Notify the user about the changes%%
                 if (!playerShip.mouseable) {
-                    text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
+                    //text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
                     showMouse();
                 } else {
-                    text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
+                    //text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
                     hideMouse();
                 }
                 break;

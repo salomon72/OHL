@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-public class Ship implements GameFigure {
+public class TutorialShip implements TutorialGameFigures {
     boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
                             // false : means user should use key directions
     
@@ -42,7 +42,7 @@ public class Ship implements GameFigure {
      {
         return 2;
      }
-    public Ship(float x, float y) {
+    public TutorialShip(float x, float y) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
@@ -133,16 +133,6 @@ public class Ship implements GameFigure {
         if (health == 0) {
             state = 0;
         }
-    }
-
-    @Override
-    public void registerObserver(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void removeObserver(Observer o) {
-        observers.remove(o);
     }
 
     @Override

@@ -39,6 +39,8 @@ public class GamePanel extends JPanel {
     private boolean stageChange;
 
     private Stage currentStage;
+    
+    
 
     public GamePanel(Animator animator, GameData gameData) throws IOException {
         this.animator = animator;
@@ -75,6 +77,8 @@ public class GamePanel extends JPanel {
         Thread t = new Thread(animator);
         t.start();
     }
+    
+    
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
@@ -90,8 +94,6 @@ public class GamePanel extends JPanel {
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
         if (nextStage == 1) {
-<<<<<<< HEAD
-=======
                 graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
             }
         //System.out.println("y is" + Ship.health);
@@ -101,7 +103,7 @@ public class GamePanel extends JPanel {
         }        
     
         if (nextStage == 1) {
->>>>>>> origin/master
+
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
         int healthmap = gameData.score.health*5/GameData.MAXHEALTH;

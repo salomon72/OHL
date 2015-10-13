@@ -126,7 +126,7 @@ public class GameData {
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(),f.getMyType());
                                 //System.out.println(f.getType());
-                                ThreadPlayer.play(missilelaunch);
+                                //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -145,8 +145,7 @@ public class GameData {
         enemyShoot.start();//start the enemy shooting thread.
     }
 
-<<<<<<< HEAD
-=======
+
     private void addPower(int x, int y){
         PowerUp pw = new PowerUp(4);
         pw.setLocation(x,y+5);
@@ -275,7 +274,7 @@ public class GameData {
         {
             System.out.println("testing:x:"+figures.get(0).getXcoor()+",y:"+figures.get(0).getYcoor());
         }*/
-        synchronized (figures) {
+        //synchronized (figures) {
             /*
             enemiesSpawned = 0;//count of enemies on game panel
             for (int d = 0; d < figures.size(); d++) {

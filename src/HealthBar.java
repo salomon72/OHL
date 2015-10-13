@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.io.File;
+import java.io.File; //ewerq
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;

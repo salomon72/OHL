@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -40,6 +41,8 @@ public class HelpInterface extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         B_BACK = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        B_TUTORIAL = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -64,12 +67,28 @@ public class HelpInterface extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_BACK);
-        B_BACK.setBounds(210, 220, 100, 25);
+        B_BACK.setBounds(280, 240, 100, 29);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1100, 590);
+        jLabel1.setBounds(320, 400, 780, 190);
+
+        B_TUTORIAL.setBackground(new java.awt.Color(204, 204, 0));
+        B_TUTORIAL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        B_TUTORIAL.setText("TUTORIAL");
+        B_TUTORIAL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_TUTORIALActionPerformed(evt);
+            }
+        });
+        getContentPane().add(B_TUTORIAL);
+        B_TUTORIAL.setBounds(140, 240, 110, 29);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(0, 0, 500, 350);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -82,6 +101,22 @@ public class HelpInterface extends javax.swing.JFrame {
         }
       dispose(); 
     }//GEN-LAST:event_B_BACKActionPerformed
+
+    private void B_TUTORIALActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_TUTORIALActionPerformed
+         try {
+            Tutorial practice = new Tutorial();
+            practice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            practice.setResizable(false);
+            practice.setVisible(true);
+            //GameStarted gs = new GameStarted();
+            //gs.setSize(500, 400);
+            //gs.setLocation(300, 100); //400, 200
+            //gs.setResizable(false);
+            //gs.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(InterfaceForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_B_TUTORIALActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,7 +159,9 @@ public class HelpInterface extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton B_BACK;
+    private javax.swing.JButton B_TUTORIAL;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables

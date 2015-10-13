@@ -3,15 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+/*
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 
 import javazoom.jl.player.Player;
-/**
- *
- * @author 
- */
 public class ThreadPlayer extends Thread{
 private String strAudio;
  public void run(){  
@@ -46,5 +42,5 @@ public static void main(String args[]){
  
  }  
 
-}
+}*/
 

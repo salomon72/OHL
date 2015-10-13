@@ -14,6 +14,7 @@ public class Animator implements Runnable {
     boolean running;
     GamePanel gamePanel = null;
     GameData gameData = null;
+    TutorialPanel tutorialPanel = null;
     private int x = 0;
     private int y = 0;
     private final Timer backgroundScrollTimer;
@@ -40,6 +41,10 @@ public class Animator implements Runnable {
         this.gamePanel = gamePanel;
     }
 
+    public void setTutorialPanel(TutorialPanel tutorialPanel){
+        this.tutorialPanel = tutorialPanel;
+        
+    }
     public void setGameData(GameData gameData) {
         this.gameData = gameData;
     }
@@ -56,15 +61,22 @@ public class Animator implements Runnable {
                 if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
                     x = 0;
                 }
+               /* tutorialPanel.gameRender(x, y);
+                if (x < -tutorialPanel.getCurrentStage().getBackgroundWidth()) {
+                    x = 0;
+                }*/
             } catch (IOException ex) {
                 Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
             }
            // System.out.println("call printScreen()");
             gamePanel.printScreen();
+            
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
             }
+             
+            
             if (gameData.FINISHED) {
                 System.out.println("health:"+this.gameData.score.health+",new healh:"+this.gameData.getHealth());
                 if(this.gameData.getHealth() <= 1)
@@ -78,8 +90,20 @@ public class Animator implements Runnable {
                 }
                 running = false;
             }
+            
+           
         }
+        
+     
+        
+        
         System.exit(0);
+        
+        
+        
     }
+    
+
+    
 
 }
