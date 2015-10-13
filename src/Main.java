@@ -14,6 +14,8 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,7 +31,7 @@ public class Main extends JFrame
     private final GamePanel gamePanel;
     private final GameData gameData;
     private final Animator animator;
-   // private final TutorialPanel tutorialPanel;
+    // private final TutorialPanel tutorialPanel;
 
     private final JTextField text;
     private final JButton stage1test;
@@ -86,7 +88,7 @@ public class Main extends JFrame
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
-        
+
         //BEGIN TEMPORARY BUTTONS
         stage1test = new JButton("Stage1");
         stage1test.setVisible(true);
@@ -101,24 +103,24 @@ public class Main extends JFrame
         stage2test.setBorder(borderLine);
         stage2test.setBackground(btnColor);
         southPanel.add(stage2test);
-        
+
         stage3test = new JButton("Stage3");
         stage3test.setVisible(true);
         stage3test.setFont(btnFont);
         stage3test.setBorder(borderLine);
         stage3test.setBackground(btnColor);
         southPanel.add(stage3test);
-        
+
         stage1test.setFocusable(false);
         stage1test.addActionListener(this);
 
         stage2test.setFocusable(false);
         stage2test.addActionListener(this);
-        
+
         stage3test.setFocusable(false);
         stage3test.addActionListener(this);
         //END TEMPORARY BUTTONS
-        
+
         c.add(southPanel, "South");
 
         gamePanel.addMouseListener(this);
@@ -129,7 +131,7 @@ public class Main extends JFrame
 
         text.setFocusable(false);
         text.addActionListener(this);
-        
+
         quitButton.addActionListener(this);
         quitButton.setFocusable(false); // "Quit" button should not receive keyboard data   
 
@@ -143,23 +145,35 @@ public class Main extends JFrame
             animator.running = false;
         }
         //BEGIN TEMPRARY BUTTON LISTENERS
-        if(ae.getSource() == stage1test){
-            GameData.setphase(PHASE.ONE);
-            animator.gamePanel.setNextStage(1);
-            animator.gamePanel.setStageChange(true);
-            gameData.setStateChanged(true);
+        if (ae.getSource() == stage1test) {
+            try {
+                GameData.setphase(PHASE.ONE);
+                animator.gamePanel.setNextStage(1);
+                animator.gamePanel.setStageChange(true);
+                gameData.setStateChanged(true, 1);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        if(ae.getSource() == stage2test){
-            GameData.setphase(PHASE.TWO);
-            animator.gamePanel.setNextStage(2);
-            animator.gamePanel.setStageChange(true);
-            gameData.setStateChanged(true);
+        if (ae.getSource() == stage2test) {
+            try {
+                GameData.setphase(PHASE.TWO);
+                animator.gamePanel.setNextStage(2);
+                animator.gamePanel.setStageChange(true);
+                gameData.setStateChanged(true, 2);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        if(ae.getSource() == stage3test){
-            GameData.setphase(PHASE.THREE);
-            animator.gamePanel.setNextStage(3);
-            animator.gamePanel.setStageChange(true);
-            gameData.setStateChanged(true);
+        if (ae.getSource() == stage3test) {
+            try {
+                GameData.setphase(PHASE.THREE);
+                animator.gamePanel.setNextStage(3);
+                animator.gamePanel.setStageChange(true);
+                gameData.setStateChanged(true, 3);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         //END TEMPORARY BUTTON LISTENERS
     }
@@ -169,7 +183,7 @@ public class Main extends JFrame
         @Override
         public void run() {
             playerMissle = System.currentTimeMillis();
-            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
             synchronized (gameData.figures) {
                 gameData.figures.add(f);
             }
@@ -191,7 +205,7 @@ public class Main extends JFrame
         if (ke.getKeyChar() == key) {
             if (!playerShip.mouseable) { // == false. meaning not mouseable
                 playerMissle = System.currentTimeMillis();
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
+                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
                 synchronized (gameData.figures) {
                     gameData.figures.add(f);
                 }
@@ -237,7 +251,7 @@ public class Main extends JFrame
                         break;
                     }
                     playerMissle = System.currentTimeMillis();
-                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
+                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
                     synchronized (gameData.figures) {
                         gameData.figures.add(f);
                     }
@@ -253,7 +267,7 @@ public class Main extends JFrame
                 return;
             }
             playerMissle = System.currentTimeMillis();
-            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
             synchronized (gameData.figures) {
                 gameData.figures.add(f);
             }

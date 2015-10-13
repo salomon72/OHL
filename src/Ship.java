@@ -13,35 +13,37 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Ship implements GameFigure {
+
     boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
-                            // false : means user should use key directions
-    
+    // false : means user should use key directions
+
     Image playerImage;
     float x, y;
     int state = STATE_TRAVELING;
     static int health;
     private ArrayList<Observer> observers;
-   public PHASE getphase()
-   {
-       throw new UnsupportedOperationException("Not implement!");
-   }
-   private OPERATION cando = OPERATION.ALL;
-    public OPERATION canDo()
-    {
+
+    public PHASE getphase() {
+        throw new UnsupportedOperationException("Not implement!");
+    }
+    private OPERATION cando = OPERATION.ALL;
+
+    public OPERATION canDo() {
         return cando;
     }
-    public int getMyType()
-    {
+
+    public int getMyType() {
         return 1;
     }
-    public int getHealth()
-    {
+
+    public int getHealth() {
         return health;
     }
-    public int getDamage()
-     {
+
+    public int getDamage() {
         return 2;
-     }
+    }
+
     public Ship(float x, float y) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
@@ -51,7 +53,7 @@ public class Ship implements GameFigure {
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
-       // System.out.println("Ship:"+health);
+        // System.out.println("Ship:"+health);
         //this.health = GameData.MAXHEALTH;
     }
 
@@ -85,20 +87,24 @@ public class Ship implements GameFigure {
     @Override
     public void update() {
         // set boundaries of the ship (player):
-        
+
         // on X axis
-        if(x < GamePanel.WIDTH)
+        if (x < GamePanel.WIDTH) {
             x = GamePanel.WIDTH;
-        
-        if(x > GamePanel.PWIDTH - playerImage.getWidth(null))
+        }
+
+        if (x > GamePanel.PWIDTH - playerImage.getWidth(null)) {
             x = GamePanel.PWIDTH - playerImage.getWidth(null);
-        
+        }
+
         // on Y axis
-        if(y < GamePanel.HEIGHT)
+        if (y < GamePanel.HEIGHT) {
             y = GamePanel.HEIGHT;
-        
-        if(y > GamePanel.PHEIGHT - playerImage.getHeight(null))
+        }
+
+        if (y > GamePanel.PHEIGHT - playerImage.getHeight(null)) {
             y = GamePanel.PHEIGHT - playerImage.getHeight(null);
+        }
     }
 
     @Override
@@ -129,7 +135,9 @@ public class Ship implements GameFigure {
     @Override
     public void Health(int i) {
         health -= i;
-        if(health > GameData.MAXHEALTH) health = GameData.MAXHEALTH;
+        if (health > GameData.MAXHEALTH) {
+            health = GameData.MAXHEALTH;
+        }
         if (health == 0) {
             state = 0;
         }

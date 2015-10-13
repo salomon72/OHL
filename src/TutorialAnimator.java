@@ -8,7 +8,6 @@
  *
  * @author davidalba
  */
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -17,7 +16,8 @@ import java.util.logging.Logger;
 import javax.swing.Timer;
 
 public class TutorialAnimator implements Runnable {
-     boolean running;
+
+    boolean running;
     //GamePanel gamePanel = null;
     TutorialGameData gameData = null;
     TutorialPanel tutorialPanel = null;
@@ -33,17 +33,16 @@ public class TutorialAnimator implements Runnable {
                 x -= 1;
             }
         };
-     
+
         backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
         //planetScaleTimer = new Timer(100, planetScale);
     }
 
-   
-
-    public void setTutorialPanel(TutorialPanel tutorialPanel){
+    public void setTutorialPanel(TutorialPanel tutorialPanel) {
         this.tutorialPanel = tutorialPanel;
-        
+
     }
+
     public void setGameData(TutorialGameData gameData) {
         this.gameData = gameData;
     }
@@ -59,9 +58,9 @@ public class TutorialAnimator implements Runnable {
                 //gamePanel.gameRender(x, y);
                 tutorialPanel.gameRender(x, y);
                 /*if (x < -tutorialPanel.getCurrentStage().getBackgroundWidth()) {
-                    x = 0;
-                }*/
-                
+                 x = 0;
+                 }*/
+
             } catch (IOException ex) {
                 Logger.getLogger(TutorialAnimator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -71,22 +70,15 @@ public class TutorialAnimator implements Runnable {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
             }
-             
-            
+
             if (gameData.FINISHED) {
                 //gamePanel.gameOver();
                 running = false;
             }
-            
-           
+
         }
-        
-     
-        
-        
+
         System.exit(0);
-        
-        
-        
+
     }
 }

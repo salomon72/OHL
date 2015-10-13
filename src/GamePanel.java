@@ -39,8 +39,6 @@ public class GamePanel extends JPanel {
     private boolean stageChange;
 
     private Stage currentStage;
-    
-    
 
     public GamePanel(Animator animator, GameData gameData) throws IOException {
         this.animator = animator;
@@ -77,8 +75,6 @@ public class GamePanel extends JPanel {
         Thread t = new Thread(animator);
         t.start();
     }
-    
-    
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
@@ -94,27 +90,31 @@ public class GamePanel extends JPanel {
         graphics.drawImage(backgroundImage, x, y, null);//draws image on main game panel
         graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
         if (nextStage == 1) {
-                graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
-            }
+            graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
+        }
         //System.out.println("y is" + Ship.health);
-        for(int i = 0; i < Ship.health; i++){ //i < 5
-            
-          graphics.drawImage(health.getHealthimage(),30*i,10,30,30,null); //20*i, 10, 30, 30, nul   
-        }        
-    
+        for (int i = 0; i < Ship.health; i++) { //i < 5
+
+            graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null); //20*i, 10, 30, 30, nul   
+        }
+
         if (nextStage == 1) {
 
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
-        int healthmap = gameData.score.health*5/GameData.MAXHEALTH;
-        if(healthmap == 0) healthmap =1;
-       // System.out.println("healthmap:"+healthmap);
-        for (int i = 0; i < 5; i++) {
-            if(i < healthmap)
-            graphics.drawImage(health.getHealthimage(), 20 * i, 10, 30, 30, null);
-            else graphics.drawImage(health.getHealthimageBreak(), 20 * i, 10, 30, 30, null);
+        int healthmap = gameData.score.health * 5 / GameData.MAXHEALTH;
+        if (healthmap == 0) {
+            healthmap = 1;
         }
-         //health.update(gameData.score.health);
+        // System.out.println("healthmap:"+healthmap);
+        for (int i = 0; i < 5; i++) {
+            if (i < healthmap) {
+                graphics.drawImage(health.getHealthimage(), 20 * i, 10, 30, 30, null);
+            } else {
+                graphics.drawImage(health.getHealthimageBreak(), 20 * i, 10, 30, 30, null);
+            }
+        }
+        //health.update(gameData.score.health);
         if (stageChange) {
 
             if (nextStage == 1) {
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel {
                 currentStage = new Stage2();
                 collectFromStage();
             }
-            
+
             if (nextStage == 3) {
                 currentStage = new Stage3();
                 collectFromStage();
@@ -183,11 +183,10 @@ public class GamePanel extends JPanel {
             if ((g != null) && (dbImage != null)) {
                 g.drawImage(dbImage, 0, 0, null);
                 String text = "Score:" + gameData.score.score;//text of displated score
-               // System.out.println(text);
+                // System.out.println(text);
                 g.drawString(text, 50, 50);
-                
-                
-            }else {
+
+            } else {
                 System.out.println("printScreen:graphic is null");
             }
             //System.out.println("Toolkit.getDefaultToolkit().sync();");
@@ -219,6 +218,7 @@ public class GamePanel extends JPanel {
             System.out.println("Graphics error2: " + e);
         }
     }
+
     public void gameWin() {//game over function
         Graphics g;
         int score = gameData.score.score;//collect score from observers

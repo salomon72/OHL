@@ -28,38 +28,36 @@ import javax.swing.border.LineBorder;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
 public class Tutorial extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
+
     //private final GamePanel gamePanel;
     private final TutorialPanel tutorialPanel;
-     private final TutorialGameData gameData;
-     
+    private final TutorialGameData gameData;
+
     //private final Animator animator;
     private final TutorialAnimator tutorialAnimator;
     private JTextField text;
     private JTextField text2;
     private final JButton quitButton;
     //private final JButton back;
-    
+
     Font btnFont;
     Border borderLine;
     Color btnColor;
-    
-     private final char key;
-      private final TutorialShip playerShip;
+
+    private final char key;
+    private final TutorialShip playerShip;
     private long playerMissle = 0;
     private final long firingInterval = 90;
-    
+
     private Timer timer;
     private TimerTask task;
-    
-     
-    
+
     public Tutorial() throws IOException {
         setSize(1275, 650);//size of initial window /1245,960
         setLocation(50, 100);//location of initial window
@@ -67,94 +65,81 @@ public class Tutorial extends JFrame
         Container c = getContentPane();//container for JPanel items
         //animator = new Animator();
         gameData = new TutorialGameData();
-       tutorialAnimator = new TutorialAnimator();
+        tutorialAnimator = new TutorialAnimator();
         tutorialPanel = new TutorialPanel(tutorialAnimator, gameData); //animator, gameData
         tutorialAnimator.setTutorialPanel(tutorialPanel);//sets the gamePanel object for animator to use //animator.setTutorialPanel(tutorialPanel)
         tutorialAnimator.setGameData(gameData);//sets gameData object for animator to us //animator.setGameData(gameData)
         c.add(tutorialPanel, "Center");//centers the gamePanel on the JPanel
-        
-        
+
         JPanel southPanel = new JPanel();
-        
+
         key = 'p';
-        
+
         text = new JTextField(20); // for test to show what is used for control spaceship
         text.setEditable(false);
         text.setText("Use the mouse to move ship around");
         text.setVisible(true);
         southPanel.add(text);
-        
+
         text = new JTextField(20); // for test to show what is used for control spaceship
         text.setEditable(false);
         text.setText("Click the mouse to fire the missle");
         text.setVisible(true);
         southPanel.add(text);
-       
-        
-        
+
         text2 = new JTextField(45);
         text2.setEditable(false);
         text2.setText("You can also use the keyboard by pressing m to switch and pressing space to fire");
         text2.setVisible(true);
         southPanel.add(text2);
+
+        /*   btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
+         borderLine =new LineBorder(Color.BLUE, 5);
+         btnColor = new Color(190, 175, 170);
         
-     /*   btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
-        borderLine =new LineBorder(Color.BLUE, 5);
-        btnColor = new Color(190, 175, 170);
-        
-        back = new JButton("Return");
-        back.setVisible(true);
-        back.setFont(btnFont);
-        back.setBorder(borderLine);
-        back.setBackground(btnColor);
-        southPanel.add(back);*/
-        
-        
+         back = new JButton("Return");
+         back.setVisible(true);
+         back.setFont(btnFont);
+         back.setBorder(borderLine);
+         back.setBackground(btnColor);
+         southPanel.add(back);*/
         btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
-        
-        
-        
+
         quitButton = new JButton("Quit");
         quitButton.setVisible(true);
         quitButton.setFont(btnFont);
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
-        
-       
-        
+
         tutorialPanel.addMouseListener(this);
         tutorialPanel.addMouseMotionListener(this);
 
         tutorialPanel.setFocusable(true); // receives keyboard data
         tutorialPanel.addKeyListener(this);
-        
+
         text.setFocusable(false);
         text.addActionListener(this);
-        
-        
-        
-         quitButton.addActionListener(this);
+
+        quitButton.addActionListener(this);
         quitButton.setFocusable(false);
-        
-          
-        
+
         c.add(southPanel, "South");
-        
+
         playerShip = (TutorialShip) gameData.figures.get(0);
         tutorialPanel.startTutorial();
-       
+
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == quitButton) {
-          tutorialAnimator.running = false; //animator.running = false;
+            tutorialAnimator.running = false; //animator.running = false;
         } //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private class FireTimerTask extends TimerTask {
 
         @Override
@@ -169,7 +154,7 @@ public class Tutorial extends JFrame
 
     @Override
     public void mouseClicked(MouseEvent me) {
-       if (playerShip.mouseable) { // == true.        
+        if (playerShip.mouseable) { // == true.        
             if (System.currentTimeMillis() - playerMissle < firingInterval) {
                 return;
             }
@@ -186,31 +171,31 @@ public class Tutorial extends JFrame
         timer = new Timer();
         task = new Tutorial.FireTimerTask();
         timer.scheduleAtFixedRate(task, 0, 90);
-        }
+    }
 
     @Override
     public void mouseReleased(MouseEvent me) {
-       timer.cancel();
+        timer.cancel();
     }
 
     @Override
     public void mouseEntered(MouseEvent me) {
-       
+
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
-        
+
     }
 
     @Override
     public void keyTyped(KeyEvent ke) {
-       
+
     }
 
     @Override
     public void keyPressed(KeyEvent ke) {
-         if (ke.getKeyChar() == key) {
+        if (ke.getKeyChar() == key) {
             if (!playerShip.mouseable) { // == false. meaning not mouseable
                 playerMissle = System.currentTimeMillis();
                 TutorialMissile f = new TutorialMissile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), 1);
@@ -270,12 +255,12 @@ public class Tutorial extends JFrame
 
     @Override
     public void keyReleased(KeyEvent e) {
-      
+
     }
 
     @Override
     public void mouseDragged(MouseEvent me) {
-         if (playerShip.mouseable) { // == true
+        if (playerShip.mouseable) { // == true
             playerShip.x = me.getX();
             playerShip.y = me.getY();
         }
@@ -283,7 +268,7 @@ public class Tutorial extends JFrame
 
     @Override
     public void mouseMoved(MouseEvent me) {
-       if (tutorialPanel.running) { // == true. When player start Game; meaning player click on start Button.           
+        if (tutorialPanel.running) { // == true. When player start Game; meaning player click on start Button.           
 
             if (playerShip.mouseable) { // == true
 
@@ -300,7 +285,7 @@ public class Tutorial extends JFrame
 
         }
     }
-    
+
     private void hideMouse() { // hide Cursor
         ImageIcon invisi = new ImageIcon(new byte[0]);
         Cursor invisible = getToolkit().createCustomCursor(

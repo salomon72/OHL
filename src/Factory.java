@@ -4,7 +4,6 @@ import java.util.Random;
 /*
  class that is used to create new iinstances of GameFigure classes.
  */
-
 public class Factory implements GameFigureFactory {
 
     GameFigure type;
@@ -23,7 +22,7 @@ public class Factory implements GameFigureFactory {
             case "Enemy": {
                 Random randomGenerator = new Random();
                 int temp = randomGenerator.nextInt(1000);
-                type = new Enemy(GamePanel.PWIDTH-100, temp, 81, 81);
+                type = new Enemy(GamePanel.PWIDTH - 100, temp, 81, 81);
                 return type;
             }
             case "case3": {

@@ -1,5 +1,4 @@
 
-
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -15,24 +14,22 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
-public class TutorialEnemy implements TutorialGameFigures{
+public class TutorialEnemy implements TutorialGameFigures {
 
-      Image enemyImage;
+    Image enemyImage;
     float x, y;
     int w, h;
     int state = STATE_TRAVELING;
     private int health;
     private PowerUp power;
-    
+
     private ArrayList<Observer> observers;
 
-    TutorialEnemy(float x, float y, int height, int weight)
-    {
+    TutorialEnemy(float x, float y, int height, int weight) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
@@ -43,13 +40,13 @@ public class TutorialEnemy implements TutorialGameFigures{
         this.y = y;
         w = weight;
         h = height;
-        
+
         Random rand = new Random();
-        int r = rand.nextInt(5) + 1;       
+        int r = rand.nextInt(5) + 1;
         power = new PowerUp(3);
-        
+
     }
-    
+
     public static Image getImage(String fileName) {
         Image image = null;
         try {
@@ -60,21 +57,23 @@ public class TutorialEnemy implements TutorialGameFigures{
         }
         return image;
     }
-    
+
     @Override
     public void render(Graphics g) {
-         if(state != STATE_DEAD)
+        if (state != STATE_DEAD) {
             g.drawImage(enemyImage, (int) x, (int) y, null);
-            //g.drawImage(enemyImage, 4000, 540, null);
-         
-         if(power.isEnabled() && power.isReleased())
+        }
+        //g.drawImage(enemyImage, 4000, 540, null);
+
+        if (power.isEnabled() && power.isReleased()) {
             power.render(g);
+        }
     }
 
     @Override
     public void update() {
         this.x -= 5;
-        
+
     }
 
     @Override
@@ -101,13 +100,13 @@ public class TutorialEnemy implements TutorialGameFigures{
     public void Health(int i) {
         health -= i;
         if (health <= 0) {
-            if(power.isEnabled()){
-                if(power.getState() == STATE_DONE){
+            if (power.isEnabled()) {
+                if (power.getState() == STATE_DONE) {
+                    state = STATE_DONE;
+                } else {
                     state = STATE_DONE;
                 }
-                else state = STATE_DONE;
-            }
-            else {
+            } else {
                 state = STATE_DONE;
             }
         }
@@ -133,8 +132,6 @@ public class TutorialEnemy implements TutorialGameFigures{
     public float getYcoor() {
         return y;
     }
-
-   
 
     @Override
     public void notifyObservers(int amount) {

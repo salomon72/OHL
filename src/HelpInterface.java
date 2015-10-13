@@ -12,7 +12,6 @@ import javax.swing.JFrame;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
@@ -21,9 +20,9 @@ public class HelpInterface extends javax.swing.JFrame {
 
     /**
      * Creates new form HelpInterface
+     *
      * @throws java.io.IOException
      */
-    
     public HelpInterface() throws IOException {
         initComponents();
     }
@@ -99,11 +98,11 @@ public class HelpInterface extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(HelpInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
-      dispose(); 
+        dispose();
     }//GEN-LAST:event_B_BACKActionPerformed
 
     private void B_TUTORIALActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_TUTORIALActionPerformed
-         try {
+        try {
             Tutorial practice = new Tutorial();
             practice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             practice.setResizable(false);

@@ -1,4 +1,5 @@
 //import static GameFigure.STATE_TRAVELING;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -10,7 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Enemy implements GameFigure {
-    
+
     Image enemyImage;
     float x, y;
     int w, h;
@@ -19,91 +20,87 @@ public class Enemy implements GameFigure {
     private PHASE phase;
     private OPERATION cando = OPERATION.FLY;
     private int damage;
-    public OPERATION canDo()
-    {
+
+    public OPERATION canDo() {
         return cando;
     }
-    public PHASE getphase()
-    {
+
+    public PHASE getphase() {
         return phase;
     }
     private ArrayList<Observer> observers;
     private int type;
-    public int getDamage()
-     {
-         if(type == 0) return 1;
-         else return type;
-     }
-    public int getMyType()
-    {
+
+    public int getDamage() {
+        if (type == 0) {
+            return 1;
+        } else {
+            return type;
+        }
+    }
+
+    public int getMyType() {
         return type;
     }
-    public int getHealth()
-    {
+
+    public int getHealth() {
         return health;
     }
-    Enemy(float x, float y, int height, int weight)
-    {
+
+    Enemy(float x, float y, int height, int weight) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
-        Image i = null ;
+        Image i = null;
         phase = GameData.getphase();
-        if(GameData.getphase()== PHASE.ONE)
-        {      
-                  i = getImage(imagePath + separator + "images" + separator
-                        + "Enemy0.png");
-                  type = 0;
-                  damage = 1;
-        }else if(GameData.getphase()== PHASE.TWO)
-        {
-              Random randomGenerator = new Random();
-              int temp = randomGenerator.nextInt(4);
-                temp++;
-                i = getImage(imagePath + separator + "images" + separator
-                        + "enemy" + Integer.toString(temp) +".png");
-                type = temp;
-                damage = type;
-        }
-        else if(GameData.getphase()== PHASE.THREE)
-        {
-        Random randomGenerator = new Random();
-                int temp = randomGenerator.nextInt(7);
-               // temp++;
-                i = getImage(imagePath + separator + "images" + separator
-                        + "enemy" + Integer.toString(temp) +".png");
-                type = temp;
+        if (GameData.getphase() == PHASE.ONE) {
+            i = getImage(imagePath + separator + "images" + separator
+                    + "Enemy0.png");
+            type = 0;
+            damage = 1;
+        } else if (GameData.getphase() == PHASE.TWO) {
+            Random randomGenerator = new Random();
+            int temp = randomGenerator.nextInt(4);
+            temp++;
+            i = getImage(imagePath + separator + "images" + separator
+                    + "enemy" + Integer.toString(temp) + ".png");
+            type = temp;
+            damage = type;
+        } else if (GameData.getphase() == PHASE.THREE) {
+            Random randomGenerator = new Random();
+            int temp = randomGenerator.nextInt(7);
+            // temp++;
+            i = getImage(imagePath + separator + "images" + separator
+                    + "enemy" + Integer.toString(temp) + ".png");
+            type = temp;
         }
         //if(type==0|| type == 2 ||type == 4||type == 5||type == 6||type == 7)
-         if(type==0||type == 4||type == 5||type == 6||type == 7)
-        {
+        if (type == 0 || type == 4 || type == 5 || type == 6 || type == 7) {
             cando = OPERATION.FLY;
-        }else  if(type == 1||type == 3)
-        {
+        } else if (type == 1 || type == 3) {
             cando = OPERATION.SWIM;
         }
-        this.setAttributes(i, GameData.MAXHEALTH);
+        this.setAttributes(i, 5);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
-        if(GameData.getphase() ==  PHASE.TWO)
-        {
-            if(this.canDo()== OPERATION.SWIM)
-            {
-                if(this.y < SPACE+MARGIN)
-                this.y = SPACE+MARGIN;
+        if (GameData.getphase() == PHASE.TWO) {
+            if (this.canDo() == OPERATION.SWIM) {
+                if (this.y < SPACE + MARGIN) {
+                    this.y = SPACE + MARGIN;
+                }
                 //submarine tank
-            }else  if(this.canDo()== OPERATION.FLY)
-            {
+            } else if (this.canDo() == OPERATION.FLY) {
                 //airplane
-                if(this.y > SPACE-MARGIN)
-                this.y =  SPACE-MARGIN;
+                if (this.y > SPACE - MARGIN) {
+                    this.y = SPACE - MARGIN;
+                }
             }
         }
-        
+
         w = weight;
         h = height;
     }
-    
+
     public static Image getImage(String fileName) {
         Image image = null;
         try {
@@ -114,7 +111,7 @@ public class Enemy implements GameFigure {
         }
         return image;
     }
-    
+
     @Override
     public void render(Graphics g) {
         g.drawImage(enemyImage, (int) x, (int) y, null);
@@ -125,23 +122,26 @@ public class Enemy implements GameFigure {
         Random rand = new Random();
         int dx = rand.nextInt(3) - 1;
         // move randomly in 4 direction
-        this.x += 2*dx;
+        this.x += 2 * dx;
         int dy = rand.nextInt(3) - 1;
-        this.y += 2*dy;
-        if(GameData.getphase() ==  PHASE.TWO)
-        {
-            if(this.canDo()== OPERATION.SWIM)
-            {
-                if(this.y < SPACE+MARGIN)
-                this.y = SPACE+MARGIN;
-                if(y > 590) y = 580;
+        this.y += 2 * dy;
+        if (GameData.getphase() == PHASE.TWO) {
+            if (this.canDo() == OPERATION.SWIM) {
+                if (this.y < SPACE + MARGIN) {
+                    this.y = SPACE + MARGIN;
+                }
+                if (y > 590) {
+                    y = 580;
+                }
                 //submarine tank
-            }else  if(this.canDo()== OPERATION.FLY)
-            {
+            } else if (this.canDo() == OPERATION.FLY) {
                 //airplane
-                if(this.y > SPACE-MARGIN)
-                this.y =  SPACE-MARGIN;
-                 if(y <= 0) y = 5;
+                if (this.y > SPACE - MARGIN) {
+                    this.y = SPACE - MARGIN;
+                }
+                if (y <= 0) {
+                    y = 5;
+                }
             }
         }
     }
@@ -223,5 +223,5 @@ public class Enemy implements GameFigure {
         // CHANGE SIZE OF IMAGE
         return new Rectangle((int) x, (int) y, 30, 44);
     }
-    
+
 }

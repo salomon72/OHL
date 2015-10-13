@@ -11,12 +11,12 @@ import java.util.logging.Logger;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
 public class TutorialGameData {
+
     final List<TutorialGameFigures> figures;
     int count = 0;
     boolean FINISHED = false;
@@ -29,7 +29,7 @@ public class TutorialGameData {
 
         figures = Collections.synchronizedList(new ArrayList<TutorialGameFigures>());
         //spawn player ship and add to figures list here
-        TutorialShip ship = new TutorialShip(100,100);//example of player ship spawn
+        TutorialShip ship = new TutorialShip(100, 100);//example of player ship spawn
         figures.add(ship);//adds player ship to figures
         startSpawner();//spawner thread for enemies
         //startFiring();//thread that has enemies fire
@@ -40,7 +40,7 @@ public class TutorialGameData {
         //use the GameFigureFactory to create new instances of enemy objects
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(500);
-        TutorialEnemy enemy = new TutorialEnemy(1300,temp,88,88);
+        TutorialEnemy enemy = new TutorialEnemy(1300, temp, 88, 88);
         figures.add(enemy);
     }
 
@@ -133,7 +133,7 @@ public class TutorialGameData {
                         }
                         if (f.getState() == GameFigure.STATE_DONE) {//remove destroyed GameFigures
                             if (f.isPlayer() == 1) {
-                                System.out.println("##################Enemy is dying @  : " + f.getXcoor() + " , " + f.getYcoor() );
+                                System.out.println("##################Enemy is dying @  : " + f.getXcoor() + " , " + f.getYcoor());
                                 f.notifyObservers(5);
                             }
                             if (f.isPlayer() == 2) {
@@ -154,7 +154,7 @@ public class TutorialGameData {
                             remove.add(f);
                         }
                     }
-                    
+
                     if (g.isMissile() == 30 && (f.isMissile() != 30 || f.isMissile() != 0)) {//collision with power
                         System.out.println("is power UP");
                         if (g.collision().intersects(f.collision()) && f.isPlayer() == 0) {
@@ -165,7 +165,7 @@ public class TutorialGameData {
                             remove.add(f);
                         }
                     }
-                    
+
                 }
                 if (figures.get(0).isPlayer() == 0) {//if player is destoyed, end game
                 } else {

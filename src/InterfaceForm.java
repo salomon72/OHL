@@ -20,9 +20,9 @@ public class InterfaceForm extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfaceForm
+     *
      * @throws java.io.IOException
      */
-
     public InterfaceForm() throws IOException {
         initComponents();
     }
