@@ -29,7 +29,7 @@ public class Factory implements GameFigureFactory {
             }
             case "Boss": {
                 Random randomGenerator = new Random();
-                int temp = randomGenerator.nextInt(1000);
+                int temp = randomGenerator.nextInt(450);
                 type = new Enemy(GamePanel.PWIDTH-100, temp, 2*81, 2*81,true);
                 System.out.println("Boss created");
                 return type;

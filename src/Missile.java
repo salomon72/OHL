@@ -38,7 +38,7 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
     Image missileImage = getImage(imagePath + separator + "images" + separator
-            + "missile0.png");//use 1 onley
+            + "missile.png");//use 1 onley
 
     public Missile(float x, float y,int type) {
         this.observers = new ArrayList<>();
