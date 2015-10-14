@@ -78,7 +78,7 @@ public class Enemy implements GameFigure {
         } else if (type == 1 || type == 4 || type == 3) {
             cando = OPERATION.SWIM;
         }
-        this.setAttributes(i, 1);
+        this.setAttributes(i, 5);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;

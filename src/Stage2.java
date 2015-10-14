@@ -50,6 +50,11 @@ public class Stage2 implements Stage {
         return enemy;
     }
 
+    @Override
+    public void resetCount(){
+        count = 0;
+    }
+    
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(450);

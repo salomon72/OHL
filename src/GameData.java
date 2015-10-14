@@ -87,7 +87,7 @@ public class GameData {
         Stage1Spawner = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (;;) {//loop spawns enemies, add condition to stop the spawning of enemies
+                while(count < 28) {//loop spawns enemies
                     while (count < 6) {
                         if (Thread.interrupted()) {
                             return;
@@ -116,7 +116,24 @@ public class GameData {
                             return;
                         }
                     }
-                    while (count >= 15) {
+                    stage1.resetCount();
+                    while (count >= 15 && count <= 21) {
+                        if (Thread.interrupted()) {
+                            return;
+                        }
+                        Enemy enemy = stage1.getEnemy4();
+                        figures.add(enemy);
+                        count++;
+                        if (count == 21) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                return;
+                            }
+                        }
+                    }
+                    stage1.resetCount();
+                    while (count >= 21 && count <= 27) {
                         if (Thread.interrupted()) {
                             return;
                         }

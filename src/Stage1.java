@@ -23,6 +23,11 @@ public class Stage1 implements Stage {
         planetImage = ImageIO.read(file);
         backgroundWidth = backgroundImage.getWidth(null);
     }
+    
+    @Override
+    public void resetCount(){
+        count = 1;
+    }
 
     public Enemy getEnemy1() {
         Enemy enemy = new Enemy(1300, 0 + count * 75, 81, 81) {
@@ -67,7 +72,7 @@ public class Stage1 implements Stage {
     }
 
     public Enemy getEnemy3() {
-        Enemy enemy = new Enemy(1300, 0 + count * 4, 81, 81) {
+        Enemy enemy = new Enemy(1300, 0 + count * 60, 81, 81) {
             private int count = 0;
 
             @Override
@@ -75,6 +80,36 @@ public class Stage1 implements Stage {
                 count++;
                 if (count >= 0) {
                     this.x -= 1;
+                }
+            }
+        };
+        count++;
+        return enemy;
+    }
+    
+    public Enemy getEnemy4() {
+        Enemy enemy = new Enemy(1300, 0 + count * 75, 81, 81) {
+            private int count = 0;
+            private boolean reverse = false;
+
+            @Override
+            public void update() {
+                count++;
+                if (count <= 130) {
+                    this.x -= 2;
+                } else if (count >= 130 && count <= 180) {
+                    this.x -= 2;
+                    this.y += 1;
+                } else if (reverse) {
+                    this.y -= 1;
+                } else if (!reverse) {
+                    this.y += 1;
+                }
+                if (this.y >= 455) {
+                    reverse = true;
+                }
+                if (this.y <= 0) {
+                    reverse = false;
                 }
             }
         };

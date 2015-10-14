@@ -49,6 +49,11 @@ public class Stage3 implements Stage {
         count++;
         return enemy;
     }
+    
+    @Override
+    public void resetCount(){
+        count = 0;
+    }
 
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();

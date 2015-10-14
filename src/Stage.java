@@ -8,4 +8,6 @@ public interface Stage {
     public BufferedImage getPlanetImage();
 
     public int getBackgroundWidth();
+    
+    public void resetCount();
 }
