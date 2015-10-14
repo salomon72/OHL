@@ -5,19 +5,29 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
-enum OPERATION{ALL,FLY,SWIM,RUN};
 
+enum OPERATION {
+
+    ALL, FLY, SWIM, RUN
+};
 
 public interface GameFigure {
-    static  int SPACE = 300;
+
+    static int SPACE = 300;
     static int MARGIN = 40;
-    static  int WATER = 330;
-    static  int GROUND = 400;
+    static int WATER = 330;
+    static int GROUND = 400;
+
     public int getDamage();
+
     public PHASE getphase();
+
     public OPERATION canDo();
+
     public int getMyType();
+
     public int get();
+
     public void render(Graphics g);//draws the figure on the GamePanel
 
     public void update();//updates position, for use on GameFigures that move themselves(non-player figures)

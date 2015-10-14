@@ -65,11 +65,9 @@ public class Animator implements Runnable {
             } catch (InterruptedException e) {
             }
             if (gameData.FINISHED) {
-                if(this.gameData.getHealth() <= 1)
-                {
-                gamePanel.gameOver();
-                }
-                else {
+                if (this.gameData.getHealth() <= 1) {
+                    gamePanel.gameOver();
+                } else {
                     gamePanel.gameWin();
                 }
                 running = false;

@@ -15,7 +15,7 @@ public class ThreadPlayer extends Thread {
 
     public void run() {
 
-     //** add this into your application code as appropriate
+        //** add this into your application code as appropriate
 // Open an input stream  to the audio file.
         try {
             FileInputStream fis = new FileInputStream(strAudio);
