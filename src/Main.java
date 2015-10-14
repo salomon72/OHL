@@ -150,8 +150,10 @@ public class Main extends JFrame
                 GameData.setphase(PHASE.ONE);
                 animator.gamePanel.setNextStage(1);
                 animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(true, 1);
+                gameData.setStateChanged(1);
             } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -160,8 +162,10 @@ public class Main extends JFrame
                 GameData.setphase(PHASE.TWO);
                 animator.gamePanel.setNextStage(2);
                 animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(true, 2);
+                gameData.setStateChanged(2);
             } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -170,8 +174,10 @@ public class Main extends JFrame
                 GameData.setphase(PHASE.THREE);
                 animator.gamePanel.setNextStage(3);
                 animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(true, 3);
+                gameData.setStateChanged(3);
             } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

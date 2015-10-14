@@ -57,7 +57,7 @@ public class Stage1 implements Stage {
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(450);
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81);
+        Enemy enemy = new Enemy(GamePanel.PWIDTH - 100, temp, 81, 81);
         return enemy;
     }
 

@@ -34,8 +34,9 @@ public class GameData {
     String missilelaunch = imagePath + separator + "images" + separator + "SoundEffectMissileLaunch.mp3";
     String collide = imagePath + separator + "images" + separator + "collide.mp3";
     private boolean stateChanged = false;
-    public Thread enemySpawner;
-    public boolean stopThread = false;
+    public Thread Stage1Spawner;
+    public Thread Stage2Spawner;
+    public Thread Stage3Spawner;
 
     public GameData() throws IOException {
 
@@ -43,46 +44,49 @@ public class GameData {
         //spawn player ship and add to figures list here
         GameFigureFactory factory = new Factory("Ship");//example of player ship spawn
         figures.add(factory.createFigure());//adds player ship to figures
-        startStage1Spawner();//spawner thread for enemies
+        setStage1Spawner();//spawner thread for enemies
+        setStage2Spawner();
+        setStage3Spawner();
+        Stage1Spawner.start();//starts the enemy spawner
         startFiring();//thread that has enemies fire
     }
 
-    public void setStateChanged(boolean b, int stage) throws IOException {
-        stateChanged = b;
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void setStateChanged(int stage) throws IOException, InterruptedException {
+        Stage1Spawner.interrupt();
+        Stage2Spawner.interrupt();
+        Stage3Spawner.interrupt();
+        removeEnemies();
         if (stage == 1) {
-            startStage1Spawner();
+            setStage1Spawner();
+            Stage1Spawner.start();
         } else if (stage == 2) {
-            startStage2Spawner();
+            setStage2Spawner();
+            Stage2Spawner.start();
         } else {
-            startStage3Spawner();
+            setStage3Spawner();
+            Stage3Spawner.start();
         }
-        startFiring();//thread that has enemies fire
     }
 
-    public final void startStage1Spawner() throws IOException {
+    public void removeEnemies() {
+        ArrayList<GameFigure> remove = new ArrayList<>();
+        for (int i = 1; i < figures.size(); i++) {
+            remove.add(figures.get(i));
+        }
+        figures.removeAll(remove);
+    }
+
+    public final void setStage1Spawner() throws IOException {
         final Stage1 stage1 = new Stage1();
-        enemySpawner = new Thread(new Runnable() {
+        count = 0;
+        Stage1Spawner = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (;;) {//loop spawns enemies, add condition to stop the spawning of enemies
-                    if (stateChanged) {
-                        stateChanged = false;
-                        isStarting = true;
-                        count = 0;
-                        int i = figures.size() - 1;
-                        for (; i > 0; i--) {
-                            if (GameData.getphase() != figures.get(i).getphase()) {
-                                figures.remove(i);
-                            }
-                        }
-                        return;
-                    }
+                for(;;) {//loop spawns enemies, add condition to stop the spawning of enemies
                     while (count < 6) {
+                        if(Thread.interrupted()){
+                            return;
+                        }
                         Enemy enemy = stage1.getEnemy1();
                         figures.add(enemy);
                         count++;
@@ -90,164 +94,82 @@ public class GameData {
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException ex) {
-                                Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
+                                return;
                             }
                         }
                     }
                     while (count >= 6 && count <= 15) {
+                        if(Thread.interrupted()){
+                            return;
+                        }
                         Enemy enemy = stage1.getEnemy2();
                         figures.add(enemy);
                         count++;
                         try {
                             Thread.sleep(750);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
+                            return;
                         }
                     }
                     while (count >= 15) {
+                        if(Thread.interrupted()){
+                            return;
+                        }
                         Enemy enemy = stage1.getEnemy3();
                         figures.add(enemy);
                         count++;
                         try {
                             Thread.sleep(900);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
+                            return;
                         }
-                    }
-                    try {
-                        Thread.sleep(750);//interval in which enemies are spawned
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     count++;
                 }
             }
         });
-        enemySpawner.start();//starts the enemy spawner
+
+        
     }
 
-    public final void startStage2Spawner() throws IOException {
+    public final void setStage2Spawner() throws IOException {
         final Stage2 stage2 = new Stage2();
-        enemySpawner = new Thread(new Runnable() {
+        count = 0;
+        Stage2Spawner = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (;;) {//loop spawns enemies, add condition to stop the spawning of enemies
-                    if (stateChanged) {
-                        stateChanged = false;
-                        isStarting = true;
-                        count = 0;
-                        int i = figures.size() - 1;
-                        for (; i > 0; i--) {
-                            if (GameData.getphase() != figures.get(i).getphase()) {
-                                figures.remove(i);
-                            }
-                        }
-                        return;
-                    }
-                    while (count < 6) {
-                        Enemy enemy = stage2.getEnemy1();
-                        figures.add(enemy);
-                        count++;
-                        if (count == 6) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                    while (count >= 6 && count <= 15) {
-                        Enemy enemy = stage2.getEnemy2();
-                        figures.add(enemy);
-                        count++;
-                        try {
-                            Thread.sleep(750);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    while (count >= 15) {
-                        Enemy enemy = stage2.getEnemy3();
-                        figures.add(enemy);
-                        count++;
-                        try {
-                            Thread.sleep(900);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                while (count < 35 && !Thread.interrupted()) {//loop spawns enemies
+                    spawnEnemy();
                     try {
                         Thread.sleep(750);//interval in which enemies are spawned
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
+                        return;
                     }
                     count++;
                 }
             }
         });
-        enemySpawner.start();//starts the enemy spawner
+        
     }
 
-    public final void startStage3Spawner() throws IOException {
+    public final void setStage3Spawner() throws IOException {
         final Stage3 stage3 = new Stage3();
-        enemySpawner = new Thread(new Runnable() {
+        count = 0;
+        Stage3Spawner = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (;;) {//loop spawns enemies, add condition to stop the spawning of enemies
-                    if (stateChanged) {
-                        stateChanged = false;
-                        isStarting = true;
-                        count = 0;
-                        int i = figures.size() - 1;
-                        for (; i > 0; i--) {
-                            if (GameData.getphase() != figures.get(i).getphase()) {
-                                figures.remove(i);
-                            }
-                        }
-                        return;
-                    }
-                    while (count < 6) {
-                        Enemy enemy = stage3.getEnemy1();
-                        figures.add(enemy);
-                        count++;
-                        if (count == 6) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                    while (count >= 6 && count <= 15) {
-                        Enemy enemy = stage3.getEnemy2();
-                        figures.add(enemy);
-                        count++;
-                        try {
-                            Thread.sleep(750);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    while (count >= 15) {
-                        Enemy enemy = stage3.getEnemy3();
-                        figures.add(enemy);
-                        count++;
-                        try {
-                            Thread.sleep(900);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                while (count < 35 && !Thread.interrupted()) {//loop spawns enemies
+                    spawnEnemy();
                     try {
                         Thread.sleep(750);//interval in which enemies are spawned
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
+                        return;
                     }
                     count++;
                 }
             }
         });
-        enemySpawner.start();//starts the enemy spawner
+        
     }
 
     public int getHealth() {
@@ -271,42 +193,6 @@ public class GameData {
 
     public void spawnBoss() {
         //seperate method to spawn boss 
-    }
-
-    public final void startSpawner() {
-        Thread enemySpawner;
-        enemySpawner = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (count < 35) {//loop spawns enemies, add condition to stop the spawning of enemies
-                    if (stateChanged) {
-                        stateChanged = false;
-                        isStarting = true;
-                        //remove old enemy
-                        //int index;
-                        count = 0;
-                        int i = figures.size() - 1;
-                        for (; i > 0; i--) {
-                            if (GameData.getphase() != figures.get(i).getphase()) {
-                                //remove enemy phase 1
-                                figures.remove(i);
-                                // System.out.println("Remove:"+i);
-                            }
-                        }//
-                        // System.out.println("Return!");
-                        return;
-                    }
-                    spawnEnemy();
-                    try {
-                        Thread.sleep(750);//interval in which enemies are spawned
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    count++;
-                }
-            }
-        });
-        enemySpawner.start();//starts the enemy spawner
     }
 
     public final void startFiring() {
@@ -452,123 +338,4 @@ public class GameData {
             figures.removeAll(remove);
         }
     }
-    /*
-     >>>>>>> origin/master
-     public void update() {
-     List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
-     GameFigure h;
-     GameFigure f;
-     GameFigure g;
-     /*if(figures.size() > 0)
-     {
-     System.out.println("testing:x:"+figures.get(0).getXcoor()+",y:"+figures.get(0).getYcoor());
-     }*/
-    //synchronized (figures) {
-            /*
-     enemiesSpawned = 0;//count of enemies on game panel
-     for (int d = 0; d < figures.size(); d++) {
-     h = figures.get(d);//get each GameFigure on game panel
-     h.update();//update the movement of the GameFigure
-     if (h.isPlayer() >= 1) {//check is GameFigure is player
-     enemiesSpawned++;//count each non-player GameFigure
-     }
-     }
-     */
-    /*
-     for (int j = 0; j < figures.size(); j++) {//collision detection loop, checks each GameFigure for collisions between figures.
-     g = figures.get(j);
-     if (g.getXcoor() >= 1296) {
-     remove.add(g);
-     }
-     if (g.getYcoor() >= 650) {
-     remove.add(g);
-     }
-     for (int i = 0; i < figures.size(); i++) {
-
-     f = figures.get(i);
-     if (f.getXofMissileShoot() < 0) {
-     f.updateState(0);
-     }
-     <<<<<<< HEAD
-     if (g.isMissile() == 0 && (f.isMissile() != 1 || f.isMissile() != 0)) {
-     if (g.collision().intersects(f.collision()) && f.isPlayer() >= 1) {
-     g.updateState(0);
-     f.Health(g.getDamage());//subtract 1 from GameFigure health
-     //enemy get damage
-     //System.out.println("who get damaged!,"+g.getMyType());
-     //get health of player
-     =======
-     if (g.isMissile() == 0 && (f.isMissile() != 1 || f.isMissile() != 0)) { // Collision between Player Ship missile & Enemy
-     if (g.collision().intersects(f.collision()) && f.isPlayer() == 1) {
-     g.updateState(0);
-     f.Health(1);//subtract 1 from Enemy's health
-     >>>>>>> origin/master
-     }
-     if (f.getState() == GameFigure.STATE_DONE) {//remove destroyed GameFigures
-     f.registerObserver(score);//update score upone each enemy destroyed
-     if (f.isPlayer() == 1) {
-     f.notifyObservers(5);
-     figures.get(0).Health(-g.getDamage());//incrase health of player
-     ThreadPlayer.play(this.explosion);
-     // System.out.println("enemy die,explosion!");
-     }
-     if (f.isPlayer() == 2) {
-     f.notifyObservers(10);
-     }
-     if (f.isPlayer() == 3) {
-     f.notifyObservers(300);
-     }
-     remove.add(f);//remove destroyed enemies from figures list
-     ThreadPlayer.play(this.collide);
-                            
-     }
-     }
-     <<<<<<< HEAD
-     if (g.isMissile() == 1 && (f.isMissile() != 1 || f.isMissile() != 0)) {
-     =======
-     if (g.isMissile() == 1 && (f.isMissile() != 1 || f.isMissile() != 0)) {// Collision between Enemy missile & Player Ship
-     >>>>>>> origin/master
-     if (g.collision().intersects(f.collision()) && f.isPlayer() == 0) {
-     g.updateState(0);
-     f.Health(g.getDamage());//subtract 1 from GameFigure health
-     ThreadPlayer.play(this.collide);
-     }
-     if (f.getState() == GameFigure.STATE_DONE) {
-     remove.add(f);
-     }
-     }
-     }
-     score.health = figures.get(0).getHealth();
-     //System.out.println("update1 Health:"+score.health);
-     // System.out.println("Size:"+figures.size()+",enemy:"+enemiesSpawned);
-     if(score.health <= 0)
-     {
-     ThreadPlayer.play(this.explosion);
-     FINISHED = true;
-     System.out.println("Game end!Player health empty");
-     break;
-     }
-     if(enemiesSpawned >= 3 && this.isStarting)
-     {
-     this.isStarting = false;
-     }
-     if(figures.size()>0 && !this.isStarting)
-     {
-     //check enemy is over then finish
-     if(enemiesSpawned <= 0)
-     {
-     FINISHED = true;
-     System.out.println("Game end!Player win");
-     }
-     }
-     if (figures.get(0).isPlayer() == 0) {//if player is destoyed, end game
-     } else {
-     FINISHED = true;
-     }
-     figures.removeAll(remove);//remove all GameFigures in remove list
-     }
-     }
-     }
-     */
-
 }

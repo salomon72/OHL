@@ -21,7 +21,7 @@ public class Factory implements GameFigureFactory {
                 return type;
             case "Enemy": {
                 Random randomGenerator = new Random();
-                int temp = randomGenerator.nextInt(1000);
+                int temp = randomGenerator.nextInt(600);
                 type = new Enemy(GamePanel.PWIDTH - 100, temp, 81, 81);
                 return type;
             }
