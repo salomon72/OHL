@@ -17,7 +17,7 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     Point2D.Float target;
     private int state = STATE_TRAVELING;
-    private static final int UNIT_TRAVEL_DISTANCE = 6;
+    private static final int UNIT_TRAVEL_DISTANCE = 3;
     int health = 1;
     int type;
     private final ArrayList<Observer> observers;
@@ -25,39 +25,35 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
     Image missileImage; //= getImage(imagePath + separator + "images" + separator
-    //+ "missile"+Integer.toString(type)+".png");
-
-    public PHASE getphase() {
+            //+ "missile"+Integer.toString(type)+".png");
+   public PHASE getphase()
+   {
         return GameData.getphase();
-        //throw new UnsupportedOperationException("Not implement!");
-    }
-    private OPERATION cando = OPERATION.ALL;
-
-    public OPERATION canDo() {
+       //throw new UnsupportedOperationException("Not implement!");
+   }
+   private OPERATION cando = OPERATION.ALL;
+    public OPERATION canDo()
+    {
         return cando;
     }
-
-    public int getDamage() {
-        if (type == 0) {
-            return 1;
-        } else {
-            return type;
-        }
-    }
-
-    public int getMyType() {
+    public int getDamage()
+     {
+         if(type == 0) return 1;
+         else return type;
+     }
+    public int getMyType()
+    {
         return type;
     }
-
-    public int getHealth() {
+    public int get()
+    {
         return health;
     }
-
-    public Missile2(float x, float y, int type) {
+    public Missile2(float x, float y,int type) {
         this.observers = new ArrayList<>();
         this.type = type;
         missileImage = getImage(imagePath + separator + "images" + separator
-                + "missile" + Integer.toString(type + 1) + ".png");
+            + "missile"+Integer.toString(type)+".png");
         setFrameFromCenter(x, y, x, y);
     }
 

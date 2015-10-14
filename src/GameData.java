@@ -9,30 +9,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-enum PHASE {
-
-    ONE, TWO, THREE
-};
+enum PHASE{ONE,TWO,THREE};
 
 public class GameData {
+    public static int MAXHEIGHT = 550;
+    public static int MINHEIGHT = 20;
+    public static int MAXENEMY = 35;
 
-    public static int MAXHEALTH = 30;
+    public static int MAXHEALTH = 5;
     final List<GameFigure> figures;
     int count = 0;
     boolean FINISHED = false;
     boolean bossTime = false;
     boolean BOSS = false;
     boolean isStarting = true;
+    boolean isBossDied = false;
+    boolean isBossCreated = false;
     private int enemiesSpawned;
     private static PHASE phase;
-    //public int health = MAXHEALTH;
     ScoreObserver score = new ScoreObserver();
     String separator = System.getProperty("file.separator");
     String imagePath = System.getProperty("user.dir");
-    String explosion = imagePath + separator + "images" + separator + "BigExplosionSoundEffect.mp3";//load game over screen from image file
-    String missilelaunch = imagePath + separator + "images" + separator + "SoundEffectMissileLaunch.mp3";
-    String collide = imagePath + separator + "images" + separator + "collide.mp3";
+    String explosion = imagePath + separator + "images" +separator +"BigExplosionSoundEffect.mp3";//load game over screen from image file
+    String missilelaunch = imagePath + separator + "images" + separator+"SoundEffectMissileLaunch.mp3"; 
+    String collide = imagePath + separator + "images" + separator+"collide.mp3"; 
     private boolean stateChanged = false;
     public Thread Stage1Spawner;
     public Thread Stage2Spawner;
@@ -173,15 +173,14 @@ public class GameData {
     }
 
     public int getHealth() {
-
         return score.health;
     }
-
-    public static PHASE getphase() {
+    public static PHASE getphase()
+    {
         return phase;
     }
-
-    public static void setphase(PHASE p) {
+    public static void setphase(PHASE p)
+    {
         phase = p;
     }
 
@@ -193,8 +192,24 @@ public class GameData {
 
     public void spawnBoss() {
         //seperate method to spawn boss 
+        GameFigureFactory factory = new Factory("Boss");
+        figures.add(factory.createFigure());
+//        System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
+
     }
 
+ public final void startSpawnBoss() {
+        Thread enemySpawner;
+        enemySpawner = new Thread(new Runnable() {
+            @Override
+            public void run() {
+               spawnBoss();
+               count++;
+            }
+        });
+        enemySpawner.start();//starts the enemy spawner
+    }
+ 
     public final void startFiring() {
         Thread enemyShoot;
         enemyShoot = new Thread(new Runnable() {
@@ -207,8 +222,9 @@ public class GameData {
                         if (temp <= 90 && temp >= 30) {//if random number is between 90 and 30, enemy will fire
                             f = figures.get(i);//get enemy to fire
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
-                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), f.getMyType());
+                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(),f.getMyType());
                                 //System.out.println(f.getType());
+                                String missilelaunch = imagePath + separator + "images" + separator+f.getMyType()+".mp3";
                                 ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
@@ -216,7 +232,7 @@ public class GameData {
                             }
                         }
                         try {
-                            Thread.sleep(100);//interval between enemy fire
+                           Thread.sleep(100);//interval between enemy fire
                         } catch (InterruptedException ex) {
                             Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -227,7 +243,7 @@ public class GameData {
         );
         enemyShoot.start();//start the enemy shooting thread.
     }
-
+    
     private void addPower(int x, int y) {
         PowerUp pw = new PowerUp(4);
         pw.setLocation(x, y + 5);
@@ -307,7 +323,16 @@ public class GameData {
     public void update() {
         List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
         GameFigure f;
+        GameFigure h;
         synchronized (figures) {
+            enemiesSpawned = 0;//count of enemies on game panel
+            for (int d = 0; d < figures.size(); d++) {
+                h = figures.get(d);//get each GameFigure on game panel
+                h.update();//update the movement of the GameFigure
+                if (h.isPlayer() >= 1) {//check is GameFigure is player
+                    enemiesSpawned++;//count each non-player GameFigure
+                }
+            }
             for (int i = 0; i < figures.size(); i++) {
                 f = figures.get(i);
                 f.update(); // call update from all classes.
@@ -334,6 +359,52 @@ public class GameData {
                     FINISHED = true;
                 }
             }
+            
+            score.health = figures.get(0).get();
+                if(score.health <= 0)
+                {
+                    ThreadPlayer.play(this.explosion);
+                    FINISHED = true;
+                    System.out.println("Game end!Player health empty");
+                }
+                if(enemiesSpawned >= 3 && this.isStarting)
+                {
+                    this.isStarting = false;
+                }
+                if(figures.size()>0 && !this.isStarting)
+                {
+                    //check enemy is over then finish
+                   if(GameData.phase == PHASE.ONE||GameData.phase == PHASE.TWO)
+                   {
+                    if((enemiesSpawned <= 0)&&(count== MAXENEMY))
+                    {
+                        FINISHED = true;
+                        System.out.println("Game end!Player win1");
+                    }
+                   }else {//phase 3
+                       
+                       if((enemiesSpawned <= 0)&&(count>=MAXENEMY))
+                        {
+                            if(!isBossCreated)
+                            {
+                              startSpawnBoss();
+                                try{
+                               // Thread.sleep(10);
+                                }catch(Exception ex)
+                                {
+                                    System.out.println(ex.getCause());
+                                }
+                                isBossCreated = true;
+                                //System.out.println("spawn boss");
+                            }else if(isBossDied)
+                            {
+                            FINISHED = true;
+                            System.out.println("Game end!Player win2");
+                            }
+                        }
+                   }
+                   
+                }
 
             figures.removeAll(remove);
         }

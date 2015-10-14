@@ -103,7 +103,7 @@ public class PowerUp implements GameFigure {
     @Override
     public void update() {
         if (pRect != null || state != STATE_DONE) {
-            x -= 5;
+            x -= 3;
             pRect.setLocation(x, y);
             if (y + radius > GamePanel.PWIDTH) {
                 state = STATE_DONE;
@@ -202,8 +202,12 @@ public class PowerUp implements GameFigure {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public int getHealth() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int get() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -6,7 +6,6 @@ public class ScoreObserver implements Observer {
 
     int score = 0;
     int health = 0;
-
     @Override
     public void update(int amount) {
         score += amount;

@@ -33,7 +33,7 @@ public class Stage1 implements Stage {
             public void update() {
                 count++;
                 if (count <= 80) {
-                    this.x -= 3;
+                    this.x -= 2;
                 } else if (count >= 80 && count <= 120) {
                     this.x -= 2;
                     this.y += 1;

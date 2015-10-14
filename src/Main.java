@@ -1,4 +1,4 @@
-
+//hi
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -31,7 +31,6 @@ public class Main extends JFrame
     private final GamePanel gamePanel;
     private final GameData gameData;
     private final Animator animator;
-    // private final TutorialPanel tutorialPanel;
 
     private final JTextField text;
     private final JButton stage1test;
@@ -51,6 +50,8 @@ public class Main extends JFrame
 
     private Timer timer;
     private TimerTask task;
+    
+   
 
     public Main() throws IOException {
         setSize(1275, 610);//size of initial window
@@ -61,9 +62,7 @@ public class Main extends JFrame
         animator = new Animator();
         gameData = new GameData();
         gamePanel = new GamePanel(animator, gameData);
-        //tutorialPanel = new TutorialPanel(animator, gameData);
         animator.setGamePanel(gamePanel);//sets the gamePanel object for animator to use
-        //animator.setTutorialPanel(tutorialPanel);
         animator.setGameData(gameData);//sets gameData object for animator to use
         c.add(gamePanel, "Center");//centers the gamePanel on the JPanel
 
@@ -88,7 +87,7 @@ public class Main extends JFrame
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
-
+        
         //BEGIN TEMPORARY BUTTONS
         stage1test = new JButton("Stage1");
         stage1test.setVisible(true);
@@ -103,24 +102,24 @@ public class Main extends JFrame
         stage2test.setBorder(borderLine);
         stage2test.setBackground(btnColor);
         southPanel.add(stage2test);
-
+        
         stage3test = new JButton("Stage3");
         stage3test.setVisible(true);
         stage3test.setFont(btnFont);
         stage3test.setBorder(borderLine);
         stage3test.setBackground(btnColor);
         southPanel.add(stage3test);
-
+        
         stage1test.setFocusable(false);
         stage1test.addActionListener(this);
 
         stage2test.setFocusable(false);
         stage2test.addActionListener(this);
-
+        
         stage3test.setFocusable(false);
         stage3test.addActionListener(this);
         //END TEMPORARY BUTTONS
-
+        
         c.add(southPanel, "South");
 
         gamePanel.addMouseListener(this);
@@ -131,7 +130,7 @@ public class Main extends JFrame
 
         text.setFocusable(false);
         text.addActionListener(this);
-
+        
         quitButton.addActionListener(this);
         quitButton.setFocusable(false); // "Quit" button should not receive keyboard data   
 
@@ -189,7 +188,7 @@ public class Main extends JFrame
         @Override
         public void run() {
             playerMissle = System.currentTimeMillis();
-            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
             synchronized (gameData.figures) {
                 gameData.figures.add(f);
             }
@@ -211,7 +210,7 @@ public class Main extends JFrame
         if (ke.getKeyChar() == key) {
             if (!playerShip.mouseable) { // == false. meaning not mouseable
                 playerMissle = System.currentTimeMillis();
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
                 synchronized (gameData.figures) {
                     gameData.figures.add(f);
                 }
@@ -244,10 +243,10 @@ public class Main extends JFrame
 
                 // Notify the user about the changes%%
                 if (!playerShip.mouseable) {
-                    //text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
+                    text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
                     showMouse();
                 } else {
-                    //text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
+                    text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
                     hideMouse();
                 }
                 break;
@@ -257,7 +256,7 @@ public class Main extends JFrame
                         break;
                     }
                     playerMissle = System.currentTimeMillis();
-                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
                     synchronized (gameData.figures) {
                         gameData.figures.add(f);
                     }
@@ -273,7 +272,7 @@ public class Main extends JFrame
                 return;
             }
             playerMissle = System.currentTimeMillis();
-            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+            Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(),playerShip.getMyType());
             synchronized (gameData.figures) {
                 gameData.figures.add(f);
             }
@@ -354,5 +353,7 @@ public class Main extends JFrame
         menu.setResizable(false);
         menu.setVisible(true);
     }
+    
+    
 
 }
