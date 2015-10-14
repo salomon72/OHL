@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
     private final GameData gameData;//GameData object for the game panel
     private Graphics graphics; //graphics object for the game panel to use to render
 
-    private Image dbImage = null;
+    private BufferedImage dbImage = null;
     private final Image gameOver;//image to display upon game over
     private HealthBar health;
     private final Image gamewin;
@@ -80,7 +80,7 @@ public class GamePanel extends JPanel {
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
-            dbImage = createImage(PWIDTH, PHEIGHT);
+            dbImage = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB);
             if (dbImage == null) {
                 System.out.println("dbImage is null");
                 return;
@@ -171,21 +171,17 @@ public class GamePanel extends JPanel {
         try {
             g = this.getGraphics();
             g.setColor(Color.red);
-            if ((g != null) && (dbImage != null)) {
+            if (dbImage != null) {
                 g.drawImage(dbImage, 0, 0, null);
                 String text = "Score:" + gameData.score.score;//text of displated score
-               // System.out.println(text);
                 g.drawString(text, 50, 50);
-                
-                
             }else {
                 System.out.println("printScreen:graphic is null");
             }
-            //System.out.println("Toolkit.getDefaultToolkit().sync();");
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
         } catch (Exception e) {
-            System.out.println("Graphics error1: " + e);
+            System.out.println("Graphics error: " + e);
         }
     }
 

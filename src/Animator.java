@@ -59,20 +59,17 @@ public class Animator implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
             }
-            gamePanel.printScreen();
             try {
-                Thread.sleep(10);
+                Thread.sleep(14);
+                gamePanel.printScreen();
             } catch (InterruptedException e) {
             }
             if (gameData.FINISHED) {
-               // System.out.println("health:"+this.gameData.score.health+",new healh:"+this.gameData.getHealth());
                 if(this.gameData.getHealth() <= 1)
                 {
                 gamePanel.gameOver();
-                    //System.out.println("Over");
                 }
                 else {
-                   // System.out.println("Win");
                     gamePanel.gameWin();
                 }
                 running = false;
@@ -80,5 +77,4 @@ public class Animator implements Runnable {
         }
         System.exit(0);
     }
-
 }
