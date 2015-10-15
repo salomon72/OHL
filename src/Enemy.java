@@ -224,6 +224,10 @@ public class Enemy implements GameFigure {
     public void updateState(int state) {
         this.state = state;
     }
+    @Override
+    public void setState(int s) {
+        
+    }
 
     @Override
     public int getState() {
@@ -232,7 +236,7 @@ public class Enemy implements GameFigure {
 
     @Override
     public int isMissile() {
-        return 2;
+        return -1;
     }
 
     @Override
@@ -244,15 +248,7 @@ public class Enemy implements GameFigure {
     public void Health(int i) {
         health -= i;
         if (health <= 0) {
-            if (power.isEnabled()) {
-                if (power.getState() == STATE_DONE) {
-                    state = STATE_DONE;
-                } else {
-                    state = STATE_DONE;
-                }
-            } else {
-                state = STATE_DONE;
-            }
+            state = STATE_DONE;
         }
     }
 
@@ -304,6 +300,11 @@ public class Enemy implements GameFigure {
     public Rectangle collision() {
         // CHANGE SIZE OF IMAGE
         return new Rectangle((int) x, (int) y, 30, 44);
+    }
+
+    @Override
+    public void setMissile(int m) {
+        
     }
 
 }

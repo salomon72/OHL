@@ -21,6 +21,8 @@ public class Ship implements GameFigure {
     int state = STATE_TRAVELING;
     static int health;
     private ArrayList<Observer> observers;
+    
+    private int missile = -1;
 
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
@@ -116,7 +118,12 @@ public class Ship implements GameFigure {
 
     @Override
     public int isMissile() {
-        return 3;
+        return missile;
+    }
+    
+    @Override
+    public void setMissile(int m) {
+        missile = 11;
     }
 
     @Override
@@ -176,6 +183,11 @@ public class Ship implements GameFigure {
 
     public void setY(float y) {
         this.y = y;
+    }
+    
+    @Override
+    public void setState(int s) {
+        this.state = s;
     }
 
 }

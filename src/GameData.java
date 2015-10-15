@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -265,8 +266,8 @@ public class GameData {
         enemyShoot.start();//start the enemy shooting thread.
     }
 
-    private void addPower(int x, int y) {
-        PowerUp pw = new PowerUp(4);
+    private void addPower(int r, int x, int y) {
+        PowerUp pw = new PowerUp(r);
         pw.setLocation(x, y + 5);
         pw.setReleased(true);
         pw.setEnabled(true);
@@ -274,7 +275,8 @@ public class GameData {
         figures.add(pw);
     }
 
-    private void playerCheck(GameFigure player) {
+    //@@@@@ not done yet - Please Do Not Remove 
+    private void playerCheck(GameFigure player) { 
         GameFigure g;
         for (int i = 0; i < figures.size(); i++) {
 
@@ -282,6 +284,7 @@ public class GameData {
 
     }
 
+    //@@@@@ not done yet - Please Do Not Remove 
     private void enemyCheck(GameFigure f) {
 
     }
@@ -296,10 +299,18 @@ public class GameData {
                         f.updateState(GameFigure.STATE_DONE);
                         g.Health(1);//subtract 1 from Enemy's health
 
-                        if (g.getState() == GameFigure.STATE_DONE) {
-                            f.registerObserver(score);//update score upone each enemy destroyed
-                            addPower((int) f.getXcoor(), (int) f.getYcoor()); // release POWER
-                            f.notifyObservers(5);
+                        if(g.getState()==GameFigure.STATE_DONE){
+                            f.registerObserver(score);//update score upone each enemy destroyed                   
+
+                            Random rand = new Random();
+                            int r = rand.nextInt(10);
+                            if(r > 1  && r <=4){
+                                addPower(r, (int) f.getXcoor(),(int) f.getYcoor()); // release POWER
+                                f.notifyObservers(5+r);
+                            }
+                            else {
+                                f.notifyObservers(5);
+                            }                                                    
                         }
                         //System.out.println("Score :  " + score.score);
                     }
@@ -313,11 +324,18 @@ public class GameData {
         synchronized (figures) {
             for (int i = 0; i < figures.size(); i++) {
                 g = figures.get(i);
-                if (!f.equals(g) && g.isPlayer() == 0) {
-                    if (f.collision().intersects(g.collision())) {
-                        f.updateState(GameFigure.STATE_DONE);
-                        g.Health(1);//subtract 1 from Player's health                    
-                    }
+                if(!f.equals(g) && g.isPlayer()==0){
+                    if(f.collision().intersects(g.collision())){
+                        if(g.getState()==GameFigure.STATE_TRAVELING){
+                            f.updateState(GameFigure.STATE_DONE);
+                            g.Health(1);//subtract 1 from Player's health 
+                        }
+                        else if(g.getState()==GameFigure.SHIELD) {
+                            f.updateState(GameFigure.STATE_DONE);
+                            g.setState(GameFigure.STATE_TRAVELING);
+                            //System.out.println("State ==>  :  " + g.getState());
+                        }
+                    }             
                 }
             }
         }
@@ -327,18 +345,33 @@ public class GameData {
         synchronized (figures) {
 
             GameFigure g;
-            for (int i = 0; i < figures.size(); i++) {
+            for(int i=0; i < figures.size(); i++){
                 g = figures.get(i);
-                if (!g.equals(f) && g.isPlayer() == 0 && f.getState() == GameFigure.STATE_TRAVELING) {
-                    if (f.collision().intersects(g.collision())) {
-                        f.updateState(GameFigure.STATE_DONE);
-                        g.Health(-1);//subtract 1 from Player's health
+                if(!g.equals(f) && g.isPlayer()==0  && f.getState()==GameFigure.STATE_TRAVELING){
+                    if(f.collision().intersects(g.collision())){
+                        
+                        if(f.isMissile()==40){
+                            g.setState(GameFigure.SHIELD);
+                            f.updateState(GameFigure.STATE_DONE);
+                        }
+                        else if(f.isMissile()==41){
+                            f.updateState(GameFigure.STATE_DONE);
+                            //g.setMissile(11);                                                    
+                        }   
+                        else if(f.isMissile()==42){
+                            f.updateState(GameFigure.STATE_DONE);
+                            g.Health(-1);//subtract 1 from Player's health                            
+                        }
+                        
+                        //f.updateState(GameFigure.STATE_DONE);
+                       // g.Health(-1);//subtract 1 from Player's health
                         //System.out.println("Collision");
                     }
                 }
             }
-
         }
+
+  
     }
 
     public void update() {
@@ -360,9 +393,11 @@ public class GameData {
 
                 if (f.isMissile() == 0) { // if player's missile
                     playMissileCheck(f);
-                } else if (f.isMissile() == 1) { // if enemy's missile
+                }
+                else if (f.isMissile() == 1) { // if enemy's missile
                     enemMissileCheck(f);
-                } else if (f.isPlayer() == 31) { // if power 
+                }
+                else if (f.isPlayer() == 31) { // if power 
                     powCheck(f);
                 }
                 /*

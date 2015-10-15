@@ -162,4 +162,15 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
         return y;
     }
 
+    @Override
+    public void setState(int s) {
+        
+    }
+ 
+    @Override
+    public void setMissile(int m) {
+        
+    }
+
+
 }
