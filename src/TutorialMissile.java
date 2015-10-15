@@ -20,41 +20,37 @@ public class TutorialMissile extends Ellipse2D.Float implements TutorialGameFigu
     private static final int UNIT_TRAVEL_DISTANCE = 6;
     int health = 1;
     int type;
-
-    public PHASE getphase() {
-        return GameData.getphase();
-    }
+     public PHASE getphase()
+   {
+       return GameData.getphase();
+   }
     private OPERATION cando = OPERATION.ALL;
-
-    public OPERATION canDo() {
+    public OPERATION canDo()
+    {
         return cando;
     }
-
-    public int getDamage() {
-        if (type == 0) {
-            return 1;
-        } else {
-            return type;
-        }
-    }
+    public int getDamage()
+     {
+         if(type == 0) return 1;
+         else return type;
+     }
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
     Image missileImage = getImage(imagePath + separator + "images" + separator
             + "missile0.png");//use 1 onley
 
-    public TutorialMissile(float x, float y, int type) {
+    public TutorialMissile(float x, float y,int type) {
         setFrameFromCenter(x, y, x, y);
         this.type = type;
     }
-
-    public int getMyType() {
+    public int getMyType()
+    {
         return type;
     }
-
-    public int getHealth() {
+    public int getHealth()
+    {
         return health;
     }
-
     public static Image getImage(String fileName) {
         Image image = null;
         try {
