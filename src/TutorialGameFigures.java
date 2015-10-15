@@ -8,14 +8,15 @@
  *
  * @author davidalba
  */
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 
 public interface TutorialGameFigures {
-
+    
     public void render(Graphics g);
-
+    
     public void update();//updates position, for use on GameFigures that move themselves(non-player figures)
 
     public void updateState(int state);//changes state of GameFigure, states can be any string that indicates a change, 
@@ -37,15 +38,19 @@ public interface TutorialGameFigures {
     public float getXcoor();
 
     public float getYcoor();
+    
+    
 
     //void registerObserver(Observer o);//attach a score observer to the object
+
     //void removeObserver(Observer o);//remove a score observer from the object
+
     void notifyObservers(int amount);//notify all score observers attached to object, "amount" indicates the amount of score gained
 
     void setAttributes(Image i, int health);// sets the image and the initial health of the object
 
     public Rectangle collision();
-
+    
     static final int STATE_TRAVELING = 1;
     static final int STATE_EXPLODING = 2;
     static final int STATE_DONE = 0;
