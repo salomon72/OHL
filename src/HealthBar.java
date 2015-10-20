@@ -221,7 +221,7 @@ public class HealthBar extends JFrame implements GameFigure {
             super();
         }
 
-		// Bar constructor.
+        // Bar constructor.
         //the ImageIcon used in the bar 
         public Bar(ImageIcon im) {
             super();

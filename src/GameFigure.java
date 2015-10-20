@@ -37,11 +37,13 @@ public interface GameFigure {
     //that indicates exploding
 
     void setState(int s);
+
     public int getState();//returns the state in int form
 
     public int isMissile();//returns an int value that is based on whether the object is a missle and what type of missle
+
     public void setMissile(int m);
-    
+
     public int isPlayer();//return an int value that is based on whether the object is the player or not, a 0 indicates the player object
 
     public void Health(int i);//updates the health of the object, int i is subtracted from the current health of the object
@@ -69,6 +71,6 @@ public interface GameFigure {
     static final int STATE_DONE = 0;
     static final int STATE_ALIVE = 3;
     static final int STATE_DEAD = 4;
-    
+
     static final int SHIELD = 10;
 }

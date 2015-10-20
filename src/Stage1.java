@@ -23,9 +23,9 @@ public class Stage1 implements Stage {
         planetImage = ImageIO.read(file);
         backgroundWidth = backgroundImage.getWidth(null);
     }
-    
+
     @Override
-    public void resetCount(){
+    public void resetCount() {
         count = 1;
     }
 
@@ -86,7 +86,7 @@ public class Stage1 implements Stage {
         count++;
         return enemy;
     }
-    
+
     public Enemy getEnemy4() {
         Enemy enemy = new Enemy(1300, 0 + count * 75, 81, 81) {
             private int count = 0;

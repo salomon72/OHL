@@ -25,6 +25,7 @@ public class GameData {
     public static int MAXHEALTH = 5;
     final List<GameFigure> figures;
     int count = 0;
+    int countEnemy = 0;
     boolean FINISHED = false;
     boolean bossTime = false;
     boolean BOSS = false;
@@ -69,6 +70,7 @@ public class GameData {
             setStage2Spawner();
             Stage2Spawner.start();
         } else {
+            phase = PHASE.THREE;
             setStage3Spawner();
             Stage3Spawner.start();
         }
@@ -88,7 +90,7 @@ public class GameData {
         Stage1Spawner = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(count < 28) {//loop spawns enemies
+                while (count < 28) {//loop spawns enemies
                     while (count < 6) {
                         if (Thread.interrupted()) {
                             return;
@@ -176,18 +178,18 @@ public class GameData {
 
     public final void setStage3Spawner() throws IOException {
         final Stage3 stage3 = new Stage3();
-        count = 0;
+        countEnemy = 0;
         Stage3Spawner = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (count < 35 && !Thread.interrupted()) {//loop spawns enemies
+                while (countEnemy < MAXENEMY && !Thread.interrupted()) {//loop spawns enemies
                     spawnEnemy();
                     try {
                         Thread.sleep(750);//interval in which enemies are spawned
                     } catch (InterruptedException ex) {
                         return;
                     }
-                    count++;
+                    countEnemy++;
                 }
             }
         });
@@ -226,7 +228,7 @@ public class GameData {
             @Override
             public void run() {
                 spawnBoss();
-                count++;
+                countEnemy++;
             }
         });
         enemySpawner.start();//starts the enemy spawner
@@ -254,7 +256,7 @@ public class GameData {
                             }
                         }
                         try {
-                            Thread.sleep(100);//interval between enemy fire
+                            Thread.sleep(10);//interval between enemy fire
                         } catch (InterruptedException ex) {
                             Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -272,11 +274,11 @@ public class GameData {
         pw.setReleased(true);
         pw.setEnabled(true);
         pw.updateState(1);
-        figures.add(pw);
+        //figures.add(pw);
     }
 
     //@@@@@ not done yet - Please Do Not Remove 
-    private void playerCheck(GameFigure player) { 
+    private void playerCheck(GameFigure player) {
         GameFigure g;
         for (int i = 0; i < figures.size(); i++) {
 
@@ -299,18 +301,17 @@ public class GameData {
                         f.updateState(GameFigure.STATE_DONE);
                         g.Health(1);//subtract 1 from Enemy's health
 
-                        if(g.getState()==GameFigure.STATE_DONE){
+                        if (g.getState() == GameFigure.STATE_DONE) {
                             f.registerObserver(score);//update score upone each enemy destroyed                   
 
                             Random rand = new Random();
                             int r = rand.nextInt(10);
-                            if(r > 1  && r <=4){
-                                addPower(r, (int) f.getXcoor(),(int) f.getYcoor()); // release POWER
-                                f.notifyObservers(5+r);
-                            }
-                            else {
+                            if (r > 1 && r <= 4) {
+                                addPower(r, (int) f.getXcoor(), (int) f.getYcoor()); // release POWER
+                                f.notifyObservers(5 + r);
+                            } else {
                                 f.notifyObservers(5);
-                            }                                                    
+                            }
                         }
                         //System.out.println("Score :  " + score.score);
                     }
@@ -324,18 +325,17 @@ public class GameData {
         synchronized (figures) {
             for (int i = 0; i < figures.size(); i++) {
                 g = figures.get(i);
-                if(!f.equals(g) && g.isPlayer()==0){
-                    if(f.collision().intersects(g.collision())){
-                        if(g.getState()==GameFigure.STATE_TRAVELING){
+                if (!f.equals(g) && g.isPlayer() == 0) {
+                    if (f.collision().intersects(g.collision())) {
+                        if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(1);//subtract 1 from Player's health 
-                        }
-                        else if(g.getState()==GameFigure.SHIELD) {
+                        } else if (g.getState() == GameFigure.SHIELD) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.setState(GameFigure.STATE_TRAVELING);
                             //System.out.println("State ==>  :  " + g.getState());
                         }
-                    }             
+                    }
                 }
             }
         }
@@ -345,36 +345,34 @@ public class GameData {
         synchronized (figures) {
 
             GameFigure g;
-            for(int i=0; i < figures.size(); i++){
+            for (int i = 0; i < figures.size(); i++) {
                 g = figures.get(i);
-                if(!g.equals(f) && g.isPlayer()==0  && f.getState()==GameFigure.STATE_TRAVELING){
-                    if(f.collision().intersects(g.collision())){
-                        
-                        if(f.isMissile()==40){
+                if (!g.equals(f) && g.isPlayer() == 0 && f.getState() == GameFigure.STATE_TRAVELING) {
+                    if (f.collision().intersects(g.collision())) {
+
+                        if (f.isMissile() == 40) {
                             g.setState(GameFigure.SHIELD);
                             f.updateState(GameFigure.STATE_DONE);
-                        }
-                        else if(f.isMissile()==41){
+                        } else if (f.isMissile() == 41) {
                             f.updateState(GameFigure.STATE_DONE);
                             //g.setMissile(11);                                                    
-                        }   
-                        else if(f.isMissile()==42){
+                        } else if (f.isMissile() == 42) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(-1);//subtract 1 from Player's health                            
                         }
-                        
+
                         //f.updateState(GameFigure.STATE_DONE);
-                       // g.Health(-1);//subtract 1 from Player's health
+                        // g.Health(-1);//subtract 1 from Player's health
                         //System.out.println("Collision");
                     }
                 }
             }
         }
 
-  
     }
 
     public void update() {
+        System.out.println("count: " + countEnemy);
         List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
         GameFigure f;
         GameFigure h;
@@ -393,11 +391,9 @@ public class GameData {
 
                 if (f.isMissile() == 0) { // if player's missile
                     playMissileCheck(f);
-                }
-                else if (f.isMissile() == 1) { // if enemy's missile
+                } else if (f.isMissile() == 1) { // if enemy's missile
                     enemMissileCheck(f);
-                }
-                else if (f.isPlayer() == 31) { // if power 
+                } else if (f.isPlayer() == 31) { // if power 
                     powCheck(f);
                 }
                 /*
@@ -428,13 +424,13 @@ public class GameData {
             if (figures.size() > 0 && !this.isStarting) {
                 //check enemy is over then finish
                 if (GameData.phase == PHASE.ONE || GameData.phase == PHASE.TWO) {
-                    if ((enemiesSpawned <= 0) && (count == MAXENEMY)) {
+                    if ((enemiesSpawned <= 0) && (countEnemy == MAXENEMY)) {
                         FINISHED = true;
                         System.out.println("Game end!Player win1");
                     }
                 } else {//phase 3
 
-                    if ((enemiesSpawned <= 0) && (count >= MAXENEMY)) {
+                    if (countEnemy >= MAXENEMY) {
                         if (!isBossCreated) {
                             startSpawnBoss();
                             try {

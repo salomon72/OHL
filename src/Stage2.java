@@ -51,10 +51,10 @@ public class Stage2 implements Stage {
     }
 
     @Override
-    public void resetCount(){
+    public void resetCount() {
         count = 0;
     }
-    
+
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(450);

@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 
-public class PowerUp implements GameFigure { 
-    
+public class PowerUp implements GameFigure {
+
     private Rectangle pRect;
     private boolean enabled = true;
     private int x;
@@ -17,65 +17,61 @@ public class PowerUp implements GameFigure {
     private Color color;
     private int radius;
     private boolean released;
-    
+
     private int dx;
     private int dy;
     private double speed;
     private double rad;
-    
-    private int code =-1; 
-    
-    
-    
-    public PowerUp(int type){      
-        
-        if(type > 1){
+
+    private int code = -1;
+
+    public PowerUp(int type) {
+
+        if (type > 1) {
             enabled = true;
             this.type = type;
-            createPower();            
-        }
-        else 
+            createPower();
+        } else {
             enabled = false;
-        
-        pRect = new Rectangle(x, y, radius, radius);       
+        }
+
+        pRect = new Rectangle(x, y, radius, radius);
     }
-    
-    private void createPower(){ 
-        
-        if(type == 2){ // shield for 1 enemy's missile
+
+    private void createPower() {
+
+        if (type == 2) { // shield for 1 enemy's missile
             speed = 10;
             radius = 10;
             color = Color.ORANGE;
             code = 40;
-        }
-        else if(type == 3){ // 2 missiles @ once
-            
+        } else if (type == 3) { // 2 missiles @ once
+
             speed = 15;
             radius = 15;
             color = Color.BLUE;
             code = 41;
-        }
-        else if(type == 4){ // increase player health
+        } else if (type == 4) { // increase player health
             speed = 20;
             radius = 20;
             color = Color.GREEN;
             code = 42;
         }
         /*
-        else if(type == 5){ // player shield 5 missiles
-            radius = 20;
-            color = Color.BLUE;
-        }
-        */
-        
+         else if(type == 5){ // player shield 5 missiles
+         radius = 20;
+         color = Color.BLUE;
+         }
+         */
+
         speed = 10;
-        double angle = Math.random()*30 + 1;
+        double angle = Math.random() * 30 + 1;
         rad = Math.toRadians(angle);
         dx = (int) (Math.cos(rad) * speed);
         dy = (int) (Math.sin(rad) * speed);
-        
+
     }
-    
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -83,8 +79,7 @@ public class PowerUp implements GameFigure {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
-  
+
     public void setReleased(boolean released) {
         this.released = released;
     }
@@ -92,29 +87,30 @@ public class PowerUp implements GameFigure {
     public boolean isReleased() {
         return released;
     }
-    
-    public void setLocation(int x, int y){
+
+    public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
-        if(pRect != null)
+        if (pRect != null) {
             pRect.setLocation(x, y);
-        
+        }
+
     }
 
     public Rectangle getPower() {
         return pRect;
     }
-    
+
     public void setPower(boolean b) {
-        if(!b){
+        if (!b) {
             pRect = null;
             state = STATE_DONE;
         }
-    }      
+    }
 
     @Override
     public void render(Graphics g) {
-        if(pRect != null && released){
+        if (pRect != null && released) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(color);
             g2d.fillRect(pRect.x, pRect.y, pRect.width, pRect.height);
@@ -127,16 +123,15 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void update() {
-        if(pRect != null || state != STATE_DONE){
+        if (pRect != null || state != STATE_DONE) {
             x += dx;
             y += dy;
-              
+
             // set WIDTH boundaries
             if (x + radius > GamePanel.PWIDTH) {
                 dx = -dx;
                 x = GamePanel.PWIDTH - radius;
-            }
-            else if (x - radius < 0) {
+            } else if (x - radius < 0) {
                 dx = -dx;
                 x = radius;
             }
@@ -144,30 +139,29 @@ public class PowerUp implements GameFigure {
             if (y + radius > GamePanel.PHEIGHT) {
                 dy = -dy;
                 y = GamePanel.PHEIGHT - radius;
-            }
-            else if (y - radius < 0) {
+            } else if (y - radius < 0) {
                 dy = -dy;
                 y = radius;
-            }            
-            pRect.setLocation((int)x-radius,(int)y-radius); // set the possition of the rectangle 
-            //pRect.setSize(2*radius, 2*radius);
-            
-            /*
-            x -= 5;
-            pRect.setLocation(x, y);
-            
-            if (y + radius > GamePanel.PWIDTH) {
-                state = STATE_DONE;
             }
-            */
-        }        
+            pRect.setLocation((int) x - radius, (int) y - radius); // set the possition of the rectangle 
+            //pRect.setSize(2*radius, 2*radius);
+
+            /*
+             x -= 5;
+             pRect.setLocation(x, y);
+            
+             if (y + radius > GamePanel.PWIDTH) {
+             state = STATE_DONE;
+             }
+             */
+        }
     }
 
     @Override
     public int getState() {
-      return state;
+        return state;
     }
-    
+
     @Override
     public void updateState(int state) {
         this.state = state;
@@ -175,14 +169,16 @@ public class PowerUp implements GameFigure {
 
     @Override
     public int isMissile() {
-        if(type > 1)
+        if (type > 1) {
             return code;
-        else
+        } else {
             return -1;
+        }
     }
+
     @Override
     public void setMissile(int m) {
-        
+
     }
 
     @Override
@@ -192,7 +188,7 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void Health(int i) {
-        
+
     }
 
     @Override
@@ -227,22 +223,22 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void notifyObservers(int amount) {
-       return;
+        return;
     }
 
     @Override
     public void setAttributes(Image i, int health) {
-        
+
     }
 
     @Override
     public Rectangle collision() {
         return pRect;
     }
-    
+
     @Override
     public void setState(int s) {
-        
+
     }
 
     @Override

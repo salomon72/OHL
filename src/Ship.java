@@ -21,7 +21,7 @@ public class Ship implements GameFigure {
     int state = STATE_TRAVELING;
     static int health;
     private ArrayList<Observer> observers;
-    
+
     private int missile = -1;
 
     public PHASE getphase() {
@@ -120,7 +120,7 @@ public class Ship implements GameFigure {
     public int isMissile() {
         return missile;
     }
-    
+
     @Override
     public void setMissile(int m) {
         missile = 11;
@@ -184,7 +184,7 @@ public class Ship implements GameFigure {
     public void setY(float y) {
         this.y = y;
     }
-    
+
     @Override
     public void setState(int s) {
         this.state = s;

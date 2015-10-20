@@ -78,7 +78,7 @@ public class Enemy implements GameFigure {
         } else if (type == 1 || type == 4 || type == 3) {
             cando = OPERATION.SWIM;
         }
-        this.setAttributes(i, 5);
+        this.setAttributes(i, 2);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
@@ -224,9 +224,10 @@ public class Enemy implements GameFigure {
     public void updateState(int state) {
         this.state = state;
     }
+
     @Override
     public void setState(int s) {
-        
+
     }
 
     @Override
@@ -304,7 +305,7 @@ public class Enemy implements GameFigure {
 
     @Override
     public void setMissile(int m) {
-        
+
     }
 
 }

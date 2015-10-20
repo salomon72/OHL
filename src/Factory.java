@@ -23,13 +23,13 @@ public class Factory implements GameFigureFactory {
                 Random randomGenerator = new Random();
 
                 int temp = randomGenerator.nextInt(450);
-                type = new Enemy(GamePanel.PWIDTH - 100, temp + 30, 81, 81);
+                type = new Enemy(GamePanel.PWIDTH - 300, temp + 30, 81, 81);
                 return type;
             }
             case "Boss": {
                 Random randomGenerator = new Random();
                 int temp = randomGenerator.nextInt(450);
-                type = new Enemy(GamePanel.PWIDTH - 100, GamePanel.PHEIGHT, 2 * 81, 2 * 81, true);
+                type = new Enemy(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81, true);
                 System.out.println("Boss created");
                 return type;
             }
