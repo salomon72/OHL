@@ -14,6 +14,7 @@ public class Animator implements Runnable {
     boolean running;
     GamePanel gamePanel = null;
     GameData gameData = null;
+    boolean paused = false;
     private int x = 0;
     private int y = 0;
     private final Timer backgroundScrollTimer;
@@ -50,19 +51,31 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running) {
-            gameData.update();
-            try {
-                gamePanel.gameRender(x, y);
-                if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
-                    x = 0;
+            
+            if(!paused){ // implement all methods if & only if the game is not paused. 
+                gameData.update();
+                backgroundScrollTimer.start();
+                planetScaleTimer.start();
+                try {
+                    gamePanel.gameRender(x, y);
+                    if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
+                        x = 0;
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+
+                try {
+                    Thread.sleep(14);
+                    gamePanel.printScreen();
+                } catch (InterruptedException e) {
+
+                }
             }
-            try {
-                Thread.sleep(14);
-                gamePanel.printScreen();
-            } catch (InterruptedException e) {
+            else { // stop timers when the game is paused
+                backgroundScrollTimer.stop();
+                planetScaleTimer.stop();
+                gamePanel.GamePaused();
             }
             if (gameData.FINISHED) {
                 if (this.gameData.getHealth() <= 1) {

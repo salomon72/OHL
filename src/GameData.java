@@ -249,7 +249,7 @@ public class GameData {
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), f.getMyType());
                                 //System.out.println(f.getType());
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                ThreadPlayer.play(missilelaunch);
+                                //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -414,7 +414,7 @@ public class GameData {
 
             score.health = figures.get(0).get();
             if (score.health <= 0) {
-                ThreadPlayer.play(this.explosion);
+                //ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 System.out.println("Game end!Player health empty");
             }

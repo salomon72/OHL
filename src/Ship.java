@@ -23,6 +23,8 @@ public class Ship implements GameFigure {
     private ArrayList<Observer> observers;
 
     private int missile = -1;
+    private boolean blinking;
+    private long blinkTimer;
 
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
@@ -80,13 +82,23 @@ public class Ship implements GameFigure {
 
     @Override
     public void render(Graphics g) {
+        if(blinking){
+            long elapsed = (System.nanoTime() - blinkTimer) / 1000000;
+            if(elapsed / 100%2 ==0)   return;
+        }
         g.drawImage(playerImage, (int) x, (int) y, null);
     }
 
     @Override
     public void update() {
+        
+        if(blinking){ 
+            long elapsed = (System.nanoTime() - blinkTimer)/1000000;
+            if(elapsed > 1000){
+                blinking = false;
+            }
+        }
         // set boundaries of the ship (player):
-
         // on X axis
         if (x < GamePanel.WIDTH) {
             x = GamePanel.WIDTH;
@@ -138,9 +150,15 @@ public class Ship implements GameFigure {
 
     @Override
     public void Health(int i) {
+        if(blinking)    return; // don't do anything if blinking     
         health -= i;
         if (health == 0) {
-            state = 0;
+            state = GameFigure.STATE_DONE;;
+        }
+        
+        if( i > 0){
+            blinking = true;
+            blinkTimer = System.nanoTime();
         }
     }
 
