@@ -51,7 +51,6 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running) {
-            
             if(!paused){ // implement all methods if & only if the game is not paused. 
                 gameData.update();
                 backgroundScrollTimer.start();
@@ -69,21 +68,34 @@ public class Animator implements Runnable {
                     Thread.sleep(14);
                     gamePanel.printScreen();
                 } catch (InterruptedException e) {
-
-                }
-            }
+                    
+                }}
             else { // stop timers when the game is paused
                 backgroundScrollTimer.stop();
                 planetScaleTimer.stop();
-                gamePanel.GamePaused();
-            }
+                gamePanel.GamePaused();}
             if (gameData.FINISHED) {
-                if (this.gameData.getHealth() <= 1) {
-                    gamePanel.gameOver();
+                if (Ship.health <= 1) {
+                    try {
+                        gamePanel.gameOver();
+                        gameData.FINISHED = false;
+                        Ship.health = 5;
+                    } catch (IOException ex) {
+                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
-                    gamePanel.gameWin();
+                    try {
+                        gamePanel.gameWin();
+                        if(!gameData.gameEnd){
+                            gameData.FINISHED = false;
+                        }
+                        else{
+                            running = false;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-                running = false;
             }
         }
         System.exit(0);

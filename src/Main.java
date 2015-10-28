@@ -1,5 +1,3 @@
-//hi
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -53,7 +51,7 @@ public class Main extends JFrame
     private TimerTask task;
 
     public Main() throws IOException {
-        setSize(1275, 610);//size of initial window
+        setSize(1275, 665);//size of initial window
         setLocation(50, 100);//location of initial window
         setTitle("Galileo!!");//title of the initial window
         GameData.setphase(PHASE.ONE);
