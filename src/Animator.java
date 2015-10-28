@@ -65,12 +65,27 @@ public class Animator implements Runnable {
             } catch (InterruptedException e) {
             }
             if (gameData.FINISHED) {
-                if (this.gameData.getHealth() <= 1) {
-                    gamePanel.gameOver();
+                if (Ship.health <= 1) {
+                    try {
+                        gamePanel.gameOver();
+                        gameData.FINISHED = false;
+                        Ship.health = 5;
+                    } catch (IOException ex) {
+                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
-                    gamePanel.gameWin();
+                    try {
+                        gamePanel.gameWin();
+                        if(!gameData.gameEnd){
+                            gameData.FINISHED = false;
+                        }
+                        else{
+                            running = false;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-                running = false;
             }
         }
         System.exit(0);

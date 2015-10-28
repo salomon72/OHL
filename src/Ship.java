@@ -88,21 +88,21 @@ public class Ship implements GameFigure {
         // set boundaries of the ship (player):
 
         // on X axis
-        if (x < GamePanel.WIDTH) {
-            x = GamePanel.WIDTH;
+        if (x <= GamePanel.WIDTH - playerImage.getWidth(null)/2) {
+        x = GamePanel.WIDTH - playerImage.getWidth(null)/2;
         }
-
-        if (x > GamePanel.PWIDTH - playerImage.getWidth(null)) {
-            x = GamePanel.PWIDTH - playerImage.getWidth(null);
+        
+        if (x > GamePanel.PWIDTH + playerImage.getWidth(null)/2) {
+        x = GamePanel.PWIDTH + playerImage.getWidth(null)/2;
         }
-
+        
         // on Y axis
-        if (y < GamePanel.HEIGHT) {
-            y = GamePanel.HEIGHT;
+        if (y < GamePanel.HEIGHT - playerImage.getHeight(null)/2) {
+        y = GamePanel.HEIGHT - playerImage.getHeight(null)/2;
         }
-
-        if (y > GamePanel.PHEIGHT - playerImage.getHeight(null)) {
-            y = GamePanel.PHEIGHT - playerImage.getHeight(null);
+        
+        if (y > GamePanel.PHEIGHT - playerImage.getHeight(null)/2) {
+        y = GamePanel.PHEIGHT - playerImage.getHeight(null)/2;
         }
     }
 
@@ -113,7 +113,8 @@ public class Ship implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        return new Rectangle((int) x, (int) y, 40, 47);
+        return new Rectangle((int) x, (int) y + playerImage.getHeight(null)/5, 
+                playerImage.getWidth(null), playerImage.getHeight(null)/2);
     }
 
     @Override

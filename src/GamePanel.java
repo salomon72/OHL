@@ -183,13 +183,14 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void gameOver() {//game over function
+    public void gameOver() throws IOException {//game over function
         Graphics g;
         int score = gameData.score.score;//collect score from observers
         try {
             g = this.getGraphics();
             Font font = new Font("Impact", Font.BOLD, 40);//font of displayed score
             String text = "Your final score was: " + score;//text of displated score
+            String tryAgain = "You have failed! Try again!";
             Color textColor = Color.WHITE; //color of score text
             g.setFont(font);
             g.setColor(textColor);
@@ -197,31 +198,63 @@ public class GamePanel extends JPanel {
                 g.drawImage(gameOver, 0, 0, null);
                 g.drawString(text, 50, 50);
             }
-            Thread.sleep(7000);//after sleep, game exits
+            if (nextStage == 1) {
+                g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                Thread.sleep(4000);
+                stageChange = true;
+                gameData.setStateChanged(1);
+            } else if (nextStage == 2) {
+                g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                Thread.sleep(4000);
+                stageChange = true;
+                gameData.setStateChanged(2);
+            } else if (nextStage == 3) {
+                g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                Thread.sleep(4000);
+                stageChange = true;
+                gameData.setStateChanged(3);
+            }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
-            g.dispose();
         } catch (InterruptedException e) {
             System.out.println("Graphics error2: " + e);
         }
     }
 
-    public void gameWin() {//game over function
+    public void gameWin() throws IOException {//game over function
         Graphics g;
         int score = gameData.score.score;//collect score from observers
         try {
             g = this.getGraphics();
             Font font = new Font("Impact", Font.BOLD, 40);//font of displayed score
-            String text = "Your final score was: " + score;//text of displated score
+            String text = "Your score is: " + score;//text of score
+            String stageText = "Moving to Next Stage...";
+            String endText = "You have completed the game!";
             Color textColor = Color.WHITE; //color of score text
             g.setFont(font);
             g.setColor(textColor);
-            if (gamewin != null) {//drawns the gave over image and displays the text
+            if (gamewin != null) {
                 g.drawImage(gamewin, 0, 0, null);
                 g.drawString(text, 50, 50);
             }
-            Thread.sleep(7000);//after sleep, game exits
+
+            if (nextStage == 1) {
+                g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                Thread.sleep(4000);
+                nextStage = 2;
+                stageChange = true;
+                gameData.setStateChanged(2);
+            } else if (nextStage == 2) {
+                g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                Thread.sleep(4000);
+                nextStage = 3;
+                stageChange = true;
+                gameData.setStateChanged(3); 
+            } else if (nextStage == 3) {
+                g.drawString(endText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                Thread.sleep(4000);
+                g.dispose();
+            }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
-            g.dispose();
         } catch (InterruptedException e) {
             System.out.println("Graphics error2: " + e);
         }
