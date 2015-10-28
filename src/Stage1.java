@@ -30,7 +30,7 @@ public class Stage1 implements Stage {
     }
 
     public Enemy getEnemy1() {
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 0 + count * 75, 81, 81) {
+        Enemy enemy = new Enemy(1300, 0 + count * 75, 81, 81) {
             private int count = 0;
             private boolean reverse = false;
 
@@ -47,7 +47,7 @@ public class Stage1 implements Stage {
                 } else if (!reverse) {
                     this.y += 1;
                 }
-                if (this.y >= GamePanel.PHEIGHT - enemyImage.getHeight(null)) {
+                if (this.y >= 455) {
                     reverse = true;
                 }
                 if (this.y <= 0) {
@@ -62,7 +62,7 @@ public class Stage1 implements Stage {
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(450);
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81) {
             @Override
             public void update() {
                 this.x -= 2;
@@ -72,7 +72,7 @@ public class Stage1 implements Stage {
     }
 
     public Enemy getEnemy3() {
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 0 + count * 60, 81, 81) {
+        Enemy enemy = new Enemy(1300, 0 + count * 60, 81, 81) {
             private int count = 0;
 
             @Override
@@ -88,7 +88,7 @@ public class Stage1 implements Stage {
     }
 
     public Enemy getEnemy4() {
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 0 + count * 75, 81, 81) {
+        Enemy enemy = new Enemy(1300, 0 + count * 75, 81, 81) {
             private int count = 0;
             private boolean reverse = false;
 
@@ -105,7 +105,7 @@ public class Stage1 implements Stage {
                 } else if (!reverse) {
                     this.y += 1;
                 }
-                if (this.y >= GamePanel.PHEIGHT - enemyImage.getHeight(null)) {
+                if (this.y >= 455) {
                     reverse = true;
                 }
                 if (this.y <= 0) {

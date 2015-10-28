@@ -40,7 +40,7 @@ public class TutorialMissile extends Ellipse2D.Float implements TutorialGameFigu
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
     Image missileImage = getImage(imagePath + separator + "images" + separator
-            + "missile.png");//use 1 onley
+            + "missile0.png");//use 1 onley
 
     public TutorialMissile(float x, float y, int type) {
         setFrameFromCenter(x, y, x, y);

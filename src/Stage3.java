@@ -1,5 +1,4 @@
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +10,6 @@ public class Stage3 implements Stage {
     private final BufferedImage backgroundImage;
     private final int backgroundWidth;
     private int count = 0;
-    private final Image groundEnemy;
-    private final Image airEnemy;
-    private final Image airEnemy2;
 
     public Stage3() throws IOException {
         String imagePath = System.getProperty("user.dir");
@@ -21,29 +17,35 @@ public class Stage3 implements Stage {
         File file = new File(imagePath + separator + "images" + separator //load
                 + "Stage3Background.gif");
         backgroundImage = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
-                + "enemy5.png");
-        airEnemy = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
-                + "enemy6.png");
-        airEnemy2 = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
-                + "enemy4.png");
-        groundEnemy = ImageIO.read(file);
         backgroundWidth = backgroundImage.getWidth(null);
     }
 
     public Enemy getEnemy1() {
-        Random randomGenerator = new Random();
-        int temp = randomGenerator.nextInt(400) + 10;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81){
+        Enemy enemy = new Enemy(1300, 0 + count * 75, 81, 81) {
+            private int count = 0;
+            private boolean reverse = false;
+
             @Override
-            public void update(){
-                this.x -= 1;
+            public void update() {
+                count++;
+                if (count <= 80) {
+                    this.x -= 3;
+                } else if (count >= 80 && count <= 120) {
+                    this.x -= 2;
+                    this.y += 1;
+                } else if (reverse) {
+                    this.y -= 1;
+                } else if (!reverse) {
+                    this.y += 1;
+                }
+                if (this.y >= 455) {
+                    reverse = true;
+                }
+                if (this.y <= 0) {
+                    reverse = false;
+                }
             }
         };
-        enemy.enemyImage = airEnemy;
-        enemy.type = 5;
         count++;
         return enemy;
     }
@@ -55,29 +57,24 @@ public class Stage3 implements Stage {
 
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();
-        int temp = randomGenerator.nextInt(75) + 430;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 300, temp, 81, 81){
-            @Override
-            public void update(){
-                this.x -= 1;
-            }
-        };
-        enemy.enemyImage = groundEnemy;
-        enemy.type = 4;
+        int temp = randomGenerator.nextInt(450);
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81);
         return enemy;
     }
 
     public Enemy getEnemy3() {
-        Random randomGenerator = new Random();
-        int temp = randomGenerator.nextInt(400) + 10;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81){
+        Enemy enemy = new Enemy(1300, 0 + count * 4, 81, 81) {
+            private int count = 0;
+
             @Override
-            public void update(){
-                this.x -= 1;
+            public void update() {
+                count++;
+                if (count >= 0) {
+                    this.x -= 1;
+                }
             }
         };
-        enemy.enemyImage = airEnemy2;
-        enemy.type = 6;
+        count++;
         return enemy;
     }
 
