@@ -197,13 +197,19 @@ public class Main extends JFrame
     //below are all of the different keyboard and action events, some are filled some are not
     @Override
     public void mousePressed(MouseEvent me) {
-        timer = new Timer();
-        task = new FireTimerTask();
-        timer.scheduleAtFixedRate(task, 0, 90);
+        if(!animator.paused){
+            timer = new Timer();
+            task = new FireTimerTask();
+            timer.scheduleAtFixedRate(task, 0, 90);
+        }
+        
     }
 
     @Override
-    public void keyPressed(KeyEvent ke) {//changes player ship position and fires based on key pressed
+    public void keyPressed(KeyEvent ke) {//changes player ship position and fires based on key pressed    
+        if(ke.getKeyCode()==KeyEvent.VK_P)
+            animator.paused = !animator.paused;
+        
         // spaceship fires whenever the default key for shooting
         // has been changed by the player.
         if (ke.getKeyChar() == key) {
@@ -215,58 +221,60 @@ public class Main extends JFrame
                 }
             }
         }
-
-        switch (ke.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                if (!playerShip.mouseable) {
-                    playerShip.y -= 25;
-                }
-                break;
-            case KeyEvent.VK_DOWN:
-                if (!playerShip.mouseable) {
-                    playerShip.y += 25;
-                }
-                break;
-            case KeyEvent.VK_LEFT:
-                if (!playerShip.mouseable) {
-                    playerShip.x -= 25;
-                }
-                break;
-            case KeyEvent.VK_RIGHT:
-                if (!playerShip.mouseable) {
-                    playerShip.x += 25;
-                }
-                break;
-            case KeyEvent.VK_M: // activate or de-activate mouse control
-                playerShip.mouseable = !playerShip.mouseable;
-
-                // Notify the user about the changes%%
-                if (!playerShip.mouseable) {
-                    text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
-                    showMouse();
-                } else {
-                    text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
-                    hideMouse();
-                }
-                break;
-            case KeyEvent.VK_SPACE:
-                if (!playerShip.mouseable) { // == false. meaning not mouseable
-                    if (System.currentTimeMillis() - playerMissle < firingInterval) {
-                        break;
+        
+        if(!animator.paused){
+            switch (ke.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                    if (!playerShip.mouseable) {
+                        playerShip.y -= 25;
                     }
-                    playerMissle = System.currentTimeMillis();
-                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
-                    synchronized (gameData.figures) {
-                        gameData.figures.add(f);
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (!playerShip.mouseable) {
+                        playerShip.y += 25;
                     }
-                }
-                break;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    if (!playerShip.mouseable) {
+                        playerShip.x -= 25;
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (!playerShip.mouseable) {
+                        playerShip.x += 25;
+                    }
+                    break;
+                case KeyEvent.VK_M: // activate or de-activate mouse control
+                    playerShip.mouseable = !playerShip.mouseable;
+
+                    // Notify the user about the changes%%
+                    if (!playerShip.mouseable) {
+                        text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
+                        showMouse();
+                    } else {
+                        text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
+                        hideMouse();
+                    }
+                    break;
+                case KeyEvent.VK_SPACE:
+                    if (!playerShip.mouseable) { // == false. meaning not mouseable
+                        if (System.currentTimeMillis() - playerMissle < firingInterval) {
+                            break;
+                        }
+                        playerMissle = System.currentTimeMillis();
+                        Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+                        synchronized (gameData.figures) {
+                            gameData.figures.add(f);
+                        }
+                    }
+                    break;
+            }
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent me) { //fires a missle from the player on a normal mouse click
-        if (playerShip.mouseable) { // == true.        
+        if (playerShip.mouseable && !animator.paused) { // == true.        
             if (System.currentTimeMillis() - playerMissle < firingInterval) {
                 return;
             }
@@ -280,7 +288,8 @@ public class Main extends JFrame
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        timer.cancel();
+        if(!animator.paused)
+            timer.cancel();
     }
 
     @Override
@@ -301,7 +310,7 @@ public class Main extends JFrame
 
     @Override
     public void mouseDragged(MouseEvent e) {//fires missles from the player as long as the player clicks and drags, also updates position
-        if (playerShip.mouseable) { // == true
+        if (playerShip.mouseable && !animator.paused) { // == true
             playerShip.x = e.getX();
             playerShip.y = e.getY();
         }
@@ -311,8 +320,7 @@ public class Main extends JFrame
     public void mouseMoved(MouseEvent e) {//updates position based on mouse
         if (gamePanel.running) { // == true. When player start Game; meaning player click on start Button.           
 
-            if (playerShip.mouseable) { // == true
-
+            if (playerShip.mouseable && !animator.paused) {
                 playerShip.x = e.getX();
                 playerShip.y = e.getY();
 

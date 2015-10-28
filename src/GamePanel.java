@@ -30,6 +30,7 @@ public class GamePanel extends JPanel {
     private final Image gameOver;//image to display upon game over
     private HealthBar health;
     private final Image gamewin;
+    private final Image gamePaused;
 
     private BufferedImage backgroundImage;//image for the background of the game
     private BufferedImage planetImage;//test planet image
@@ -55,6 +56,8 @@ public class GamePanel extends JPanel {
                 + "gameover.gif");
         gamewin = getImage(imagePath + separator + "images" + separator //load game over screen from image file
                 + "win.gif");
+        gamePaused = getImage(imagePath + separator + "images" + separator //load game over screen from image file
+                + "pause.jpg");
         setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
         collectFromStage();
@@ -257,6 +260,18 @@ public class GamePanel extends JPanel {
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
         } catch (InterruptedException e) {
             System.out.println("Graphics error2: " + e);
+        }
+    }
+    
+    public void GamePaused(){
+        Graphics g;
+        g = this.getGraphics();
+        Font font = new Font("Impact", Font.BOLD, 40);//font of displayed score
+        Color textColor = Color.DARK_GRAY; //color of score text
+        g.setFont(font);
+        g.setColor(textColor);
+        if (gamePaused != null) {//drawns the gave over image and displays the text
+            g.drawImage(gamePaused, 0, 0, null);
         }
     }
 
