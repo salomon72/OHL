@@ -39,7 +39,7 @@ public class Animator implements Runnable {
         };
         backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
         planetScaleTimer = new Timer(100, planetScale);
-       
+
     }
 
     public void setGamePanel(GamePanel gamePanel) {
@@ -56,29 +56,65 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running) {
-            if(!paused || !cutsceneRunning){ // implement all methods if & only if the game is not paused. 
-                gameData.update();
-                backgroundScrollTimer.start();
-                planetScaleTimer.start();
-                try {
-                    gamePanel.gameRender(x, y);
-                    if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
-                        x = 0;
+            if (!paused) { // implement all methods if & only if the game is not paused. 
+                if (!cutsceneRunning) {
+                    gameData.update();
+                    backgroundScrollTimer.start();
+                    planetScaleTimer.start();
+                    try {
+                        gamePanel.gameRender(x, y);
+                        if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
+                            x = 0;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                try {
-                    Thread.sleep(14);
-                    gamePanel.printScreen();
-                } catch (InterruptedException e) {
-                    
-                }}
-            else { // stop timers when the game is paused
+                    try {
+                        Thread.sleep(14);
+                        gamePanel.printScreen();
+                    } catch (InterruptedException e) {
+
+                    }
+                } else {
+                    if (!endcutscene) {
+                    try {
+                        backgroundScrollTimer.stop();
+                        planetScaleTimer.stop();
+                        x = 0;
+                        gameData.update();
+                        gamePanel.gameRender(x, y);
+                        try {
+                            Thread.sleep(14);
+                            gamePanel.printScreen();
+                        } catch (InterruptedException e) {
+                            
+                        }
+                        //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+                        
+                        //planetScaleTimer = new Timer(100, planetScale);
+                        //cutsceneRunning = false;
+                    } catch (IOException ex) {
+                            Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                    //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+
+                        //planetScaleTimer = new Timer(100, planetScale);
+                        //cutsceneRunning = false;
+                    } else {
+                        //cutsceneRunning = false;
+                        endcutscene = true;
+                        cutsceneRunning = false;
+                        //backgroundScrollTimer = new Timer(30, backgroundRender);
+                        backgroundScrollTimer.start();
+                    }
+                }
+            } else { // stop timers when the game is paused
                 backgroundScrollTimer.stop();
                 planetScaleTimer.stop();
-                gamePanel.GamePaused();}
+                gamePanel.GamePaused();
+            }
             if (gameData.FINISHED) {
                 if (Ship.health <= 1) {
                     try {
@@ -91,58 +127,22 @@ public class Animator implements Runnable {
                 } else {
                     try {
                         gamePanel.gameWin();
-                        if(!gameData.gameEnd){
+                        if (!gameData.gameEnd) {
                             gameData.FINISHED = false;
-                        }
-                        else{
+                        } else {
                             running = false;
                         }
-            else{
-                if(!endcutscene){
-                    backgroundScrollTimer.stop();
-                    planetScaleTimer.stop();
-                    x = 0;
-                    //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
-                  
-                    //planetScaleTimer = new Timer(100, planetScale);
-                    cutsceneRunning = false;
-                }else{
-                    //cutsceneRunning = false;
-                    endcutscene = true;
-                    //backgroundScrollTimer = new Timer(30, backgroundRender);
-                    backgroundScrollTimer.start();
-                }
-            }
-            
-            if (gameData.FINISHED) {
-                if (this.gameData.getHealth() < 1) {
-                    gamePanel.gameOver();
-                } else {
-                    try {
-                        gamePanel.gameWin();
                     } catch (IOException ex) {
                         Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
-            
-              /* while(cutsceneRunning){
-                     backgroundScrollTimer.stop();
-                     planetScaleTimer.stop();
-                     try {
-                            gamePanel.gameRender(x, y);
-                            
-                     } catch (IOException ex) {
-                             Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
-                     }
-                    
-                }*/
         }
-       
+
         System.exit(0);
     }
-    
-    public void startTimer(){
+
+    public void startTimer() {
         backgroundScrollTimer.start();
     }
 }

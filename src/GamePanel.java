@@ -92,12 +92,6 @@ public class GamePanel extends JPanel {
         
     }
     
-    public void startCutscene(){
-        Animator.cutsceneRunning = true;
-        Thread e = new Thread(animator);
-        e.start();
-        
-    }
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
@@ -155,17 +149,15 @@ public class GamePanel extends JPanel {
                // planetImage = new BufferedImage(1, 1, 1);
                 currentCutscene = new Cutscene1();
                 currentStage = new Stage2();
-                collectFromStage();
                 collectFromCutscenes();
-                startCutscene();
+                Animator.cutsceneRunning = true;
                 
             }
             if(nextCutscene == 2){
                 currentCutscene = new Cutscene2();
                 currentStage = new Stage3();
-                collectFromStage();
                 collectFromCutscenes();
-                startCutscene();
+                Animator.cutsceneRunning = true;
             }
             cutsceneChange = false;
         }
@@ -252,17 +244,17 @@ public class GamePanel extends JPanel {
                 g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 stageChange = true;
-                gameData.setStateChanged(1);
+                gameData.setStateChanged(1, false);
             } else if (nextStage == 2) {
                 g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 stageChange = true;
-                gameData.setStateChanged(2);
+                gameData.setStateChanged(2, false);
             } else if (nextStage == 3) {
                 g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 stageChange = true;
-                gameData.setStateChanged(3);
+                gameData.setStateChanged(3, false);
             }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
         } catch (InterruptedException e) {
@@ -286,58 +278,28 @@ public class GamePanel extends JPanel {
                 g.drawImage(gamewin, 0, 0, null);
                 g.drawString(text, 50, 50);
             }
-<<<<<<< Updated upstream
 
             if (nextStage == 1) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 nextStage = 2;
                 stageChange = true;
-                gameData.setStateChanged(2);
+                gameData.setStateChanged(2, false);
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 nextStage = 3;
                 stageChange = true;
-                gameData.setStateChanged(3); 
+                gameData.setStateChanged(3, false); 
             } else if (nextStage == 3) {
                 g.drawString(endText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 g.dispose();
             }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
-=======
-            Thread.sleep(2000);//after sleep, game exits
-            Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
-            if (nextStage == 1) {
-                nextStage = 2;
-                stageChange = true;
-                if(nextCutscene == 1){
-                currentCutscene = new Cutscene1();
-                
-                collectFromCutscenes();
-            }
-                gameData.setStateChanged(2, false);
-            }
-
-            else if (nextStage == 2) {
-                nextStage = 3;
-                stageChange = true;
-                if(nextCutscene == 2){
-                    currentCutscene = new Cutscene2();
-                    collectFromCutscenes();
-                }
-                gameData.setStateChanged(3, false);
-            }
-
-            else if (nextStage == 3) {
-                g.dispose();
-            }
->>>>>>> Stashed changes
         } catch (InterruptedException e) {
             System.out.println("Graphics error2: " + e);
         }
-
     }
     
     public void GamePaused(){
