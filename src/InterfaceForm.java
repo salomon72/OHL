@@ -46,7 +46,7 @@ public class InterfaceForm extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("MENU");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(250, 10, 37, 18);
+        jLabel1.setBounds(150, 20, 40, 16);
 
         B_START.setBackground(new java.awt.Color(204, 204, 0));
         B_START.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -57,7 +57,7 @@ public class InterfaceForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_START);
-        B_START.setBounds(20, 40, 90, 25);
+        B_START.setBounds(20, 40, 90, 29);
 
         B_HELP.setBackground(new java.awt.Color(204, 204, 0));
         B_HELP.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -68,7 +68,7 @@ public class InterfaceForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_HELP);
-        B_HELP.setBounds(20, 80, 90, 25);
+        B_HELP.setBounds(20, 80, 90, 29);
 
         B_QUIT.setBackground(new java.awt.Color(204, 204, 0));
         B_QUIT.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -79,7 +79,7 @@ public class InterfaceForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(B_QUIT);
-        B_QUIT.setBounds(20, 120, 90, 25);
+        B_QUIT.setBounds(20, 120, 90, 29);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stage1Background.gif"))); // NOI18N
         jLabel2.setText("jLabel2");

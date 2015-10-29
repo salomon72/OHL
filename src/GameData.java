@@ -45,6 +45,8 @@ public class GameData {
     public Thread Stage1Spawner;
     public Thread Stage2Spawner;
     public Thread Stage3Spawner;
+    public Thread Cutscene1Spawner;
+    public Thread Cutscene2Spawner;
 
     public GameData() throws IOException {
 
@@ -59,7 +61,7 @@ public class GameData {
         startFiring();//thread that has enemies fire
     }
 
-    public void setStateChanged(int stage) throws IOException, InterruptedException {
+    public void setStateChanged(int stage, boolean cutscene) throws IOException, InterruptedException {
         Stage1Spawner.interrupt();
         Stage2Spawner.interrupt();
         Stage3Spawner.interrupt();
@@ -70,11 +72,17 @@ public class GameData {
             startFiring();
         } else if (stage == 2) {
             setStage2Spawner();
-            Stage2Spawner.start();
-        } else {
-            phase = PHASE.THREE;
+            if(!cutscene){
+                Stage2Spawner.start();
+            }
+           
+            
+        } else if(stage == 3) {
+            //phase = PHASE.THREE;
             setStage3Spawner();
-            Stage3Spawner.start();
+            if(!cutscene){
+                Stage3Spawner.start();
+            }
         }
     }
 

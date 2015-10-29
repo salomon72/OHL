@@ -12,22 +12,26 @@ import javax.swing.Timer;
 public class Animator implements Runnable {
 
     boolean running;
+    static boolean cutsceneRunning = false;
+    static boolean endcutscene = false;
     GamePanel gamePanel = null;
     GameData gameData = null;
     boolean paused = false;
     private int x = 0;
     private int y = 0;
-    private final Timer backgroundScrollTimer;
-    private final Timer planetScaleTimer;
+    public Timer backgroundScrollTimer; //private
+    public Timer planetScaleTimer; //private
+    ActionListener backgroundRender;
+    ActionListener planetScale;
 
     public Animator() {
-        ActionListener backgroundRender = new ActionListener() { //scrolling background
+        backgroundRender = new ActionListener() { //scrolling background
             @Override
             public void actionPerformed(ActionEvent e) {
                 x -= 1;
             }
         };
-        ActionListener planetScale = new ActionListener() { //scrolling background
+        planetScale = new ActionListener() { //scrolling background
             @Override
             public void actionPerformed(ActionEvent e) {
                 gamePanel.transformPlanet();
@@ -35,6 +39,7 @@ public class Animator implements Runnable {
         };
         backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
         planetScaleTimer = new Timer(100, planetScale);
+       
     }
 
     public void setGamePanel(GamePanel gamePanel) {
@@ -51,7 +56,7 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running) {
-            if(!paused){ // implement all methods if & only if the game is not paused. 
+            if(!paused || !cutsceneRunning){ // implement all methods if & only if the game is not paused. 
                 gameData.update();
                 backgroundScrollTimer.start();
                 planetScaleTimer.start();
@@ -92,12 +97,52 @@ public class Animator implements Runnable {
                         else{
                             running = false;
                         }
+            else{
+                if(!endcutscene){
+                    backgroundScrollTimer.stop();
+                    planetScaleTimer.stop();
+                    x = 0;
+                    //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+                  
+                    //planetScaleTimer = new Timer(100, planetScale);
+                    cutsceneRunning = false;
+                }else{
+                    //cutsceneRunning = false;
+                    endcutscene = true;
+                    //backgroundScrollTimer = new Timer(30, backgroundRender);
+                    backgroundScrollTimer.start();
+                }
+            }
+            
+            if (gameData.FINISHED) {
+                if (this.gameData.getHealth() < 1) {
+                    gamePanel.gameOver();
+                } else {
+                    try {
+                        gamePanel.gameWin();
                     } catch (IOException ex) {
                         Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
+            
+              /* while(cutsceneRunning){
+                     backgroundScrollTimer.stop();
+                     planetScaleTimer.stop();
+                     try {
+                            gamePanel.gameRender(x, y);
+                            
+                     } catch (IOException ex) {
+                             Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                    
+                }*/
         }
+       
         System.exit(0);
+    }
+    
+    public void startTimer(){
+        backgroundScrollTimer.start();
     }
 }
