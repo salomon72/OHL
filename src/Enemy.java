@@ -119,24 +119,6 @@ public class Enemy implements GameFigure {
 
     }
 
-    Enemy(float x, float y, int height, int weight, boolean isBoss) {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-        Image i = null;
-        phase = GameData.getphase();
-        i = getImage(imagePath + separator + "images" + separator + "enemy7.png");
-
-        cando = OPERATION.ALL;
-        type = 7;
-        this.setAttributes(i, GameData.MAXHEALTH * 4);
-        this.observers = new ArrayList<>();
-        this.x = x;
-        this.y = y;
-        w = weight;
-        h = height;
-        power = new PowerUp(3);
-    }
-
     public static Image getImage(String fileName) {
         Image image = null;
         try {
@@ -163,11 +145,18 @@ public class Enemy implements GameFigure {
     public void update() {
         Random rand = new Random();
         int dx = rand.nextInt(3) - 1;
-        // move randomly in 4 direction
-        this.x += 2 * dx;
-
         int dy = rand.nextInt(3) - 1;
-        this.y += 2 * dy;
+        if(this.type == 7)//boss
+        {
+         this.x +=  2 * dx;
+         this.y += 8 * dy;
+        }
+        else{//normal
+         this.x += 2 * dx;
+         this.y += 2 * dy;
+        }
+        // move randomly in 4 direction
+       
         if (GameData.getphase() == PHASE.TWO) {
             if (this.canDo() == OPERATION.SWIM) {
                 if (this.y < SPACE + MARGIN) {
@@ -197,6 +186,13 @@ public class Enemy implements GameFigure {
                 if (this.y > GROUND - MARGIN) {
                     this.y = GROUND - MARGIN;
                 }
+            }else{//all
+                 if (y <= GameData.MINHEIGHT) {
+                 y = GameData.MINHEIGHT;
+                 }
+                 if (y > GameData.MAXHEIGHT) {
+                    y = GameData.MAXHEIGHT;
+                  }
             }
         } else {
             // System.out.println("xxxxxx:"+x);
