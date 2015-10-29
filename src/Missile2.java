@@ -79,11 +79,11 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     @Override
     public void update() {
-        if(this.type == 7)
-        {
-            x -= 3*UNIT_TRAVEL_DISTANCE;//speed up for boss
+        if (this.type == 7) {
+            x -= 3 * UNIT_TRAVEL_DISTANCE;//speed up for boss
+        } else {
+            x -= UNIT_TRAVEL_DISTANCE;
         }
-        else  x -= UNIT_TRAVEL_DISTANCE;
     }
 
     public void updateState() {
@@ -103,13 +103,12 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        if(this.type == 7)
-        {
+        if (this.type == 7) {
             //System.out.println("type:"+type);
-        return new Rectangle((int) x, (int) y-17, 70, 81);
+            return new Rectangle((int) x, (int) y - 17, 70, 81);
+        } else {
+            return new Rectangle((int) x, (int) y, 23, 17);
         }
-        else
-        return new Rectangle((int) x, (int) y, 23, 17);
     }
 
     @Override

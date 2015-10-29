@@ -95,7 +95,7 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
 
     @Override
     public Rectangle collision() {
-      // System.out.println("missle:y:"+y+",y+17:"+y+17);
+        // System.out.println("missle:y:"+y+",y+17:"+y+17);
         return new Rectangle((int) x, (int) y, 23, 17);
     }
 

@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -205,7 +206,7 @@ public class Main extends JFrame
             }
         }
 
-        if (ae.getSource() == cutscene1test) {  
+        if (ae.getSource() == cutscene1test) {
             try {
                 animator.gamePanel.setNextCutscene(1);
                 animator.gamePanel.setCutsceneChange(true);
@@ -220,10 +221,10 @@ public class Main extends JFrame
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
-        if (ae.getSource() == cutscene2test){
+
+        if (ae.getSource() == cutscene2test) {
             try {
                 animator.gamePanel.setNextCutscene(2);
                 animator.gamePanel.setCutsceneChange(true);
@@ -238,8 +239,8 @@ public class Main extends JFrame
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-        //END TEMPORARY BUTTON LISTENERS
-    }
+            //END TEMPORARY BUTTON LISTENERS
+        }
     }
 
     private class FireTimerTask extends TimerTask {
@@ -257,19 +258,20 @@ public class Main extends JFrame
     //below are all of the different keyboard and action events, some are filled some are not
     @Override
     public void mousePressed(MouseEvent me) {
-        if(!animator.paused){
+        if (!animator.paused) {
             timer = new Timer();
             task = new FireTimerTask();
             timer.scheduleAtFixedRate(task, 0, 90);
         }
-        
+
     }
 
     @Override
     public void keyPressed(KeyEvent ke) {//changes player ship position and fires based on key pressed    
-        if(ke.getKeyCode()==KeyEvent.VK_P)
+        if (ke.getKeyCode() == KeyEvent.VK_P) {
             animator.paused = !animator.paused;
-        
+        }
+
         // spaceship fires whenever the default key for shooting
         // has been changed by the player.
         if (ke.getKeyChar() == key) {
@@ -281,8 +283,8 @@ public class Main extends JFrame
                 }
             }
         }
-        
-        if(!animator.paused){
+
+        if (!animator.paused) {
             switch (ke.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (!playerShip.mouseable) {
@@ -348,8 +350,9 @@ public class Main extends JFrame
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        if(!animator.paused)
+        if (!animator.paused) {
             timer.cancel();
+        }
     }
 
     @Override

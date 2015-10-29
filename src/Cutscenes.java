@@ -6,17 +6,14 @@ import java.awt.image.BufferedImage;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
 public interface Cutscenes {
-     public BufferedImage getBackgroundImage();
+
+    public BufferedImage getBackgroundImage();
 
     //public BufferedImage getPlanetImage();
-
     //public int getBackgroundWidth();
-    
-    
 }

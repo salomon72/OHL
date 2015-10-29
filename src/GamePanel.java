@@ -21,7 +21,6 @@ public class GamePanel extends JPanel {
     public static final int PHEIGHT = 587;
 
     public boolean running; // state of the game.
-    
 
     private final Animator animator;//Animator object for the game panel
     private final GameData gameData;//GameData object for the game panel
@@ -45,7 +44,6 @@ public class GamePanel extends JPanel {
 
     private Stage currentStage;
     private Cutscenes currentCutscene;
- 
 
     public GamePanel(Animator animator, GameData gameData) throws IOException {
         this.animator = animator;
@@ -54,8 +52,7 @@ public class GamePanel extends JPanel {
         currentStage = new Stage1();
         nextStage = 1;
         stageChange = false;
-        
-        
+
         currentCutscene = new Cutscene1();
         nextCutscene = 1;
         cutsceneChange = false;
@@ -86,12 +83,11 @@ public class GamePanel extends JPanel {
 
     public void startGame() { //starts the thread for the animator
         running = true;
-        
+
         Thread t = new Thread(animator);
         t.start();
-        
+
     }
-    
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
@@ -142,18 +138,18 @@ public class GamePanel extends JPanel {
 
             stageChange = false;
         }
-        
-        if(cutsceneChange){
-            
-            if(nextCutscene == 1){
-               // planetImage = new BufferedImage(1, 1, 1);
+
+        if (cutsceneChange) {
+
+            if (nextCutscene == 1) {
+                // planetImage = new BufferedImage(1, 1, 1);
                 currentCutscene = new Cutscene1();
                 currentStage = new Stage2();
                 collectFromCutscenes();
                 Animator.cutsceneRunning = true;
-                
+
             }
-            if(nextCutscene == 2){
+            if (nextCutscene == 2) {
                 currentCutscene = new Cutscene2();
                 currentStage = new Stage3();
                 collectFromCutscenes();
@@ -161,9 +157,6 @@ public class GamePanel extends JPanel {
             }
             cutsceneChange = false;
         }
-        
-        
-        
 
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
@@ -177,7 +170,7 @@ public class GamePanel extends JPanel {
     private void collectFromStage() {
         backgroundImage = currentStage.getBackgroundImage();
     }
-    
+
     private void collectFromCutscenes() {
         backgroundImage = currentCutscene.getBackgroundImage();
     }
@@ -290,7 +283,7 @@ public class GamePanel extends JPanel {
                 Thread.sleep(4000);
                 nextStage = 3;
                 stageChange = true;
-                gameData.setStateChanged(3, false); 
+                gameData.setStateChanged(3, false);
             } else if (nextStage == 3) {
                 g.drawString(endText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
@@ -301,8 +294,8 @@ public class GamePanel extends JPanel {
             System.out.println("Graphics error2: " + e);
         }
     }
-    
-    public void GamePaused(){
+
+    public void GamePaused() {
         Graphics g;
         g = this.getGraphics();
         Font font = new Font("Impact", Font.BOLD, 40);//font of displayed score
@@ -357,7 +350,5 @@ public class GamePanel extends JPanel {
     public void setCurrentCutscene(Cutscenes currentCutscene) {
         this.currentCutscene = currentCutscene;
     }
-    
-    
 
 }

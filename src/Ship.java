@@ -82,41 +82,42 @@ public class Ship implements GameFigure {
 
     @Override
     public void render(Graphics g) {
-        if(blinking){
+        if (blinking) {
             long elapsed = (System.nanoTime() - blinkTimer) / 1000000;
-            if(elapsed / 100%2 ==0)   return;
+            if (elapsed / 100 % 2 == 0) {
+                return;
+            }
         }
         g.drawImage(playerImage, (int) x, (int) y, null);
     }
 
     @Override
     public void update() {
-        
-        if(blinking){ 
-            long elapsed = (System.nanoTime() - blinkTimer)/1000000;
-            if(elapsed > 1000){
+
+        if (blinking) {
+            long elapsed = (System.nanoTime() - blinkTimer) / 1000000;
+            if (elapsed > 1000) {
                 blinking = false;
             }
         }
-        
-        // set boundaries of the ship (player):
 
+        // set boundaries of the ship (player):
         // on X axis
-        if (x <= GamePanel.WIDTH - playerImage.getWidth(null)/2) {
-        x = GamePanel.WIDTH - playerImage.getWidth(null)/2;
+        if (x <= GamePanel.WIDTH - playerImage.getWidth(null) / 2) {
+            x = GamePanel.WIDTH - playerImage.getWidth(null) / 2;
         }
-        
-        if (x > GamePanel.PWIDTH + playerImage.getWidth(null)/2) {
-        x = GamePanel.PWIDTH + playerImage.getWidth(null)/2;
+
+        if (x > GamePanel.PWIDTH + playerImage.getWidth(null) / 2) {
+            x = GamePanel.PWIDTH + playerImage.getWidth(null) / 2;
         }
-        
+
         // on Y axis
-        if (y < GamePanel.HEIGHT - playerImage.getHeight(null)/2) {
-        y = GamePanel.HEIGHT - playerImage.getHeight(null)/2;
+        if (y < GamePanel.HEIGHT - playerImage.getHeight(null) / 2) {
+            y = GamePanel.HEIGHT - playerImage.getHeight(null) / 2;
         }
-        
-        if (y > GamePanel.PHEIGHT - playerImage.getHeight(null)/2) {
-        y = GamePanel.PHEIGHT - playerImage.getHeight(null)/2;
+
+        if (y > GamePanel.PHEIGHT - playerImage.getHeight(null) / 2) {
+            y = GamePanel.PHEIGHT - playerImage.getHeight(null) / 2;
         }
     }
 
@@ -127,8 +128,8 @@ public class Ship implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        return new Rectangle((int) x, (int) y + playerImage.getHeight(null)/5, 
-                playerImage.getWidth(null), playerImage.getHeight(null)/2);
+        return new Rectangle((int) x, (int) y + playerImage.getHeight(null) / 5,
+                playerImage.getWidth(null), playerImage.getHeight(null) / 2);
     }
 
     @Override
@@ -153,13 +154,15 @@ public class Ship implements GameFigure {
 
     @Override
     public void Health(int i) {
-        if(blinking)    return; // don't do anything if blinking 
+        if (blinking) {
+            return; // don't do anything if blinking 
+        }
         health -= i;
         if (health == 0) {
             state = GameFigure.STATE_DONE;;
         }
-        
-        if( i > 0){
+
+        if (i > 0) {
             blinking = true;
             blinkTimer = System.nanoTime();
         }

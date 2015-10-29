@@ -9,13 +9,12 @@ import javax.imageio.ImageIO;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
 public class Cutscene2 implements Cutscenes {
-    
+
     private final BufferedImage backgroundImage;
     private final int backgroundWidth;
     private int count = 0;
@@ -31,16 +30,16 @@ public class Cutscene2 implements Cutscenes {
 
     @Override
     public BufferedImage getBackgroundImage() {
-       return backgroundImage;
+        return backgroundImage;
     }
 
-   /* @Override
-    public BufferedImage getPlanetImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    /* @Override
+     public BufferedImage getPlanetImage() {
+     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     }*/
 
     /*@Override
-    public int getBackgroundWidth() {
-              return backgroundWidth;
-    }*/
+     public int getBackgroundWidth() {
+     return backgroundWidth;
+     }*/
 }

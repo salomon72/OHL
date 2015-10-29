@@ -74,40 +74,40 @@ public class Enemy implements GameFigure {
             type = temp;
         }
         /*if (type == 0 || type == 2 || type == 5 || type == 6 || type == 7) {
-        cando = OPERATION.FLY;
-        } else if (type == 1 || type == 4 || type == 3) {
-        cando = OPERATION.SWIM;
-        }*/
+         cando = OPERATION.FLY;
+         } else if (type == 1 || type == 4 || type == 3) {
+         cando = OPERATION.SWIM;
+         }*/
         this.setAttributes(i, 2);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
         //System.out.println("x:"+x);
         /*if (GameData.getphase() == PHASE.TWO) {
-        if (this.canDo() == OPERATION.SWIM) {
-        if (this.y < SPACE + MARGIN) {
-        this.y = SPACE + MARGIN;
-        }
-        //submarine tank
-        } else if (this.canDo() == OPERATION.FLY) {
-        //airplane
-        if (this.y > SPACE - MARGIN) {
-        this.y = SPACE - MARGIN;
-        }
-        }
-        } else if (GameData.getphase() == PHASE.THREE) {
-        if (this.canDo() == OPERATION.SWIM) {
-        if (this.y < GROUND + MARGIN) {
-        this.y = GROUND + MARGIN;
-        }
-        //submarine tank
-        } else if (this.canDo() == OPERATION.FLY) {
-        //airplane
-        if (this.y > GROUND - MARGIN) {
-        this.y = GROUND - MARGIN;
-        }
-        }
-        }*/
+         if (this.canDo() == OPERATION.SWIM) {
+         if (this.y < SPACE + MARGIN) {
+         this.y = SPACE + MARGIN;
+         }
+         //submarine tank
+         } else if (this.canDo() == OPERATION.FLY) {
+         //airplane
+         if (this.y > SPACE - MARGIN) {
+         this.y = SPACE - MARGIN;
+         }
+         }
+         } else if (GameData.getphase() == PHASE.THREE) {
+         if (this.canDo() == OPERATION.SWIM) {
+         if (this.y < GROUND + MARGIN) {
+         this.y = GROUND + MARGIN;
+         }
+         //submarine tank
+         } else if (this.canDo() == OPERATION.FLY) {
+         //airplane
+         if (this.y > GROUND - MARGIN) {
+         this.y = GROUND - MARGIN;
+         }
+         }
+         }*/
 
         w = weight;
         h = height;
@@ -146,17 +146,16 @@ public class Enemy implements GameFigure {
         Random rand = new Random();
         int dx = rand.nextInt(3) - 1;
         int dy = rand.nextInt(3) - 1;
-        if(this.type == 7)//boss
+        if (this.type == 7)//boss
         {
-         this.x +=  2 * dx;
-         this.y += 8 * dy;
-        }
-        else{//normal
-         this.x += 2 * dx;
-         this.y += 2 * dy;
+            this.x += 2 * dx;
+            this.y += 8 * dy;
+        } else {//normal
+            this.x += 2 * dx;
+            this.y += 2 * dy;
         }
         // move randomly in 4 direction
-       
+
         if (GameData.getphase() == PHASE.TWO) {
             if (this.canDo() == OPERATION.SWIM) {
                 if (this.y < SPACE + MARGIN) {
@@ -186,13 +185,13 @@ public class Enemy implements GameFigure {
                 if (this.y > GROUND - MARGIN) {
                     this.y = GROUND - MARGIN;
                 }
-            }else{//all
-                 if (y <= GameData.MINHEIGHT) {
-                 y = GameData.MINHEIGHT;
-                 }
-                 if (y > GameData.MAXHEIGHT) {
+            } else {//all
+                if (y <= GameData.MINHEIGHT) {
+                    y = GameData.MINHEIGHT;
+                }
+                if (y > GameData.MAXHEIGHT) {
                     y = GameData.MAXHEIGHT;
-                  }
+                }
             }
         } else {
             // System.out.println("xxxxxx:"+x);

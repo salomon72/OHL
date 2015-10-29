@@ -47,8 +47,6 @@ public class Boss implements GameFigure {
     }
     private ArrayList<Observer> observers;
 
-
-
     Boss(float x, float y, int height, int weight) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
@@ -94,9 +92,9 @@ public class Boss implements GameFigure {
         Random rand = new Random();
         int dx = rand.nextInt(3) - 1;
         int dy = rand.nextInt(3) - 1;
-       
-         this.x +=  2 * dx;
-         this.y += 8 * dy;
+
+        this.x += 2 * dx;
+        this.y += 8 * dy;
         // System.out.println("xxxxxx:"+x);
         // if(x > GamePanel.WIDTH) x = GamePanel.WIDTH;
         if (y <= GameData.MINHEIGHT) {
@@ -158,7 +156,7 @@ public class Boss implements GameFigure {
 
     @Override
     public float getYofMissileShoot() {
-       return y+17;        
+        return y + 17;
     }
 
     @Override

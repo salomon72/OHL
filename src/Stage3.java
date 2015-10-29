@@ -36,9 +36,9 @@ public class Stage3 implements Stage {
     public Enemy getEnemy1() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(400) + 10;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81){
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
             @Override
-            public void update(){
+            public void update() {
                 this.x -= 1;
             }
         };
@@ -56,9 +56,9 @@ public class Stage3 implements Stage {
     public Enemy getEnemy2() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(75) + 430;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 300, temp, 81, 81){
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
             @Override
-            public void update(){
+            public void update() {
                 this.x -= 1;
             }
         };
@@ -70,9 +70,9 @@ public class Stage3 implements Stage {
     public Enemy getEnemy3() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(400) + 10;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 100, temp, 81, 81){
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
             @Override
-            public void update(){
+            public void update() {
                 this.x -= 1;
             }
         };

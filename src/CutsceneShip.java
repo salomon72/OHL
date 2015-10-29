@@ -13,15 +13,13 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
-public class CutsceneShip implements GameFigure{
-    
-    
-  boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
+public class CutsceneShip implements GameFigure {
+
+    boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
     // false : means user should use key directions
 
     Image playerImage;
@@ -29,13 +27,13 @@ public class CutsceneShip implements GameFigure{
     int state = STATE_TRAVELING;
     static int health;
     private ArrayList<Observer> observers;
-    
-    
+
     @Override
     public int getDamage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-public CutsceneShip (float x, float y) {
+
+    public CutsceneShip(float x, float y) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
@@ -46,7 +44,7 @@ public CutsceneShip (float x, float y) {
         this.y = y;
     }
 
-  public static Image getImage(String fileName) {
+    public static Image getImage(String fileName) {
         Image image = null;
         try {
             image = ImageIO.read(new File(fileName));
@@ -79,12 +77,12 @@ public CutsceneShip (float x, float y) {
 
     @Override
     public void render(Graphics g) {
-       g.drawImage(playerImage, (int) x, (int) y, null);
+        g.drawImage(playerImage, (int) x, (int) y, null);
     }
 
     @Override
     public void update() {
-         this.x += 5;
+        this.x += 5;
     }
 
     @Override
@@ -134,7 +132,7 @@ public CutsceneShip (float x, float y) {
 
     @Override
     public float getXcoor() {
-       return x;
+        return x;
     }
 
     @Override
@@ -166,5 +164,5 @@ public CutsceneShip (float x, float y) {
     public Rectangle collision() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

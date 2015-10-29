@@ -78,26 +78,26 @@ public class Animator implements Runnable {
                     }
                 } else {
                     if (!endcutscene) {
-                    try {
-                        backgroundScrollTimer.stop();
-                        planetScaleTimer.stop();
-                        x = 0;
-                        gameData.update();
-                        gamePanel.gameRender(x, y);
                         try {
-                            Thread.sleep(14);
-                            gamePanel.printScreen();
-                        } catch (InterruptedException e) {
-                            
-                        }
+                            backgroundScrollTimer.stop();
+                            planetScaleTimer.stop();
+                            x = 0;
+                            gameData.update();
+                            gamePanel.gameRender(x, y);
+                            try {
+                                Thread.sleep(14);
+                                gamePanel.printScreen();
+                            } catch (InterruptedException e) {
+
+                            }
                         //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
-                        
-                        //planetScaleTimer = new Timer(100, planetScale);
-                        //cutsceneRunning = false;
-                    } catch (IOException ex) {
+
+                            //planetScaleTimer = new Timer(100, planetScale);
+                            //cutsceneRunning = false;
+                        } catch (IOException ex) {
                             Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
 
-                    }
+                        }
                     //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
 
                         //planetScaleTimer = new Timer(100, planetScale);
