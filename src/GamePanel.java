@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
     public static final int PHEIGHT = 587;
 
     public boolean running; // state of the game.
+    
 
     private final Animator animator;//Animator object for the game panel
     private final GameData gameData;//GameData object for the game panel
@@ -39,8 +40,12 @@ public class GamePanel extends JPanel {
     private int scaleCount;
     private int nextStage;
     private boolean stageChange;
+    private int nextCutscene;
+    private boolean cutsceneChange;
 
     private Stage currentStage;
+    private Cutscenes currentCutscene;
+ 
 
     public GamePanel(Animator animator, GameData gameData) throws IOException {
         this.animator = animator;
@@ -49,6 +54,11 @@ public class GamePanel extends JPanel {
         currentStage = new Stage1();
         nextStage = 1;
         stageChange = false;
+        
+        
+        currentCutscene = new Cutscene1();
+        nextCutscene = 1;
+        cutsceneChange = false;
 
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
@@ -76,9 +86,12 @@ public class GamePanel extends JPanel {
 
     public void startGame() { //starts the thread for the animator
         running = true;
+        
         Thread t = new Thread(animator);
         t.start();
+        
     }
+    
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
@@ -129,6 +142,28 @@ public class GamePanel extends JPanel {
 
             stageChange = false;
         }
+        
+        if(cutsceneChange){
+            
+            if(nextCutscene == 1){
+               // planetImage = new BufferedImage(1, 1, 1);
+                currentCutscene = new Cutscene1();
+                currentStage = new Stage2();
+                collectFromCutscenes();
+                Animator.cutsceneRunning = true;
+                
+            }
+            if(nextCutscene == 2){
+                currentCutscene = new Cutscene2();
+                currentStage = new Stage3();
+                collectFromCutscenes();
+                Animator.cutsceneRunning = true;
+            }
+            cutsceneChange = false;
+        }
+        
+        
+        
 
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
@@ -141,6 +176,10 @@ public class GamePanel extends JPanel {
 
     private void collectFromStage() {
         backgroundImage = currentStage.getBackgroundImage();
+    }
+    
+    private void collectFromCutscenes() {
+        backgroundImage = currentCutscene.getBackgroundImage();
     }
 
     public void transformPlanet() {
@@ -205,17 +244,17 @@ public class GamePanel extends JPanel {
                 g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 stageChange = true;
-                gameData.setStateChanged(1);
+                gameData.setStateChanged(1, false);
             } else if (nextStage == 2) {
                 g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 stageChange = true;
-                gameData.setStateChanged(2);
+                gameData.setStateChanged(2, false);
             } else if (nextStage == 3) {
                 g.drawString(tryAgain, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 stageChange = true;
-                gameData.setStateChanged(3);
+                gameData.setStateChanged(3, false);
             }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
         } catch (InterruptedException e) {
@@ -245,13 +284,13 @@ public class GamePanel extends JPanel {
                 Thread.sleep(4000);
                 nextStage = 2;
                 stageChange = true;
-                gameData.setStateChanged(2);
+                gameData.setStateChanged(2, false);
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 nextStage = 3;
                 stageChange = true;
-                gameData.setStateChanged(3); 
+                gameData.setStateChanged(3, false); 
             } else if (nextStage == 3) {
                 g.drawString(endText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
@@ -294,5 +333,31 @@ public class GamePanel extends JPanel {
     public void setStageChange(boolean stageChange) {
         this.stageChange = stageChange;
     }
+
+    public int getNextCutscene() {
+        return nextCutscene;
+    }
+
+    public void setNextCutscene(int nextCutscene) {
+        this.nextCutscene = nextCutscene;
+    }
+
+    public boolean isCutsceneChange() {
+        return cutsceneChange;
+    }
+
+    public void setCutsceneChange(boolean cutsceneChange) {
+        this.cutsceneChange = cutsceneChange;
+    }
+
+    public Cutscenes getCurrentCutscene() {
+        return currentCutscene;
+    }
+
+    public void setCurrentCutscene(Cutscenes currentCutscene) {
+        this.currentCutscene = currentCutscene;
+    }
+    
+    
 
 }

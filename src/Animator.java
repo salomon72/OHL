@@ -12,22 +12,26 @@ import javax.swing.Timer;
 public class Animator implements Runnable {
 
     boolean running;
+    static boolean cutsceneRunning = false;
+    static boolean endcutscene = false;
     GamePanel gamePanel = null;
     GameData gameData = null;
     boolean paused = false;
     private int x = 0;
     private int y = 0;
-    private final Timer backgroundScrollTimer;
-    private final Timer planetScaleTimer;
+    public Timer backgroundScrollTimer; //private
+    public Timer planetScaleTimer; //private
+    ActionListener backgroundRender;
+    ActionListener planetScale;
 
     public Animator() {
-        ActionListener backgroundRender = new ActionListener() { //scrolling background
+        backgroundRender = new ActionListener() { //scrolling background
             @Override
             public void actionPerformed(ActionEvent e) {
                 x -= 1;
             }
         };
-        ActionListener planetScale = new ActionListener() { //scrolling background
+        planetScale = new ActionListener() { //scrolling background
             @Override
             public void actionPerformed(ActionEvent e) {
                 gamePanel.transformPlanet();
@@ -35,6 +39,7 @@ public class Animator implements Runnable {
         };
         backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
         planetScaleTimer = new Timer(100, planetScale);
+
     }
 
     public void setGamePanel(GamePanel gamePanel) {
@@ -51,29 +56,65 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running) {
-            if(!paused){ // implement all methods if & only if the game is not paused. 
-                gameData.update();
-                backgroundScrollTimer.start();
-                planetScaleTimer.start();
-                try {
-                    gamePanel.gameRender(x, y);
-                    if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
-                        x = 0;
+            if (!paused) { // implement all methods if & only if the game is not paused. 
+                if (!cutsceneRunning) {
+                    gameData.update();
+                    backgroundScrollTimer.start();
+                    planetScaleTimer.start();
+                    try {
+                        gamePanel.gameRender(x, y);
+                        if (x < -gamePanel.getCurrentStage().getBackgroundWidth()) { //scrolling background loop
+                            x = 0;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                try {
-                    Thread.sleep(14);
-                    gamePanel.printScreen();
-                } catch (InterruptedException e) {
-                    
-                }}
-            else { // stop timers when the game is paused
+                    try {
+                        Thread.sleep(14);
+                        gamePanel.printScreen();
+                    } catch (InterruptedException e) {
+
+                    }
+                } else {
+                    if (!endcutscene) {
+                    try {
+                        backgroundScrollTimer.stop();
+                        planetScaleTimer.stop();
+                        x = 0;
+                        gameData.update();
+                        gamePanel.gameRender(x, y);
+                        try {
+                            Thread.sleep(14);
+                            gamePanel.printScreen();
+                        } catch (InterruptedException e) {
+                            
+                        }
+                        //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+                        
+                        //planetScaleTimer = new Timer(100, planetScale);
+                        //cutsceneRunning = false;
+                    } catch (IOException ex) {
+                            Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                    //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
+
+                        //planetScaleTimer = new Timer(100, planetScale);
+                        //cutsceneRunning = false;
+                    } else {
+                        //cutsceneRunning = false;
+                        endcutscene = true;
+                        cutsceneRunning = false;
+                        //backgroundScrollTimer = new Timer(30, backgroundRender);
+                        backgroundScrollTimer.start();
+                    }
+                }
+            } else { // stop timers when the game is paused
                 backgroundScrollTimer.stop();
                 planetScaleTimer.stop();
-                gamePanel.GamePaused();}
+                gamePanel.GamePaused();
+            }
             if (gameData.FINISHED) {
                 if (Ship.health <= 1) {
                     try {
@@ -86,10 +127,9 @@ public class Animator implements Runnable {
                 } else {
                     try {
                         gamePanel.gameWin();
-                        if(!gameData.gameEnd){
+                        if (!gameData.gameEnd) {
                             gameData.FINISHED = false;
-                        }
-                        else{
+                        } else {
                             running = false;
                         }
                     } catch (IOException ex) {
@@ -98,6 +138,11 @@ public class Animator implements Runnable {
                 }
             }
         }
+
         System.exit(0);
+    }
+
+    public void startTimer() {
+        backgroundScrollTimer.start();
     }
 }

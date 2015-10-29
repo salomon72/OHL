@@ -33,7 +33,9 @@ public class Main extends JFrame
 
     private final JTextField text;
     private final JButton stage1test;
+    private final JButton cutscene1test;
     private final JButton stage2test;
+    private final JButton cutscene2test;
     private final JButton stage3test;
     private final JButton quitButton;
 
@@ -93,12 +95,26 @@ public class Main extends JFrame
         stage1test.setBackground(btnColor);
         southPanel.add(stage1test);
 
+        cutscene1test = new JButton("Cutscene1");
+        cutscene1test.setVisible(true);
+        cutscene1test.setFont(btnFont);
+        cutscene1test.setBorder(borderLine);
+        cutscene1test.setBackground(btnColor);
+        southPanel.add(cutscene1test);
+
         stage2test = new JButton("Stage2");
         stage2test.setVisible(true);
         stage2test.setFont(btnFont);
         stage2test.setBorder(borderLine);
         stage2test.setBackground(btnColor);
         southPanel.add(stage2test);
+
+        cutscene2test = new JButton("Cutscene2");
+        cutscene2test.setVisible(true);
+        cutscene2test.setFont(btnFont);
+        cutscene2test.setBorder(borderLine);
+        cutscene2test.setBackground(btnColor);
+        southPanel.add(cutscene2test);
 
         stage3test = new JButton("Stage3");
         stage3test.setVisible(true);
@@ -110,8 +126,14 @@ public class Main extends JFrame
         stage1test.setFocusable(false);
         stage1test.addActionListener(this);
 
+        cutscene1test.setFocusable(false);
+        cutscene1test.addActionListener(this);
+
         stage2test.setFocusable(false);
         stage2test.addActionListener(this);
+
+        cutscene2test.setFocusable(false);
+        cutscene2test.addActionListener(this);
 
         stage3test.setFocusable(false);
         stage3test.addActionListener(this);
@@ -146,19 +168,23 @@ public class Main extends JFrame
                 GameData.setphase(PHASE.ONE);
                 animator.gamePanel.setNextStage(1);
                 animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(1);
+                gameData.setStateChanged(1, false);
+                Animator.endcutscene = true;
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
         if (ae.getSource() == stage2test) {
             try {
                 GameData.setphase(PHASE.TWO);
                 animator.gamePanel.setNextStage(2);
                 animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(2);
+                gameData.setStateChanged(2, false);
+                animator.startTimer();
+                Animator.endcutscene = true;
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
@@ -170,14 +196,50 @@ public class Main extends JFrame
                 GameData.setphase(PHASE.THREE);
                 animator.gamePanel.setNextStage(3);
                 animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(3);
+                gameData.setStateChanged(3, false);
+                Animator.endcutscene = true;
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        if (ae.getSource() == cutscene1test) {  
+            try {
+                animator.gamePanel.setNextCutscene(1);
+                animator.gamePanel.setCutsceneChange(true);
+                GameData.setphase(PHASE.TWO);
+                animator.gamePanel.setNextStage(2);
+                animator.gamePanel.setStageChange(true);
+                gameData.setStateChanged(2, true);
+                Animator.cutsceneRunning = true;
+                Animator.endcutscene = false;
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        if (ae.getSource() == cutscene2test){
+            try {
+                animator.gamePanel.setNextCutscene(2);
+                animator.gamePanel.setCutsceneChange(true);
+                GameData.setphase(PHASE.THREE);
+                animator.gamePanel.setNextStage(3);
+                animator.gamePanel.setStageChange(true);
+                gameData.setStateChanged(3, true);
+                Animator.cutsceneRunning = true;
+                Animator.endcutscene = false;
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         //END TEMPORARY BUTTON LISTENERS
+    }
     }
 
     private class FireTimerTask extends TimerTask {
