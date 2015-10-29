@@ -68,11 +68,13 @@ public class GameData {
         enemyShootThread.interrupt();
         removeEnemies();
         if (stage == 1) {
+            phase = PHASE.ONE;
             setStage1Spawner();
             Stage1Spawner.start();
             startFiring();
             enemyShootThread.start();
         } else if (stage == 2) {
+            phase = PHASE.TWO;
             setStage2Spawner();
             startFiring();
             enemyShootThread.start();
@@ -80,6 +82,7 @@ public class GameData {
                 Stage2Spawner.start();
             }
         } else if (stage == 3) {
+            phase = PHASE.THREE;
             setStage3Spawner();
             startFiring();
             enemyShootThread.start();
@@ -210,7 +213,7 @@ public class GameData {
                             }
                         }
                         try {
-                            Thread.sleep(750);//interval in which enemies are spawned
+                            Thread.sleep(400);//interval in which enemies are spawned
                         } catch (InterruptedException ex) {
                             return;
                         }
@@ -247,7 +250,7 @@ public class GameData {
                         }
                     }
                     try {
-                        Thread.sleep(500);//interval in which enemies are spawned
+                        Thread.sleep(400);//interval in which enemies are spawned
                     } catch (InterruptedException ex) {
                         return;
                     }
@@ -303,7 +306,7 @@ public class GameData {
                         int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
                         //boss should fire more frequencly
                         int type = figures.get(i).getMyType();//get enemy to fire
-                        if ((type == 7 && temp <= 95) || (temp <= 75 && temp >= 30)) {//if random number is between 90 and 30, enemy will fire
+                        if ((type == 7 && temp <= 75) || (temp <= 75 && temp >= 30)) {//if random number is between 90 and 30, enemy will fire
                             f = figures.get(i);//get enemy to fire
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
                                 int tempMissile = f.getMyType();
@@ -314,7 +317,7 @@ public class GameData {
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 //System.out.println(f.getType());
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                ThreadPlayer.play(missilelaunch);
+                                //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -323,7 +326,7 @@ public class GameData {
 
                     }
                     try {
-                        Thread.sleep(750);//interval between enemy fire
+                        Thread.sleep(1000);//interval between enemy fire
                     } catch (InterruptedException ex) {
                         return;
                     }
@@ -396,7 +399,7 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
                         if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
-                            //g.Health(1);//subtract 1 from Player's health 
+                            g.Health(1);//subtract 1 from Player's health 
                         } else if (g.getState() == GameFigure.SHIELD) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.setState(GameFigure.STATE_TRAVELING);
@@ -481,7 +484,7 @@ public class GameData {
             }
 
             //score.health = figures.get(0).get();
-            if (Ship.health <= 0) {
+            if (Ship.health < 1) {
                 ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);

@@ -278,6 +278,7 @@ public class GamePanel extends JPanel {
                 nextStage = 2;
                 stageChange = true;
                 gameData.setStateChanged(2, false);
+                
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);

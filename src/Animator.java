@@ -116,7 +116,7 @@ public class Animator implements Runnable {
                 gamePanel.GamePaused();
             }
             if (gameData.FINISHED) {
-                if (Ship.health <= 1) {
+                if (Ship.health < 1) {
                     try {
                         gamePanel.gameOver();
                         gameData.FINISHED = false;
