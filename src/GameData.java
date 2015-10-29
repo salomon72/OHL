@@ -281,13 +281,21 @@ public class GameData {
             @Override
             public void run() {
                 GameFigure f;
-                for (;;) {//FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
+                for(;;) {//FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
                     for (int i = 0; i < figures.size(); i++) {
                         int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
-                        if (temp <= 90 && temp >= 30) {//if random number is between 90 and 30, enemy will fire
+                        //boss should fire more frequencly
+                        int type = figures.get(i).getMyType();//get enemy to fire
+                        if ((type == 7 && temp <= 95)||(temp <= 90 && temp >= 30)) {//if random number is between 90 and 30, enemy will fire
                             f = figures.get(i);//get enemy to fire
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
-                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), f.getMyType());
+                                int tempMissile = f.getMyType();
+                                
+                                if(type == 7)
+                                {
+                                    tempMissile = 1+(int)(Math.random()*7);
+                                }
+                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 //System.out.println(f.getType());
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
                                 ThreadPlayer.play(missilelaunch);
@@ -297,7 +305,7 @@ public class GameData {
                             }
                         }
                         try {
-                            Thread.sleep(100);//interval between enemy fire
+                            Thread.sleep(10);//interval between enemy fire
                         } catch (InterruptedException ex) {
                             Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                         }
