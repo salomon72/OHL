@@ -295,7 +295,7 @@ public class GameData {
                             }
                         }
                         try {
-                            Thread.sleep(10);//interval between enemy fire
+                            Thread.sleep(5);//interval between enemy fire
                         } catch (InterruptedException ex) {
                             Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                         }
