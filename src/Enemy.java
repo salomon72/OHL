@@ -73,7 +73,7 @@ public class Enemy implements GameFigure {
                     + "enemy" + Integer.toString(temp) + ".png");
             type = temp;
         }
-        this.setAttributes(i, 2);
+        this.setAttributes(i, 6);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;

@@ -122,7 +122,7 @@ public class GameData {
                         count++;
                         if (count == 6) {
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(2000);
                             } catch (InterruptedException ex) {
                                 return;
                             }
@@ -139,7 +139,7 @@ public class GameData {
                         }
                         count++;
                         try {
-                            Thread.sleep(750);
+                            Thread.sleep(1200);
                         } catch (InterruptedException ex) {
                             return;
                         }
@@ -156,7 +156,7 @@ public class GameData {
                         count++;
                         if (count == 22) {
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(2000);
                             } catch (InterruptedException ex) {
                                 return;
                             }
@@ -182,8 +182,8 @@ public class GameData {
                             repeat = false;
                         }
                     }
-                    countEnemy = MAXENEMY;
                 }
+                countEnemy = MAXENEMY;
             }
         });
 
