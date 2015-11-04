@@ -18,28 +18,27 @@ public class Stage3 implements Stage {
     public Stage3() throws IOException {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
-        File file = new File(imagePath + separator + "images" + separator //load
+        File file = new File(imagePath + separator + "images" + separator
                 + "Stage3Background.gif");
         backgroundImage = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
+        file = new File(imagePath + separator + "images" + separator
                 + "enemy5.png");
         airEnemy = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
+        file = new File(imagePath + separator + "images" + separator
                 + "enemy6.png");
         airEnemy2 = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
+        file = new File(imagePath + separator + "images" + separator
                 + "enemy4.png");
         groundEnemy = ImageIO.read(file);
         backgroundWidth = backgroundImage.getWidth(null);
     }
 
     public Enemy getEnemy1() {
-        Random randomGenerator = new Random();
-        int temp = randomGenerator.nextInt(400) + 10;
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 0 + count * 75, 81, 81) {
+
             @Override
             public void update() {
-                this.x -= 1;
+                this.x -= 2;
             }
         };
         enemy.enemyImage = airEnemy;

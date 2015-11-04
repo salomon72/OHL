@@ -15,10 +15,10 @@ public class Stage1 implements Stage {
     public Stage1() throws IOException {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
-        File file = new File(imagePath + separator + "images" + separator //load
+        File file = new File(imagePath + separator + "images" + separator
                 + "Stage1Background.gif");
         backgroundImage = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
+        file = new File(imagePath + separator + "images" + separator
                 + "planet.png");
         planetImage = ImageIO.read(file);
         backgroundWidth = backgroundImage.getWidth(null);
