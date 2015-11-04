@@ -2,7 +2,6 @@
  GameFigure for player ship, follows GameFigure interface
  */
 
-//import static GameFigure.STATE_TRAVELING;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -53,8 +52,6 @@ public class TutorialShip implements TutorialGameFigures {
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
-        // System.out.println("Ship:"+health);
-        //this.health = GameData.MAXHEALTH;
     }
 
     public static Image getImage(String fileName) {

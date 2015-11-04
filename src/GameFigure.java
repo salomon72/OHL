@@ -65,12 +65,12 @@ public interface GameFigure {
     void setAttributes(Image i, int health);// sets the image and the initial health of the object
 
     public Rectangle collision();//returns the box of the object for collision detection reasons
+
     //various states to the used by updateState(int) and getState()
     static final int STATE_TRAVELING = 1;
     static final int STATE_EXPLODING = 2;
     static final int STATE_DONE = 0;
     static final int STATE_ALIVE = 3;
     static final int STATE_DEAD = 4;
-
     static final int SHIELD = 10;
 }

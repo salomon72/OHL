@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 enum PHASE {
 
@@ -50,7 +48,6 @@ public class GameData {
     public GameData() throws IOException {
 
         figures = Collections.synchronizedList(new ArrayList<GameFigure>());
-        //spawn player ship and add to figures list here
         GameFigureFactory factory = new Factory("Ship");//example of player ship spawn
         figures.add(factory.createFigure());//adds player ship to figures
         setStage1Spawner();//spawner thread for enemies
@@ -274,26 +271,11 @@ public class GameData {
         phase = p;
     }
 
-    public void spawnBoss() {
-        //seperate method to spawn boss 
+    public void spawnBoss() { //seperate method to spawn boss 
         GameFigureFactory factory = new Factory("Boss");
         synchronized (figures) {
             figures.add(factory.createFigure());
         }
-        //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
-
-    }
-
-    public final void startSpawnBoss() {
-        Thread enemySpawner;
-        enemySpawner = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                spawnBoss();
-                countEnemy++;
-            }
-        });
-        enemySpawner.start();//starts the enemy spawner
     }
 
     public final void startFiring() {
@@ -304,7 +286,6 @@ public class GameData {
                 while (!Thread.interrupted()) {//FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
                     for (int i = 0; i < figures.size(); i++) {
                         int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
-                        //boss should fire more frequencly
                         int type = figures.get(i).getMyType();//get enemy to fire
                         if ((type == 7 && temp <= 75) || (temp <= 75 && temp >= 30)) {//if random number is between 90 and 30, enemy will fire
                             f = figures.get(i);//get enemy to fire
@@ -315,7 +296,6 @@ public class GameData {
                                     tempMissile = 1 + (int) (Math.random() * 7);
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
-                                //System.out.println(f.getType());
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
                                 //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
@@ -383,7 +363,6 @@ public class GameData {
                                 f.notifyObservers(5);
                             }
                         }
-                        //System.out.println("Score :  " + score.score);
                     }
                 }
             }
@@ -403,7 +382,6 @@ public class GameData {
                         } else if (g.getState() == GameFigure.SHIELD) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.setState(GameFigure.STATE_TRAVELING);
-                            //System.out.println("State ==>  :  " + g.getState());
                         }
                     }
                 }
@@ -425,15 +403,10 @@ public class GameData {
                             f.updateState(GameFigure.STATE_DONE);
                         } else if (f.isMissile() == 41) {
                             f.updateState(GameFigure.STATE_DONE);
-                            //g.setMissile(11);                                                    
                         } else if (f.isMissile() == 42) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(-1);//subtract 1 from Player's health                            
                         }
-
-                        //f.updateState(GameFigure.STATE_DONE);
-                        // g.Health(-1);//subtract 1 from Player's health
-                        //System.out.println("Collision");
                     }
                 }
             }
@@ -441,7 +414,6 @@ public class GameData {
     }
 
     public void update() {
-        //System.out.println("spawned: " + enemiesSpawned + " count: " + countEnemy);
         List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
         GameFigure f;
         GameFigure h;
@@ -472,12 +444,6 @@ public class GameData {
                 } else if (f.isPlayer() == 31) { // if power 
                     powCheck(f);
                 }
-                /*
-                 else if(f.isPlayer() == 30){
-                 powerCheck(f);
-                 }
-                 */
-
                 if (f.getState() == GameFigure.STATE_DONE && f.isPlayer() != 0) {
                     remove.add(f);
                 }
@@ -488,13 +454,11 @@ public class GameData {
                 ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
-                System.out.println("Game end!Player health empty");
             }
             //check enemy is over then finish
             if (GameData.phase == PHASE.ONE || GameData.phase == PHASE.TWO) {
                 if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
                     FINISHED = true;
-                    System.out.println("Game end!Player win1");
                 }
             } else {//phase 3
                 if (countEnemy == MAXENEMY + 1) {
@@ -502,22 +466,14 @@ public class GameData {
                 }
                 if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
                     if (!isBossCreated) {
-                        startSpawnBoss();
-                        try {
-                            // Thread.sleep(10);
-                        } catch (Exception ex) {
-                            System.out.println(ex.getCause());
-                        }
+                        spawnBoss();
                         isBossCreated = true;
-                        System.out.println("spawn boss");
                     } else if (isBossDied) {
                         FINISHED = true;
                         gameEnd = true;
-                        System.out.println("Game end!Player win2");
                     }
                 }
             }
-
             figures.removeAll(remove);
         }
     }

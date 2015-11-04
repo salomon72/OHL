@@ -20,7 +20,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-//hi
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -412,11 +411,6 @@ public class Main extends JFrame
     //==================================================================
 
     public static void main(String[] args) throws IOException {//runs the Main constructor that ultimately starts the entire game
-       /* JFrame game = new Main();
-         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         game.setResizable(false);
-         game.setVisible(true);*/
-
         JFrame menu = new InterfaceForm();
         menu.setSize(500, 350);
         menu.setLocation(300, 100);

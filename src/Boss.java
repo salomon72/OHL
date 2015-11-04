@@ -95,8 +95,6 @@ public class Boss implements GameFigure {
 
         this.x += 2 * dx;
         this.y += 8 * dy;
-        // System.out.println("xxxxxx:"+x);
-        // if(x > GamePanel.WIDTH) x = GamePanel.WIDTH;
         if (y <= GameData.MINHEIGHT) {
             y = GameData.MINHEIGHT;
         }
@@ -150,7 +148,6 @@ public class Boss implements GameFigure {
 
     @Override
     public float getXofMissileShoot() {
-        // CHECK
         return x - 30;
     }
 
@@ -194,8 +191,6 @@ public class Boss implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        // CHANGE SIZE OF IMAGE
-        //System.out.println("Boss:y:"+y+",y+17:"+y+59);
         return new Rectangle((int) x, (int) y, 81, 81);
     }
 
