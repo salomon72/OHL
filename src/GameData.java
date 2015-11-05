@@ -428,7 +428,7 @@ public class GameData {
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                //ThreadPlayer.play(missilelaunch);
+                                ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -508,7 +508,7 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
                         if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
-                            //g.Health(1);//subtract 1 from Player's health 
+                            g.Health(1);//subtract 1 from Player's health 
                         } else if (g.getState() == GameFigure.SHIELD) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.setState(GameFigure.STATE_TRAVELING);
