@@ -1,5 +1,5 @@
 /*
- handles the management of the objects to be rendered and when to remove them. 
+ handles the management of the objects to be rendered and when to remove them.
  Also controls the spawning of enemies and firing of enemies
  */
 
@@ -135,6 +135,12 @@ public class GameData {
                         figures.add(enemy);
                     }
                     count++;
+                    if (count % 5 == 0) {
+                        enemy = stage1.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     try {
                         Thread.sleep(1200);
                     } catch (InterruptedException ex) {
@@ -151,6 +157,12 @@ public class GameData {
                         figures.add(enemy);
                     }
                     count++;
+                    if (count % 5 == 0) {
+                        enemy = stage1.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     if (count == 22) {
                         try {
                             Thread.sleep(2000);
@@ -169,6 +181,12 @@ public class GameData {
                         figures.add(enemy);
                     }
                     count++;
+                    if (count % 5 == 0) {
+                        enemy = stage1.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException ex) {
@@ -281,92 +299,88 @@ public class GameData {
         final Stage3 stage3 = new Stage3();
         count = 0;
         countEnemy = 0;
-        Stage3Spawner = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (countEnemy < MAXENEMY && !Thread.interrupted()) {//loop spawns enemies
-                    stage3.resetCount();
-                    while (count < 6) {
-                        if (Thread.interrupted()) {
-                            return;
-                        }
-                        Enemy enemy = stage3.getEnemy1();
-                        synchronized (figures) {
-                            figures.add(enemy);
-                        }
-                        count++;
-                        if (count == 6) {
-                            try {
-                                Thread.sleep(1750);
-                            } catch (InterruptedException ex) {
-                                return;
-                            }
-                        }
+        Stage3Spawner = new Thread(() -> {
+            while (countEnemy < MAXENEMY && !Thread.interrupted()) {//loop spawns enemies
+                stage3.resetCount();
+                while (count < 6) {
+                    if (Thread.interrupted()) {
+                        return;
                     }
-                    
-                    stage3.resetCount();
-                    while (count <= 11 && count >= 6) {
-                        if (Thread.interrupted()) {
-                            return;
-                        }
-                        Enemy enemy = stage3.getEnemy1();
-                        synchronized (figures) {
-                            figures.add(enemy);
-                        }
-                        count++;
-                        if (count == 12) {
-                            try {
-                                Thread.sleep(1750);
-                            } catch (InterruptedException ex) {
-                                return;
-                            }
-                        }
+                    Enemy enemy = stage3.getEnemy1();
+                    synchronized (figures) {
+                        figures.add(enemy);
                     }
-                    stage3.resetCount();
-                    while (count <= 17 && count >= 12) {
-                        if (Thread.interrupted()) {
-                            return;
-                        }
-                        Enemy enemy = stage3.getEnemy1();
-                        synchronized (figures) {
-                            figures.add(enemy);
-                        }
-                        count++;
-                        if (count == 18) {
-                            try {
-                                Thread.sleep(1750);
-                            } catch (InterruptedException ex) {
-                                return;
-                            }
-                        }
-                    }
-                    while (count <= 50 && count >= 18) {
-                        Enemy enemy = stage3.getEnemy3();
-                        synchronized (figures) {
-                            figures.add(enemy);
-                        }
-                        if (count % 2 == 0) {
-                            enemy = stage3.getEnemy2();
-                            synchronized (figures) {
-                                figures.add(enemy);
-                            }
-                        }
-                        if(count % 3 == 0){
-                            enemy = stage3.getEnemy4();
-                            synchronized (figures) {
-                                figures.add(enemy);
-                            }
-                        }
-                        count++;
+                    count++;
+                    if (count == 6) {
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(1750);
                         } catch (InterruptedException ex) {
                             return;
                         }
                     }
-                    countEnemy = MAXENEMY;
                 }
-
+                
+                stage3.resetCount();
+                while (count <= 11 && count >= 6) {
+                    if (Thread.interrupted()) {
+                        return;
+                    }
+                    Enemy enemy = stage3.getEnemy1();
+                    synchronized (figures) {
+                        figures.add(enemy);
+                    }
+                    count++;
+                    if (count == 12) {
+                        try {
+                            Thread.sleep(1750);
+                        } catch (InterruptedException ex) {
+                            return;
+                        }
+                    }
+                }
+                stage3.resetCount();
+                while (count <= 17 && count >= 12) {
+                    if (Thread.interrupted()) {
+                        return;
+                    }
+                    Enemy enemy = stage3.getEnemy1();
+                    synchronized (figures) {
+                        figures.add(enemy);
+                    }
+                    count++;
+                    if (count == 18) {
+                        try {
+                            Thread.sleep(1750);
+                        } catch (InterruptedException ex) {
+                            return;
+                        }
+                    }
+                }
+                while (count <= 50 && count >= 18) {
+                    Enemy enemy = stage3.getEnemy3();
+                    synchronized (figures) {
+                        figures.add(enemy);
+                    }
+                    if (count % 2 == 0) {
+                        enemy = stage3.getEnemy2();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
+                    if (count % 3 == 0) {
+                        enemy = stage3.getEnemy4();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
+                    count++;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        return;
+                    }
+                }
+                countEnemy = MAXENEMY;
             }
         });
     }
@@ -392,7 +406,7 @@ public class GameData {
     }
 
     public void spawnBossStage2() {
-        //seperate method to spawn boss 
+        //seperate method to spawn boss
         GameFigureFactory factory = new Factory("BossStage2");
         synchronized (figures) {
             figures.add(factory.createFigure());
@@ -401,7 +415,7 @@ public class GameData {
     }
 
     public void spawnBossStage3() {
-        //seperate method to spawn boss 
+        //seperate method to spawn boss
         GameFigureFactory factory = new Factory("BossStage3");
         synchronized (figures) {
             figures.add(factory.createFigure());
@@ -457,7 +471,7 @@ public class GameData {
         }
     }
 
-    //@@@@@ not done yet - Please Do Not Remove 
+    //@@@@@ not done yet - Please Do Not Remove
     private void playerCheck(GameFigure player) {
         GameFigure g;
         for (int i = 0; i < figures.size(); i++) {
@@ -466,7 +480,7 @@ public class GameData {
 
     }
 
-    //@@@@@ not done yet - Please Do Not Remove 
+    //@@@@@ not done yet - Please Do Not Remove
     private void enemyCheck(GameFigure f) {
 
     }
@@ -482,15 +496,23 @@ public class GameData {
                         g.Health(1);//subtract 1 from Enemy's health
 
                         if (g.getState() == GameFigure.STATE_DONE) {
-                            f.registerObserver(score);//update score upone each enemy destroyed                   
+                            f.registerObserver(score);//update score upone each enemy destroyed
 
                             Random rand = new Random();
                             int r = rand.nextInt(10);
-                            if (r > 1 && r <= 4) {
+                            if (GameData.phase == PHASE.ONE) { //powerups for stage 1
+                                if (g.containsPowerup()) {
+                                    r = (int) (Math.random() * (3) + 2);
+                                    addPower(r, (int) f.getXcoor(), (int) f.getYcoor());
+                                    r = (int) (Math.random() * (3) + 2);
+                                    addPower(r, (int) f.getXcoor(), (int) f.getYcoor());// release POWER
+                                    f.notifyObservers(5 + r);
+                                } else {
+                                    f.notifyObservers(5);
+                                }
+                            } else if (r > 1 && r <= 4) { //powerups for stage 2 and 3
                                 addPower(r, (int) f.getXcoor(), (int) f.getYcoor()); // release POWER
                                 f.notifyObservers(5 + r);
-                            } else {
-                                f.notifyObservers(5);
                             }
                         }
                     }
@@ -508,7 +530,7 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
                         if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
-                            //g.Health(1);//subtract 1 from Player's health 
+                            //g.Health(1);//subtract 1 from Player's health
                         } else if (g.getState() == GameFigure.SHIELD) {
                             f.updateState(GameFigure.STATE_DONE);
                             g.setState(GameFigure.STATE_TRAVELING);
@@ -539,7 +561,7 @@ public class GameData {
 
                         } else if (f.isMissile() == 42) { // health bonus
                             f.updateState(GameFigure.STATE_DONE);
-                            g.Health(-1);//subtract 1 from Player's health                            
+                            g.Health(-1);//subtract 1 from Player's health
                         }
                     }
                 }
@@ -575,7 +597,7 @@ public class GameData {
                     playMissileCheck(f);
                 } else if (f.isMissile() == 1) { // if enemy's missile
                     enemMissileCheck(f);
-                } else if (f.isPlayer() == 31) { // if power 
+                } else if (f.isPlayer() == 31) { // if power
                     powCheck(f);
                 }
                 if (f.getState() == GameFigure.STATE_DONE && f.isPlayer() != 0) {

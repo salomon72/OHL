@@ -162,7 +162,7 @@ public class Main extends JFrame
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {//controls the quit button
+    public synchronized void actionPerformed(ActionEvent ae) {//controls the quit button
         if (ae.getSource() == quitButton) {
             animator.running = false;
         }
@@ -293,7 +293,7 @@ public class Main extends JFrame
 
     //below are all of the different keyboard and action events, some are filled some are not
     @Override
-    public void mousePressed(MouseEvent me) {
+    public synchronized void mousePressed(MouseEvent me) {
         if (!animator.paused) {
             timer = new Timer();
             task = new FireTimerTask();
@@ -303,7 +303,7 @@ public class Main extends JFrame
     }
 
     @Override
-    public void keyPressed(KeyEvent ke) {//changes player ship position and fires based on key pressed    
+    public synchronized void keyPressed(KeyEvent ke) {//changes player ship position and fires based on key pressed    
         if (ke.getKeyCode() == KeyEvent.VK_P) {
             animator.paused = !animator.paused;
         }
@@ -371,7 +371,7 @@ public class Main extends JFrame
     }
 
     @Override
-    public void mouseClicked(MouseEvent me) { //fires a missle from the player on a normal mouse click
+    public synchronized void mouseClicked(MouseEvent me) { //fires a missle from the player on a normal mouse click
         if (playerShip.mouseable && !animator.paused) { // == true.        
             if (System.currentTimeMillis() - playerMissle < firingInterval) {
                 return;
@@ -408,7 +408,7 @@ public class Main extends JFrame
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {//fires missles from the player as long as the player clicks and drags, also updates position
+    public synchronized void mouseDragged(MouseEvent e) {//fires missles from the player as long as the player clicks and drags, also updates position
         if (playerShip.mouseable && !animator.paused) { // == true
             playerShip.x = e.getX();
             playerShip.y = e.getY();
@@ -416,7 +416,7 @@ public class Main extends JFrame
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {//updates position based on mouse
+    public synchronized void mouseMoved(MouseEvent e) {//updates position based on mouse
         if (gamePanel.running) { // == true. When player start Game; meaning player click on start Button.           
 
             if (playerShip.mouseable && !animator.paused) {
@@ -435,14 +435,14 @@ public class Main extends JFrame
     }
 
     //==================================================================
-    private void hideMouse() { // hide Cursor
+    private synchronized void hideMouse() { // hide Cursor
         ImageIcon invisi = new ImageIcon(new byte[0]);
         Cursor invisible = getToolkit().createCustomCursor(
                 invisi.getImage(), new Point(0, 0), "Hiding");
         gamePanel.setCursor(invisible);
     }
 
-    private void showMouse() { // show Cursor
+    private synchronized void showMouse() { // show Cursor
         gamePanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     //==================================================================

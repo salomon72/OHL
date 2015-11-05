@@ -55,7 +55,7 @@ public class Animator implements Runnable {
         running = true;
         backgroundScrollTimer.start();
         planetScaleTimer.start();
-        while (running) {
+        while (running && !Thread.interrupted()) {
             if (!paused) { // implement all methods if & only if the game is not paused. 
                 if (!cutsceneRunning) {
                     gameData.update();
@@ -74,7 +74,7 @@ public class Animator implements Runnable {
                         Thread.sleep(14);
                         gamePanel.printScreen();
                     } catch (InterruptedException e) {
-
+                        return;
                     }
                 } else {
                     if (!endcutscene) {

@@ -2,6 +2,10 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ public class Enemy implements GameFigure {
     private PHASE phase;
     private OPERATION cando = OPERATION.FLY;
     private int damage;
+    private boolean containsPowerup = false;
 
     public OPERATION canDo() {
         return cando;
@@ -175,6 +180,23 @@ public class Enemy implements GameFigure {
         }
 
     }
+    
+    private static BufferedImage colorImage(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        WritableRaster raster = image.getRaster();
+
+        for (int xx = 0; xx < width; xx++) {
+            for (int yy = 0; yy < height; yy++) {
+                int[] pixels = raster.getPixel(xx, yy, (int[]) null);
+                pixels[0] = 100;
+                pixels[1] = 100;
+                pixels[2] = 100;
+                raster.setPixel(xx, yy, pixels);
+            }
+        }
+        return image;
+    }
 
     @Override
     public void updateState(int state) {
@@ -261,6 +283,17 @@ public class Enemy implements GameFigure {
     @Override
     public void setMissile(int m) {
 
+    }
+    
+    public void setPowerup(){
+        FilteredImageSource filteredImageSource = new FilteredImageSource(enemyImage.getSource(), new ColorShift());
+        enemyImage = Toolkit.getDefaultToolkit().createImage(filteredImageSource);
+        containsPowerup = true;
+    }
+    
+    @Override
+    public boolean containsPowerup() {
+        return containsPowerup;
     }
 
 }

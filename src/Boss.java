@@ -189,4 +189,9 @@ public class Boss implements GameFigure {
 
     }
 
+    @Override
+    public boolean containsPowerup() {
+        return false;
+    }
+
 }

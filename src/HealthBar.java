@@ -172,4 +172,9 @@ public class HealthBar extends JFrame implements GameFigure {
             this.setIcon(im);
         }
     }
+    
+    @Override
+    public boolean containsPowerup() {
+        return false;
+    }
 }
