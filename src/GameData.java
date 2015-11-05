@@ -456,12 +456,15 @@ public class GameData {
                 if (!g.equals(f) && g.isPlayer() == 0 && f.getState() == GameFigure.STATE_TRAVELING) {
                     if (f.collision().intersects(g.collision())) {
 
-                        if (f.isMissile() == 40) {
+                        if (f.isMissile() == 40) { // shield
                             g.setState(GameFigure.SHIELD);
                             f.updateState(GameFigure.STATE_DONE);
-                        } else if (f.isMissile() == 41) {
+                        } else if (f.isMissile() == 41) { // multi-missile
                             f.updateState(GameFigure.STATE_DONE);
-                        } else if (f.isMissile() == 42) {
+                            if(Main.powLevel <=1)
+                                Main.powLevel++;
+                            
+                        } else if (f.isMissile() == 42) { // health bonus
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(-1);//subtract 1 from Player's health                            
                         }
