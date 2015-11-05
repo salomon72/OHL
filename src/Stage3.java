@@ -34,7 +34,7 @@ public class Stage3 implements Stage {
     }
 
     public Enemy getEnemy1() {
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 0 + count * 75, 81, 81) {
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 30 + count * 75, 81, 81) {
 
             @Override
             public void update() {
@@ -77,6 +77,31 @@ public class Stage3 implements Stage {
         };
         enemy.enemyImage = airEnemy2;
         enemy.type = 6;
+        return enemy;
+    }
+    
+    public Enemy getEnemy4(){
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, GamePanel.PHEIGHT / 2, 81, 81) {
+            private int count = 0;
+            float dx;
+            float dy;
+            float length;
+
+            @Override
+            public void update() {
+                dx = Ship.x + 200 - this.x;
+                dy = Ship.y + 20 - this.y;
+                length = (float) Math.sqrt(dx * dx + dy * dy);
+                dx /= length;
+                dy /= length;
+                count++;
+                this.x += dx;
+                this.y += dy;
+            }
+        };
+        enemy.enemyImage = airEnemy;
+        enemy.type = 5;
+        count++;
         return enemy;
     }
 

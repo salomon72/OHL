@@ -297,17 +297,72 @@ public class GameData {
                         count++;
                         if (count == 6) {
                             try {
-                                Thread.sleep(2000);
+                                Thread.sleep(1750);
                             } catch (InterruptedException ex) {
                                 return;
                             }
                         }
-
                     }
-                    try {
-                        Thread.sleep(400);//interval in which enemies are spawned
-                    } catch (InterruptedException ex) {
-                        return;
+                    
+                    stage3.resetCount();
+                    while (count <= 11 && count >= 6) {
+                        if (Thread.interrupted()) {
+                            return;
+                        }
+                        Enemy enemy = stage3.getEnemy1();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                        count++;
+                        if (count == 12) {
+                            try {
+                                Thread.sleep(1750);
+                            } catch (InterruptedException ex) {
+                                return;
+                            }
+                        }
+                    }
+                    stage3.resetCount();
+                    while (count <= 17 && count >= 12) {
+                        if (Thread.interrupted()) {
+                            return;
+                        }
+                        Enemy enemy = stage3.getEnemy1();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                        count++;
+                        if (count == 18) {
+                            try {
+                                Thread.sleep(1750);
+                            } catch (InterruptedException ex) {
+                                return;
+                            }
+                        }
+                    }
+                    while (count <= 50 && count >= 18) {
+                        Enemy enemy = stage3.getEnemy3();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                        if (count % 2 == 0) {
+                            enemy = stage3.getEnemy2();
+                            synchronized (figures) {
+                                figures.add(enemy);
+                            }
+                        }
+                        if(count % 3 == 0){
+                            enemy = stage3.getEnemy4();
+                            synchronized (figures) {
+                                figures.add(enemy);
+                            }
+                        }
+                        count++;
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ex) {
+                            return;
+                        }
                     }
                     countEnemy = MAXENEMY;
                 }
@@ -328,7 +383,7 @@ public class GameData {
         phase = p;
     }
 
-    public void spawnBossStage1() { 
+    public void spawnBossStage1() {
         GameFigureFactory factory = new Factory("BossStage1");
         synchronized (figures) {
             figures.add(factory.createFigure());
@@ -379,7 +434,6 @@ public class GameData {
                                 }
                             }
                         }
-
                     }
                     try {
                         Thread.sleep(1000);//interval between enemy fire
