@@ -535,74 +535,59 @@ public class GameData {
                 }
             }
 
-            //score.health = figures.get(0).get();
             if (Ship.health < 1) {
                 ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
             } //check enemy is over then finish
-            else if (GameData.phase == PHASE.ONE) {
+            if (GameData.phase == PHASE.ONE) {
+                if (countEnemy == MAXENEMY + 1) {
+                    isBossDied = true;
+                }
+                if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
+                    if (!isBossCreated) {
+                        spawnBossStage1();
+                        isBossCreated = true;
+                    } else if (isBossDied) {
+                        FINISHED = true;
+                        isBossDied = false;
+                        isBossCreated = false;
+                    }
+                }
+            } else if (GameData.phase == PHASE.TWO) {
+                if (countEnemy == MAXENEMY + 1) {
+                    isBossDied = true;
+                }
+                if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
+                    if (!isBossCreated) {
+                        spawnBossStage2();
+                        isBossCreated = true;
+                    } else if (isBossDied) {
+                        FINISHED = true;
+                        isBossDied = false;
+                        isBossCreated = false;
+                    }
+                }
+            } else {//phase 3
                 if (countEnemy == MAXENEMY + 1 && enemiesSpawned == 0) {
                     isBossDied = true;
                 }
-                if (!isBossCreated) {
-                    spawnBossStage1();
-                    try {
-                        // Thread.sleep(10);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getCause());
-                    }
-                    isBossCreated = true;
-                    System.out.println("spawn boss");
-                } else if (isBossDied) {
-                    FINISHED = true;
-                    isBossDied = false;
-                    isBossCreated = false;
-                    System.out.println("Game end!Player win2");
-                }
-            } else if (GameData.phase == PHASE.TWO) {
                 if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
-                    System.out.println(countEnemy);
-                    if (countEnemy == MAXENEMY + 1 && enemiesSpawned == 0) {
-                        isBossDied = true;
-                    }
                     if (!isBossCreated) {
-                        spawnBossStage2();
+                        spawnBossStage3();
                         try {
                             // Thread.sleep(10);
                         } catch (Exception ex) {
                             System.out.println(ex.getCause());
                         }
                         isBossCreated = true;
-                        System.out.println("spawn boss");
                     } else if (isBossDied) {
                         FINISHED = true;
-                        isBossDied = false;
-                        isBossCreated = false;
-                        System.out.println("Game end!Player win2");
-                    }
-                } 
-                else {//phase 3
-                    if (countEnemy == MAXENEMY + 1 && enemiesSpawned == 0) {
-                        isBossDied = true;
-                    }
-                    if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
-                        if (!isBossCreated) {
-                            spawnBossStage3();
-                            try {
-                                // Thread.sleep(10);
-                            } catch (Exception ex) {
-                                System.out.println(ex.getCause());
-                            }
-                            isBossCreated = true;
-                        } else if (isBossDied) {
-                            FINISHED = true;
-                            gameEnd = true;
-                        }
+                        gameEnd = true;
                     }
                 }
-                figures.removeAll(remove);
             }
+            figures.removeAll(remove);
         }
     }
 }
