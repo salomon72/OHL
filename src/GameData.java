@@ -170,7 +170,7 @@ public class GameData {
                     }
                     count++;
                     try {
-                        Thread.sleep(900);
+                        Thread.sleep(300);
                     } catch (InterruptedException ex) {
                         return;
                     }
@@ -328,15 +328,12 @@ public class GameData {
         phase = p;
     }
 
-    public void spawnBossStage1() {
-        //seperate method to spawn boss 
+    public void spawnBossStage1() { 
         GameFigureFactory factory = new Factory("BossStage1");
         synchronized (figures) {
             figures.add(factory.createFigure());
         }
         countEnemy++;
-        //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
-
     }
 
     public void spawnBossStage2() {
@@ -346,8 +343,6 @@ public class GameData {
             figures.add(factory.createFigure());
         }
         countEnemy++;
-        //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
-
     }
 
     public void spawnBossStage3() {
@@ -357,7 +352,6 @@ public class GameData {
             figures.add(factory.createFigure());
         }
         countEnemy++;
-        //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
     }
 
     public final void startFiring() {

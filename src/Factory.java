@@ -29,6 +29,7 @@ public class Factory implements GameFigureFactory {
             case "BossStage1": {
                 Random randomGenerator = new Random();
                 int temp = randomGenerator.nextInt(450);
+                type = new Boss(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81, 9);
                 return type;
             }
             case "BossStage2": {
