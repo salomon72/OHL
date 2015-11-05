@@ -11,12 +11,12 @@ import javax.swing.Timer;
 
 public class Animator implements Runnable {
 
-    boolean running;
-    static boolean cutsceneRunning = false;
-    static boolean endcutscene = false;
+    volatile static boolean running;
+    volatile static boolean cutsceneRunning = false;
+    volatile static boolean endcutscene = false;
     GamePanel gamePanel = null;
     GameData gameData = null;
-    boolean paused = false;
+    volatile static boolean  paused = false;
     private int x = 0;
     private int y = 0;
     public Timer backgroundScrollTimer; //private
@@ -56,6 +56,7 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running && !Thread.interrupted()) {
+            
             if (!paused) { // implement all methods if & only if the game is not paused. 
                 if (!cutsceneRunning) {
                     gameData.update();
@@ -67,14 +68,13 @@ public class Animator implements Runnable {
                             x = 0;
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     try {
-                        Thread.sleep(14);
+                        Thread.sleep(13);
                         gamePanel.printScreen();
                     } catch (InterruptedException e) {
-                        return;
+                        
                     }
                 } else {
                     if (!endcutscene) {
