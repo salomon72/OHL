@@ -6,15 +6,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author davidalba
- */
 public class TutorialGameData {
 
     final List<TutorialGameFigures> figures;
@@ -28,16 +19,13 @@ public class TutorialGameData {
     public TutorialGameData() {
 
         figures = Collections.synchronizedList(new ArrayList<TutorialGameFigures>());
-        //spawn player ship and add to figures list here
         TutorialShip ship = new TutorialShip(100, 100);//example of player ship spawn
         figures.add(ship);//adds player ship to figures
         startSpawner();//spawner thread for enemies
-        //startFiring();//thread that has enemies fire
 
     }
 
     public void spawnEnemy() {
-        //use the GameFigureFactory to create new instances of enemy objects
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(500);
         TutorialEnemy enemy = new TutorialEnemy(1300, temp, 88, 88);
@@ -45,7 +33,7 @@ public class TutorialGameData {
     }
 
     public void spawnBoss() {
-        //seperate method to spawn boss 
+
     }
 
     public final void startSpawner() {
@@ -133,7 +121,6 @@ public class TutorialGameData {
                         }
                         if (f.getState() == GameFigure.STATE_DONE) {//remove destroyed GameFigures
                             if (f.isPlayer() == 1) {
-                                System.out.println("##################Enemy is dying @  : " + f.getXcoor() + " , " + f.getYcoor());
                                 f.notifyObservers(5);
                             }
                             if (f.isPlayer() == 2) {
@@ -156,7 +143,6 @@ public class TutorialGameData {
                     }
 
                     if (g.isMissile() == 30 && (f.isMissile() != 30 || f.isMissile() != 0)) {//collision with power
-                        System.out.println("is power UP");
                         if (g.collision().intersects(f.collision()) && f.isPlayer() == 0) {
                             g.updateState(0);
                             f.Health(1);//subtract 1 from GameFigure health

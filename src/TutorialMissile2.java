@@ -22,12 +22,10 @@ public class TutorialMissile2 extends Ellipse2D.Float implements TutorialGameFig
 
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
-    Image missileImage; //= getImage(imagePath + separator + "images" + separator
-    //+ "missile"+Integer.toString(type)+".png");
+    Image missileImage;
 
     public PHASE getphase() {
         return GameData.getphase();
-        //throw new UnsupportedOperationException("Not implement!");
     }
     private OPERATION cando = OPERATION.ALL;
 

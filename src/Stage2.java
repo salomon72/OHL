@@ -17,13 +17,13 @@ public class Stage2 implements Stage {
     public Stage2() throws IOException {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
-        File file = new File(imagePath + separator + "images" + separator //load
+        File file = new File(imagePath + separator + "images" + separator
                 + "Stage2Background.gif");
         backgroundImage = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
+        file = new File(imagePath + separator + "images" + separator
                 + "enemy2.png");
         airEnemy = ImageIO.read(file);
-        file = new File(imagePath + separator + "images" + separator //load
+        file = new File(imagePath + separator + "images" + separator
                 + "enemy3.png");
         waterEnemy = ImageIO.read(file);
         backgroundWidth = backgroundImage.getWidth(null);
@@ -64,17 +64,53 @@ public class Stage2 implements Stage {
     }
 
     public Enemy getEnemy3() {
-        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, 0 + count * 4, 81, 81) {
+
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, GamePanel.PHEIGHT / 2, 81, 81) {
             private int count = 0;
+            float dx;
+            float dy;
+            float length;
 
             @Override
             public void update() {
+                dx = Ship.x + 200 - this.x;
+                dy = Ship.y + 20 - this.y;
+                length = (float) Math.sqrt(dx * dx + dy * dy);
+                dx /= length;
+                dy /= length;
                 count++;
-                if (count >= 0) {
-                    this.x -= 1;
-                }
+                this.x += dx;
+                this.y += dy;
             }
         };
+        enemy.enemyImage = airEnemy;
+        enemy.type = 2;
+        count++;
+        return enemy;
+    }
+
+    public Enemy getEnemy4() {
+        Random randomGenerator = new Random();
+        int temp = randomGenerator.nextInt(100) + GamePanel.PHEIGHT - 150;
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
+            private int count = 0;
+            float dx;
+            float dy;
+            float length;
+
+            @Override
+            public void update() {
+                dx = Ship.x + 200 - this.x;
+                dy = Ship.y + 20 - this.y;
+                length = (float) Math.sqrt(dx * dx + dy * dy);
+                dx /= length;
+                dy /= length;
+                count++;
+                this.x += dx;
+            }
+        };
+        enemy.enemyImage = waterEnemy;
+        enemy.type = 3;
         count++;
         return enemy;
     }

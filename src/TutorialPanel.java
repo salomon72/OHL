@@ -3,31 +3,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.*;
-import java.awt.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author davidalba
- */
 public class TutorialPanel extends JPanel {
 
     public static final int PWIDTH = 1245; // size of the game panel 852
@@ -45,14 +30,6 @@ public class TutorialPanel extends JPanel {
     private HealthBar health;
 
     private Image backgroundImage;//image for the background of the game
-    private BufferedImage planetImage;//test planet image
-    private BufferedImage planetImageTransformed;//test planet image
-    private float scale;
-    private int scaleCount;
-    private int nextStage;
-    private boolean stageChange;
-
-    private Stage currentStage;
 
     public TutorialPanel(TutorialAnimator tutorialAnimator, TutorialGameData gameData) throws IOException { //Animator animator
         this.tutorialAnimator = tutorialAnimator; //this.animator = animator
@@ -62,23 +39,11 @@ public class TutorialPanel extends JPanel {
         String separator = System.getProperty("file.separator");
         backgroundImage = getImage(imagePath + separator + "images" + separator + "Spiral Background.gif");
 
-        //backgroundImage.getScaledInstance(1275, 587, 1);
         setBackground(Color.black); // sets background color behind the background image
-        //  setPreferredSize(new Dimension(1275, 587));//sets the size of the JPanel
-
-        //planetImage = ImageIO.read(file);
         AffineTransform tx = new AffineTransform();
         tx.scale(0.5, 0.5);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        //planetImage = op.filter(planetImage, null);
-        //planetImageTransformed = planetImage;
-        scaleCount = 0;
         health = new HealthBar(1, null);
-        scale = 1;
-
-        currentStage = new Stage1();
-        nextStage = 1;
-        stageChange = false;
 
         setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
@@ -101,13 +66,7 @@ public class TutorialPanel extends JPanel {
                 graphics = dbImage.getGraphics();
             }
         }
-
-        // int width = backgroundImage.getWidth();//width of background image
         graphics.drawImage(backgroundImage, x, y, null);//draws image on tutorial panel
-        //graphics.drawImage(backgroundImage, x + width, y, null);//draws image off screen for scrolling reasons
-        //graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
-
-        System.out.println("y is" + TutorialShip.health);
         for (int i = 0; i < TutorialShip.health; i++) { //i < 5
 
             graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null); //20*i, 10, 30, 30, nul   
@@ -143,7 +102,6 @@ public class TutorialPanel extends JPanel {
             if ((g != null) && (dbImage != null)) {
                 g.drawImage(dbImage, 0, 0, null);
                 String text1 = "Use the mouse to move ship around";
-                // System.out.println(text);
                 g.drawString(text1, 50, 50);
 
                 String text2 = "Click the the mouse to fire the missile ";
@@ -160,21 +118,4 @@ public class TutorialPanel extends JPanel {
         }
 
     }
-
-    /*public void Tutorial(Graphics g) {
-        
-        
-     g = this.getGraphics();
-     Font font = new Font("Impact", Font.BOLD, 40);
-     String text = "Your final score was";
-     Color textColor = Color.WHITE;
-     g.setFont(font);
-     g.setColor(textColor);
-     g.drawString(text, 50, 50);
-        
-     }*/
-    public Stage getCurrentStage() {
-        return currentStage;
-    }
-
 }

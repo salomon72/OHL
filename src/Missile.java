@@ -17,7 +17,7 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
 
     Point2D.Float target;
     private int state = STATE_TRAVELING;
-    private static final int UNIT_TRAVEL_DISTANCE = 3;
+    private static final int UNIT_TRAVEL_DISTANCE = 5;
     int health = 1;
     private final ArrayList<Observer> observers;
     int type;
@@ -95,7 +95,6 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        // System.out.println("missle:y:"+y+",y+17:"+y+17);
         return new Rectangle((int) x, (int) y, 23, 17);
     }
 

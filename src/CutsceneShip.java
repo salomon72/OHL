@@ -8,19 +8,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author davidalba
- */
 public class CutsceneShip implements GameFigure {
 
     boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
-    // false : means user should use key directions
 
     Image playerImage;
     float x, y;

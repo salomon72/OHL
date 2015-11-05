@@ -73,48 +73,12 @@ public class Enemy implements GameFigure {
                     + "enemy" + Integer.toString(temp) + ".png");
             type = temp;
         }
-        /*if (type == 0 || type == 2 || type == 5 || type == 6 || type == 7) {
-         cando = OPERATION.FLY;
-         } else if (type == 1 || type == 4 || type == 3) {
-         cando = OPERATION.SWIM;
-         }*/
-        this.setAttributes(i, 2);
+        this.setAttributes(i, 6);
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
-        //System.out.println("x:"+x);
-        /*if (GameData.getphase() == PHASE.TWO) {
-         if (this.canDo() == OPERATION.SWIM) {
-         if (this.y < SPACE + MARGIN) {
-         this.y = SPACE + MARGIN;
-         }
-         //submarine tank
-         } else if (this.canDo() == OPERATION.FLY) {
-         //airplane
-         if (this.y > SPACE - MARGIN) {
-         this.y = SPACE - MARGIN;
-         }
-         }
-         } else if (GameData.getphase() == PHASE.THREE) {
-         if (this.canDo() == OPERATION.SWIM) {
-         if (this.y < GROUND + MARGIN) {
-         this.y = GROUND + MARGIN;
-         }
-         //submarine tank
-         } else if (this.canDo() == OPERATION.FLY) {
-         //airplane
-         if (this.y > GROUND - MARGIN) {
-         this.y = GROUND - MARGIN;
-         }
-         }
-         }*/
-
         w = weight;
         h = height;
-
-        // Random rand = new Random();
-        // int r = rand.nextInt(5) + 1;       
-        //power = 1;
         power = new PowerUp(3);
 
     }
@@ -154,7 +118,6 @@ public class Enemy implements GameFigure {
             this.x += 2 * dx;
             this.y += 2 * dy;
         }
-        // move randomly in 4 direction
 
         if (GameData.getphase() == PHASE.TWO) {
             if (this.canDo() == OPERATION.SWIM) {
@@ -194,8 +157,6 @@ public class Enemy implements GameFigure {
                 }
             }
         } else {
-            // System.out.println("xxxxxx:"+x);
-            // if(x > GamePanel.WIDTH) x = GamePanel.WIDTH;
             if (y <= GameData.MINHEIGHT) {
                 y = GameData.MINHEIGHT;
             }
@@ -250,7 +211,6 @@ public class Enemy implements GameFigure {
 
     @Override
     public float getXofMissileShoot() {
-        // CHECK
         return x - 30;
     }
 

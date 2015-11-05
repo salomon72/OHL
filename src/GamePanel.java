@@ -106,7 +106,6 @@ public class GamePanel extends JPanel {
         if (nextStage == 1) {
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
-        // System.out.println("y is" + Ship.health);
         for (int i = 0; i < Ship.health; i++) { //i < 5
 
             graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null); //20*i, 10, 30, 30, nul   
@@ -142,7 +141,6 @@ public class GamePanel extends JPanel {
         if (cutsceneChange) {
 
             if (nextCutscene == 1) {
-                // planetImage = new BufferedImage(1, 1, 1);
                 currentCutscene = new Cutscene1();
                 currentStage = new Stage2();
                 collectFromCutscenes();
@@ -251,7 +249,7 @@ public class GamePanel extends JPanel {
             }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
         } catch (InterruptedException e) {
-            System.out.println("Graphics error2: " + e);
+            System.out.println("Graphics error: " + e);
         }
     }
 
@@ -278,7 +276,7 @@ public class GamePanel extends JPanel {
                 nextStage = 2;
                 stageChange = true;
                 gameData.setStateChanged(2, false);
-                
+
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
@@ -292,7 +290,7 @@ public class GamePanel extends JPanel {
             }
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
         } catch (InterruptedException e) {
-            System.out.println("Graphics error2: " + e);
+            System.out.println("Graphics error: " + e);
         }
     }
 

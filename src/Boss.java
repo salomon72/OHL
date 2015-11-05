@@ -93,6 +93,7 @@ public class Boss implements GameFigure {
 
     @Override
     public void update() {
+<<<<<<< HEAD
         dx = Ship.x + 200 - this.x;
         dy = Ship.y + 20 - this.y;
         length = (float) Math.sqrt(dx * dx + dy * dy);
@@ -102,6 +103,29 @@ public class Boss implements GameFigure {
         dy *= 2;
         this.x += dx;
         this.y += dy;
+=======
+        Random rand = new Random();
+        int dx = rand.nextInt(3) - 1;
+        int dy = rand.nextInt(3) - 1;
+
+        this.x += 2 * dx;
+        this.y += 8 * dy;
+        if (y <= GameData.MINHEIGHT) {
+            y = GameData.MINHEIGHT;
+        }
+        if (y > GameData.MAXHEIGHT) {
+            y = GameData.MAXHEIGHT;
+        }
+        if (health > 0) {
+            power.setLocation((int) this.x, (int) this.y);
+        } else {
+            power.setReleased(true);
+        }
+
+        if (power.isEnabled() && power.getPower() != null) {
+            power.update();
+        }
+>>>>>>> origin/master
 
     }
 
@@ -140,7 +164,6 @@ public class Boss implements GameFigure {
 
     @Override
     public float getXofMissileShoot() {
-        // CHECK
         return x - 30;
     }
 
@@ -184,8 +207,6 @@ public class Boss implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        // CHANGE SIZE OF IMAGE
-        //System.out.println("Boss:y:"+y+",y+17:"+y+59);
         return new Rectangle((int) x, (int) y, 81, 81);
     }
 

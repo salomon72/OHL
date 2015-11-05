@@ -24,8 +24,8 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     String imagePath = System.getProperty("user.dir");
     String separator = System.getProperty("file.separator");
-    Image missileImage; //= getImage(imagePath + separator + "images" + separator
-    //+ "missile"+Integer.toString(type)+".png");
+    Image missileImage = getImage(imagePath + separator + "images" + separator
+            + "missile" + Integer.toString(type) + ".png");
 
     public PHASE getphase() {
         return GameData.getphase();
@@ -104,7 +104,6 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     @Override
     public Rectangle collision() {
         if (this.type == 7) {
-            //System.out.println("type:"+type);
             return new Rectangle((int) x, (int) y - 17, 70, 81);
         } else {
             return new Rectangle((int) x, (int) y, 23, 17);

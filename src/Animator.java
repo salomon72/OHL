@@ -90,23 +90,13 @@ public class Animator implements Runnable {
                             } catch (InterruptedException e) {
 
                             }
-                        //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
-
-                            //planetScaleTimer = new Timer(100, planetScale);
-                            //cutsceneRunning = false;
                         } catch (IOException ex) {
                             Logger.getLogger(Animator.class.getName()).log(Level.SEVERE, null, ex);
 
                         }
-                    //backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
-
-                        //planetScaleTimer = new Timer(100, planetScale);
-                        //cutsceneRunning = false;
                     } else {
-                        //cutsceneRunning = false;
                         endcutscene = true;
                         cutsceneRunning = false;
-                        //backgroundScrollTimer = new Timer(30, backgroundRender);
                         backgroundScrollTimer.start();
                     }
                 }

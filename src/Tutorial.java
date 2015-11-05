@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
-import static java.awt.SystemColor.text;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,8 +14,6 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,15 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author davidalba
- */
 public class Tutorial extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
 
@@ -65,7 +53,6 @@ public class Tutorial extends JFrame
         setLocation(50, 100);//location of initial window
         setTitle("Galileo Tutorial");//title of the initial window
         Container c = getContentPane();//container for JPanel items
-        //animator = new Animator();
         gameData = new TutorialGameData();
         tutorialAnimator = new TutorialAnimator();
         tutorialPanel = new TutorialPanel(tutorialAnimator, gameData); //animator, gameData
@@ -76,22 +63,6 @@ public class Tutorial extends JFrame
         JPanel southPanel = new JPanel();
 
         key = 'p';
-
-        /*text = new JTextField(20); // for test to show what is used for control spaceship
-         text.setEditable(false);
-         text.setText("Use the mouse to move ship around");
-         text.setVisible(true);
-         southPanel.add(text);*/
-        /*text = new JTextField(20); // for test to show what is used for control spaceship
-         text.setEditable(false);
-         text.setText("Click the mouse to fire the missle");
-         text.setVisible(true);
-         southPanel.add(text);*/
-        /* text2 = new JTextField(45);
-         text2.setEditable(false);
-         text2.setText("You can also use the keyboard by pressing m to switch and pressing space to fire");
-         text2.setVisible(true);
-         southPanel.add(text2);*/
         btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
@@ -120,8 +91,6 @@ public class Tutorial extends JFrame
         tutorialPanel.setFocusable(true); // receives keyboard data
         tutorialPanel.addKeyListener(this);
 
-        //text.setFocusable(false);
-        //text.addActionListener(this);
         quitButton.addActionListener(this);
         quitButton.setFocusable(false);
 
@@ -235,13 +204,9 @@ public class Tutorial extends JFrame
                 break;
             case KeyEvent.VK_M: // activate or de-activate mouse control
                 playerShip.mouseable = !playerShip.mouseable;
-
-                // Notify the user about the changes%%
                 if (!playerShip.mouseable) {
-                    //text.setText("KEYBOARD : Control the Ship using direction key.'Space' for shooting.  ## PRESS 'm' TO SWITCH ");
                     showMouse();
                 } else {
-                    //text.setText("MOUSE (default) : Control the Ship using the mouse. Click for shooting.  ## PRESS 'm' TO SWITCH ");
                     hideMouse();
                 }
                 break;

@@ -9,15 +9,6 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author davidalba
- */
 public class TutorialEnemy implements TutorialGameFigures {
 
     Image enemyImage;
@@ -63,7 +54,6 @@ public class TutorialEnemy implements TutorialGameFigures {
         if (state != STATE_DEAD) {
             g.drawImage(enemyImage, (int) x, (int) y, null);
         }
-        //g.drawImage(enemyImage, 4000, 540, null);
 
         if (power.isEnabled() && power.isReleased()) {
             power.render(g);
@@ -114,7 +104,6 @@ public class TutorialEnemy implements TutorialGameFigures {
 
     @Override
     public float getXofMissileShoot() {
-        // CHECK
         return x - 30;
     }
 
@@ -148,7 +137,6 @@ public class TutorialEnemy implements TutorialGameFigures {
 
     @Override
     public Rectangle collision() {
-        // CHANGE SIZE OF IMAGE
         return new Rectangle((int) x, (int) y, 30, 44);
     }
 }
