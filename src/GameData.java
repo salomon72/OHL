@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 enum PHASE {
 
@@ -185,8 +183,8 @@ public class GameData {
                             repeat = false;
                         }
                     }
-                    countEnemy = MAXENEMY;
                 }
+                countEnemy = MAXENEMY;
             }
         });
 
@@ -274,26 +272,37 @@ public class GameData {
         phase = p;
     }
 
-    public void spawnBoss() {
+    public void spawnBossStage1() {
         //seperate method to spawn boss 
-        GameFigureFactory factory = new Factory("Boss");
+        GameFigureFactory factory = new Factory("BossStage1");
         synchronized (figures) {
             figures.add(factory.createFigure());
         }
+        countEnemy++;
         //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
 
     }
 
-    public final void startSpawnBoss() {
-        Thread enemySpawner;
-        enemySpawner = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                spawnBoss();
-                countEnemy++;
-            }
-        });
-        enemySpawner.start();//starts the enemy spawner
+    public void spawnBossStage2() {
+        //seperate method to spawn boss 
+        GameFigureFactory factory = new Factory("BossStage2");
+        synchronized (figures) {
+            figures.add(factory.createFigure());
+        }
+        countEnemy++;
+        //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
+
+    }
+
+    public void spawnBossStage3() {
+        //seperate method to spawn boss 
+        GameFigureFactory factory = new Factory("BossStage3");
+        synchronized (figures) {
+            figures.add(factory.createFigure());
+        }
+        countEnemy++;
+        //System.out.println("%%%%%%%%%%%%%%%%%%%%spawn boss:"+figures.size());
+
     }
 
     public final void startFiring() {
@@ -311,7 +320,7 @@ public class GameData {
                             if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
                                 int tempMissile = f.getMyType();
 
-                                if (type == 7) {
+                                if (type == 7 || type == 8 || type == 9) {
                                     tempMissile = 1 + (int) (Math.random() * 7);
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
@@ -489,20 +498,58 @@ public class GameData {
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
                 System.out.println("Game end!Player health empty");
-            }
-            //check enemy is over then finish
-            if (GameData.phase == PHASE.ONE || GameData.phase == PHASE.TWO) {
+            } //check enemy is over then finish
+            else if (GameData.phase == PHASE.ONE) {
                 if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
-                    FINISHED = true;
-                    System.out.println("Game end!Player win1");
+                    System.out.println(countEnemy);
+                    if (countEnemy == MAXENEMY + 1 && enemiesSpawned == 0) {
+                        isBossDied = true;
+                    }
+                    if (!isBossCreated) {
+                        spawnBossStage1();
+                        try {
+                            // Thread.sleep(10);
+                        } catch (Exception ex) {
+                            System.out.println(ex.getCause());
+                        }
+                        isBossCreated = true;
+                        System.out.println("spawn boss");
+                    } else if (isBossDied) {
+                        FINISHED = true;
+                        isBossDied = false;
+                        isBossCreated = false;
+                        System.out.println("Game end!Player win2");
+                    }
+                }
+            } else if (GameData.phase == PHASE.TWO) {
+                if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
+                    System.out.println(countEnemy);
+                    if (countEnemy == MAXENEMY + 1 && enemiesSpawned == 0) {
+                        isBossDied = true;
+                    }
+                    if (!isBossCreated) {
+                        spawnBossStage2();
+                        try {
+                            // Thread.sleep(10);
+                        } catch (Exception ex) {
+                            System.out.println(ex.getCause());
+                        }
+                        isBossCreated = true;
+                        System.out.println("spawn boss");
+                    } else if (isBossDied) {
+                        FINISHED = true;
+                        isBossDied = false;
+                        isBossCreated = false;
+                        System.out.println("Game end!Player win2");
+                    }
                 }
             } else {//phase 3
-                if (countEnemy == MAXENEMY + 1) {
+                if (countEnemy == MAXENEMY + 1 && enemiesSpawned == 0) {
                     isBossDied = true;
                 }
                 if (countEnemy >= MAXENEMY && enemiesSpawned == 0) {
                     if (!isBossCreated) {
-                        startSpawnBoss();
+                        spawnBossStage3();
                         try {
                             // Thread.sleep(10);
                         } catch (Exception ex) {

@@ -17,7 +17,7 @@ public class Ship implements GameFigure {
     // false : means user should use key directions
 
     Image playerImage;
-    float x, y;
+    static float x, y;
     int state = STATE_TRAVELING;
     static int health;
     private ArrayList<Observer> observers;

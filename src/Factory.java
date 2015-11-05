@@ -26,10 +26,24 @@ public class Factory implements GameFigureFactory {
                 type = new Enemy(GamePanel.PWIDTH - 300, temp + 30, 81, 81);
                 return type;
             }
-            case "Boss": {
+            case "BossStage1": {
                 Random randomGenerator = new Random();
                 int temp = randomGenerator.nextInt(450);
-                type = new Boss(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81);
+                type = new Boss(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81, 9);
+                System.out.println("Boss created");
+                return type;
+            }
+            case "BossStage2": {
+                Random randomGenerator = new Random();
+                int temp = randomGenerator.nextInt(450);
+                type = new Boss(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81, 8);
+                System.out.println("Boss created");
+                return type;
+            }
+            case "BossStage3": {
+                Random randomGenerator = new Random();
+                int temp = randomGenerator.nextInt(450);
+                type = new Boss(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81, 7);
                 System.out.println("Boss created");
                 return type;
             }
