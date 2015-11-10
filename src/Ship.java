@@ -25,6 +25,8 @@ public class Ship implements GameFigure {
     private int missile = -1;
     private boolean blinking;
     private long blinkTimer;
+    
+    DisplayShip displayShip;
 
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
@@ -47,7 +49,7 @@ public class Ship implements GameFigure {
         return 2;
     }
 
-    public Ship(float x, float y) {
+    public Ship(float x, float y) throws IOException {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = getImage(imagePath + separator + "images" + separator
@@ -56,6 +58,7 @@ public class Ship implements GameFigure {
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
+      
     }
 
     public static Image getImage(String fileName) {
@@ -89,6 +92,7 @@ public class Ship implements GameFigure {
             }
         }
         g.drawImage(playerImage, (int) x, (int) y, null);
+       
     }
 
     @Override

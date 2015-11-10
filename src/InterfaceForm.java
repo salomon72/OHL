@@ -82,10 +82,11 @@ public class InterfaceForm extends javax.swing.JFrame {
     }//GEN-LAST:event_B_STARTActionPerformed
 
     private void B_HELPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_HELPActionPerformed
-        HelpInterface h;
+        //HelpInterface h;
+        HelpInterface2 h;
         try {
-            h = new HelpInterface();
-            h.setSize(500, 400);
+            h = new HelpInterface2();
+            h.setSize(1275, 650);
             h.setLocation(300, 100); //400, 200
             h.setResizable(false);
             h.setVisible(true);

@@ -28,7 +28,7 @@ public class Main extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
 
     private final GamePanel gamePanel;
-    private final GameData gameData;
+    final GameData gameData;
     private final Animator animator;
 
     private final JTextField text;

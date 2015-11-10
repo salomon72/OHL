@@ -2,12 +2,15 @@
  class that is used to create new iinstances of GameFigure classes.
  */
 
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Factory implements GameFigureFactory {
 
     GameFigure type;
-    String S;
+    String S;//
 
     public Factory(String S) {
         this.S = S;
@@ -17,15 +20,33 @@ public class Factory implements GameFigureFactory {
     public GameFigure createFigure() { //using a string to identify the type of GameFigure to create
         switch (S) {
             case "Ship":
+        {
+            try {
                 type = new Ship(0, GamePanel.PHEIGHT / 2 - 30);//example of object creation
+            } catch (IOException ex) {
+                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
                 return type;
             case "Enemy": {
                 Random randomGenerator = new Random();
 
                 int temp = randomGenerator.nextInt(450);
                 type = new Enemy(GamePanel.PWIDTH - 300, temp + 30, 81, 81);
+                
                 return type;
             }
+            
+            case "DisplayEnemey":{
+            try {
+                type = new DisplayEnemy(0, GamePanel.PHEIGHT / 2 - 45);
+            } catch (IOException ex) {
+                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+               return type;
+            }
+            
+            
             case "Boss": {
                 Random randomGenerator = new Random();
                 int temp = randomGenerator.nextInt(450);

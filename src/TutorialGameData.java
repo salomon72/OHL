@@ -22,6 +22,7 @@ public class TutorialGameData {
         TutorialShip ship = new TutorialShip(100, 100);//example of player ship spawn
         figures.add(ship);//adds player ship to figures
         startSpawner();//spawner thread for enemies
+        
 
     }
 
