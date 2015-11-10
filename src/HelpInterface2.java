@@ -52,7 +52,7 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
     private final DisplayPanel displayPanel;
     private final DisplayGameData displayGameData;
     private final DisplayAnimator displayAnimator;
-    private final GameData gameData;
+    //private final GameData gameData;
     
     private JTextField text;
     private JTextField text2;
@@ -74,7 +74,7 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
         
         displayGameData = new DisplayGameData();
         displayAnimator = new DisplayAnimator();
-        gameData = new GameData();
+        //gameData = new GameData();
         displayPanel = new DisplayPanel (displayAnimator, displayGameData); //animator, gameData
         displayAnimator.setDisplayPanel(displayPanel);//sets the gamePanel object for animator to use //animator.setTutorialPanel(tutorialPanel)
         displayAnimator.setDisplayGameData(displayGameData);//sets gameData object for animator to us //animator.setGameData(gameData)
@@ -112,7 +112,7 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
     @Override
     public void actionPerformed(ActionEvent e) {
        if (e.getSource() == back) {
-
+            DisplayAnimator.running = false;
             dispose();
        }
     }

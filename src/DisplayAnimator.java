@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class DisplayAnimator implements Runnable {
     
-    boolean running;
+    static boolean running;
     DisplayGameData displayGameData = null;
     DisplayPanel displayPanel = null;
     private int x = 0;
@@ -42,7 +42,6 @@ public class DisplayAnimator implements Runnable {
 
         }
 
-        System.exit(0);
 
     }
     

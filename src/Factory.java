@@ -36,7 +36,6 @@ public class Factory implements GameFigureFactory {
                 
                 return type;
             }
-<<<<<<< HEAD
             
             case "DisplayEnemey":{
             try {
@@ -47,11 +46,7 @@ public class Factory implements GameFigureFactory {
                return type;
             }
             
-            
-            case "Boss": {
-=======
             case "BossStage1": {
->>>>>>> origin/master
                 Random randomGenerator = new Random();
                 int temp = randomGenerator.nextInt(450);
                 type = new Boss(GamePanel.PWIDTH - 400, GamePanel.PHEIGHT / 2, 2 * 81, 2 * 81, 9);
