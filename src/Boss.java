@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
@@ -19,6 +18,9 @@ public class Boss implements GameFigure {
     private PHASE phase;
     private OPERATION cando = OPERATION.FLY;
     private int damage;
+    float dx;
+    float dy;
+    float length;
 
     public OPERATION canDo() {
         return cando;
@@ -47,15 +49,16 @@ public class Boss implements GameFigure {
     }
     private ArrayList<Observer> observers;
 
-    Boss(float x, float y, int height, int weight) {
+    Boss(float x, float y, int height, int weight, int type) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         Image i = null;
         phase = GameData.getphase();
-        i = getImage(imagePath + separator + "images" + separator + "enemy7.png");
+        this.type = type;
+        i = getImage(imagePath + separator + "images" + separator
+                + "enemy" + Integer.toString(this.type) + ".png");
 
         cando = OPERATION.ALL;
-        type = 7;
         this.setAttributes(i, GameData.MAXHEALTH * 4);
         this.observers = new ArrayList<>();
         this.x = x;
@@ -89,28 +92,15 @@ public class Boss implements GameFigure {
 
     @Override
     public void update() {
-        Random rand = new Random();
-        int dx = rand.nextInt(3) - 1;
-        int dy = rand.nextInt(3) - 1;
-
-        this.x += 2 * dx;
-        this.y += 8 * dy;
-        if (y <= GameData.MINHEIGHT) {
-            y = GameData.MINHEIGHT;
-        }
-        if (y > GameData.MAXHEIGHT) {
-            y = GameData.MAXHEIGHT;
-        }
-        if (health > 0) {
-            power.setLocation((int) this.x, (int) this.y);
-        } else {
-            power.setReleased(true);
-        }
-
-        if (power.isEnabled() && power.getPower() != null) {
-            power.update();
-        }
-
+        dx = Ship.x + 200 - this.x;
+        dy = Ship.y + 20 - this.y;
+        length = (float) Math.sqrt(dx * dx + dy * dy);
+        dx /= length;
+        dy /= length;
+        dx *= 2;
+        dy *= 2;
+        this.x += dx;
+        this.y += dy;
     }
 
     @Override
@@ -197,6 +187,11 @@ public class Boss implements GameFigure {
     @Override
     public void setMissile(int m) {
 
+    }
+
+    @Override
+    public boolean containsPowerup() {
+        return false;
     }
 
 }

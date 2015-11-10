@@ -184,4 +184,9 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     }
 
+    @Override
+    public boolean containsPowerup() {
+        return false;
+    }
+    
 }

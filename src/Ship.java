@@ -218,4 +218,9 @@ public class Ship implements GameFigure {
         this.state = s;
     }
 
+    @Override
+    public boolean containsPowerup() {
+        return false;
+    }
+    
 }

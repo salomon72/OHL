@@ -65,6 +65,8 @@ public interface GameFigure {
     void setAttributes(Image i, int health);// sets the image and the initial health of the object
 
     public Rectangle collision();//returns the box of the object for collision detection reasons
+    
+    public boolean containsPowerup();
 
     //various states to the used by updateState(int) and getState()
     static final int STATE_TRAVELING = 1;

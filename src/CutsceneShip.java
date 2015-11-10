@@ -155,4 +155,9 @@ public class CutsceneShip implements GameFigure {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public boolean containsPowerup() {
+        return false;
+    }
+    
 }

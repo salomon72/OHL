@@ -20,7 +20,6 @@ public class GamePanel extends JPanel {
     public static final int PWIDTH = 1275; // size of the game panel
     public static final int PHEIGHT = 587;
 
-    public boolean running; // state of the game.
 
     private final Animator animator;//Animator object for the game panel
     private final GameData gameData;//GameData object for the game panel
@@ -82,11 +81,8 @@ public class GamePanel extends JPanel {
     }
 
     public void startGame() { //starts the thread for the animator
-        running = true;
-
         Thread t = new Thread(animator);
         t.start();
-
     }
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
