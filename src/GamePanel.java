@@ -40,6 +40,8 @@ public class GamePanel extends JPanel {
     private boolean stageChange;
     private int nextCutscene;
     private boolean cutsceneChange;
+    
+    
 
     private Stage currentStage;
     private Cutscenes currentCutscene;
@@ -104,7 +106,7 @@ public class GamePanel extends JPanel {
         }
         for (int i = 0; i < Ship.health; i++) { //i < 5
 
-            graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null); //20*i, 10, 30, 30, nul   
+            graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null);    
         }
 
         if (nextStage == 1) {
@@ -268,10 +270,12 @@ public class GamePanel extends JPanel {
 
             if (nextStage == 1) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                StartCutscene();
                 Thread.sleep(4000);
                 nextStage = 2;
                 stageChange = true;
                 gameData.setStateChanged(2, false);
+                
 
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
@@ -301,6 +305,27 @@ public class GamePanel extends JPanel {
             g.drawImage(gamePaused, 0, 0, null);
         }
     }
+    
+     public void StartCutscene(){
+        if (cutsceneChange) {
+
+            if (nextCutscene == 1) {
+                // planetImage = new BufferedImage(1, 1, 1);
+               
+                collectFromCutscenes();
+                Animator.cutsceneRunning = true;
+                
+
+            }
+            if (nextCutscene == 2) {
+                
+                collectFromCutscenes();
+                Animator.cutsceneRunning = true;
+            }
+            cutsceneChange = false;
+        }
+    }
+
 
     public Stage getCurrentStage() {
         return currentStage;

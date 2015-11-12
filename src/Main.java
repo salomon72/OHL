@@ -221,6 +221,7 @@ public class Main extends JFrame
                 gameData.setStateChanged(2, true);
                 Animator.cutsceneRunning = true;
                 Animator.endcutscene = false;
+                Ship.playerImage = new BufferedImage(1, 1, 1);
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
@@ -239,6 +240,7 @@ public class Main extends JFrame
                 gameData.setStateChanged(3, true);
                 Animator.cutsceneRunning = true;
                 Animator.endcutscene = false;
+                Ship.playerImage = new BufferedImage(1, 1, 1);
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {

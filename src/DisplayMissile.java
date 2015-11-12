@@ -1,3 +1,15 @@
+
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,34 +20,22 @@
  *
  * @author davidalba
  */
-
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-
-public class DisplayShip implements GameFigure, Display {
-     Image displayShip;
-    float x, y;
-    int w, h;
+public class DisplayMissile extends Ellipse2D.Float implements GameFigure, Display{
     
-     DisplayShip(Image i, float x, float y) throws IOException {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-         File file = new File(imagePath + separator + "images" + separator
-                + "playerShip.png");
-        displayShip = ImageIO.read(file);
-        
-         this.x = x;
-        this.y = y;
-        
-     }
-     
-       
-      public static Image getImage(String fileName) {
+    int type;
+    
+    String imagePath = System.getProperty("user.dir");
+    String separator = System.getProperty("file.separator");
+    Image missileImage = getImage(imagePath + separator + "images" + separator
+            + "missile.png");//use 1 onley
+    
+public DisplayMissile(float x, float y, int type) {
+        //this.observers = new ArrayList<>();
+        setFrameFromCenter(x, y, x, y);
+        this.type = type;
+    }
+    
+    public static Image getImage(String fileName) {
         Image image = null;
         try {
             image = ImageIO.read(new File(fileName));
@@ -45,9 +45,18 @@ public class DisplayShip implements GameFigure, Display {
         }
         return image;
     }
-
     @Override
     public int getDamage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPlayerImage(Image image) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Image getPlayerImage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -73,7 +82,7 @@ public class DisplayShip implements GameFigure, Display {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(displayShip, (int) x, (int) y, null);
+          g.drawImage(missileImage, (int) x, (int) y, null);
     }
 
     @Override
@@ -162,23 +171,15 @@ public class DisplayShip implements GameFigure, Display {
     }
 
     @Override
-    public Image getCharacterImage() {
-        return displayShip;
-    }
-
-    @Override
     public boolean containsPowerup() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setPlayerImage(Image image) {
+    public Image getCharacterImage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 
-    @Override
-    public Image getPlayerImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

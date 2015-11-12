@@ -2,7 +2,8 @@
  handles the management of the objects to be rendered and when to remove them.
  Also controls the spawning of enemies and firing of enemies
  */
-
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class GameData {
     public Thread Stage2Spawner;
     public Thread Stage3Spawner;
     public Thread enemyShootThread;
+  
+    private Image playerImage;
 
     public GameData() throws IOException {
 
@@ -55,6 +58,7 @@ public class GameData {
         Stage1Spawner.start();//starts the enemy spawner
         startFiring();//thread that has enemies fire
         enemyShootThread.start();
+        playerImage = figures.get(0).getPlayerImage();
     }
 
     public void setStateChanged(int stage, boolean cutscene) throws IOException, InterruptedException {
@@ -69,6 +73,7 @@ public class GameData {
             Stage1Spawner.start();
             startFiring();
             enemyShootThread.start();
+            Ship.playerImage = playerImage;
         } else if (stage == 2) {
             phase = PHASE.TWO;
             setStage2Spawner();
@@ -77,6 +82,7 @@ public class GameData {
             if (!cutscene) {
                 Stage2Spawner.start();
             }
+            Ship.playerImage = playerImage;
         } else if (stage == 3) {
             phase = PHASE.THREE;
             setStage3Spawner();
@@ -85,12 +91,19 @@ public class GameData {
             if (!cutscene) {
                 Stage3Spawner.start();
             }
+            Ship.playerImage = playerImage;
         }
         if (cutscene) {
             Stage1Spawner.interrupt();
             Stage2Spawner.interrupt();
             Stage3Spawner.interrupt();
             removeEnemies();
+             CutsceneShip cship = new CutsceneShip(0, GamePanel.PHEIGHT/2);
+            synchronized (figures) {
+                figures.add(cship);
+        }
+            //Main.gamePanel.StartCutscene();
+            figures.get(0).setPlayerImage(new BufferedImage(1, 1, 1));
         }
     }
 
@@ -442,7 +455,7 @@ public class GameData {
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                ThreadPlayer.play(missilelaunch);
+                                //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -606,7 +619,7 @@ public class GameData {
             }
 
             if (Ship.health < 1) {
-                ThreadPlayer.play(this.explosion);
+                //ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
             } //check enemy is over then finish

@@ -19,6 +19,10 @@ public interface GameFigure {
     static int GROUND = 400;
 
     public int getDamage();
+    
+     public void setPlayerImage(Image image);
+    
+    public Image getPlayerImage();
 
     public PHASE getphase();
 

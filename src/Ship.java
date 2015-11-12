@@ -16,7 +16,7 @@ public class Ship implements GameFigure {
     boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
     // false : means user should use key directions
 
-    Image playerImage;
+    static Image playerImage;
     static float x, y;
     int state = STATE_TRAVELING;
     static int health;
@@ -28,6 +28,7 @@ public class Ship implements GameFigure {
     
     DisplayShip displayShip;
 
+    @Override
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
     }
@@ -221,6 +222,16 @@ public class Ship implements GameFigure {
     @Override
     public boolean containsPowerup() {
         return false;
+    }
+
+    @Override
+    public void setPlayerImage(Image image) {
+      this.playerImage = playerImage;
+    }
+
+    @Override
+    public Image getPlayerImage() {
+       return playerImage; 
     }
     
 }

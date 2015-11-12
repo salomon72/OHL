@@ -19,6 +19,7 @@ public class HealthBar extends JFrame implements GameFigure {
     private int health;
     private Image healthimage;
 
+    @Override
     public PHASE getphase() {
         return GameData.getphase();
     }
@@ -155,6 +156,16 @@ public class HealthBar extends JFrame implements GameFigure {
 
     @Override
     public void setMissile(int m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPlayerImage(Image image) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Image getPlayerImage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
