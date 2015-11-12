@@ -111,9 +111,9 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < Ship.health; i++) { //i < 5
             graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null); //20*i, 10, 30, 30, nul   
         }
-        
-        for(int j=0; j < Shield.count; j++){ // draw Shield Image
-            graphics.drawImage(shield.getShieldImage(), 30*j, 80, 30, 30, null);
+
+        for (int j = 0; j < Shield.count; j++) { // draw Shield Image
+            graphics.drawImage(shield.getShieldImage(), 30 * j, 80, 30, 30, null);
         }
 
         if (nextStage == 1) {
@@ -162,8 +162,8 @@ public class GamePanel extends JPanel {
 
         synchronized (gameData.figures) {//runs through each game figures and renders them
             GameFigure f;
-            for (int i = 0; i < gameData.figures.size(); i++) {
-                f = (GameFigure) gameData.figures.get(i);
+            for (GameFigure figure : gameData.figures) {
+                f = (GameFigure) figure;
                 f.render(graphics);
             }
         }
@@ -281,7 +281,7 @@ public class GamePanel extends JPanel {
                 nextStage = 2;
                 stageChange = true;
                 gameData.setStateChanged(2, false);
-                
+
                 Shield.count = 0;
                 Main.missileLevel = 1;
 
@@ -301,20 +301,19 @@ public class GamePanel extends JPanel {
             System.out.println("Graphics error: " + e);
         }
     }
-    
-    public void StartCutscene(){
+
+    public void StartCutscene() {
         if (cutsceneChange) {
 
             if (nextCutscene == 1) {
                 // planetImage = new BufferedImage(1, 1, 1);
-               
+
                 collectFromCutscenes();
                 Animator.cutsceneRunning = true;
-                
 
             }
             if (nextCutscene == 2) {
-                
+
                 collectFromCutscenes();
                 Animator.cutsceneRunning = true;
             }

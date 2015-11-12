@@ -85,7 +85,6 @@ public class Enemy implements GameFigure {
         w = weight;
         h = height;
         power = new PowerUp(3);
-
     }
 
     public static Image getImage(String fileName) {
@@ -180,7 +179,7 @@ public class Enemy implements GameFigure {
         }
 
     }
-    
+
     private static BufferedImage colorImage(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -284,13 +283,13 @@ public class Enemy implements GameFigure {
     public void setMissile(int m) {
 
     }
-    
-    public void setPowerup(){
+
+    public void setPowerup() {
         FilteredImageSource filteredImageSource = new FilteredImageSource(enemyImage.getSource(), new ColorShift());
         enemyImage = Toolkit.getDefaultToolkit().createImage(filteredImageSource);
         containsPowerup = true;
     }
-    
+
     @Override
     public boolean containsPowerup() {
         return containsPowerup;

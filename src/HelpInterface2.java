@@ -42,18 +42,17 @@ import javax.swing.border.LineBorder;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author davidalba
  */
-public class HelpInterface2 extends JFrame implements ActionListener, MouseListener, KeyListener, MouseMotionListener{
-    
+public class HelpInterface2 extends JFrame implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
+
     private final DisplayPanel displayPanel;
     private final DisplayGameData displayGameData;
     private final DisplayAnimator displayAnimator;
     //private final GameData gameData;
-    
+
     private JTextField text;
     private JTextField text2;
     private JButton quitButton;
@@ -63,27 +62,26 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
     Border borderLine;
     Color btnColor;
     private Ship playerShip;
-    
+
     private DisplayEnemy displayEnemy;
- 
-    public HelpInterface2 () throws IOException {
+
+    public HelpInterface2() throws IOException {
         setSize(1275, 650);//size of initial window /1245,960
         setLocation(50, 100);//location of initial window
         setTitle("Galileo GameFigures");//title of the initial window
         Container c = getContentPane();//container for JPanel items 
-        
+
         displayGameData = new DisplayGameData();
         displayAnimator = new DisplayAnimator();
         //gameData = new GameData();
-        displayPanel = new DisplayPanel (displayAnimator, displayGameData); //animator, gameData
+        displayPanel = new DisplayPanel(displayAnimator, displayGameData); //animator, gameData
         displayAnimator.setDisplayPanel(displayPanel);//sets the gamePanel object for animator to use //animator.setTutorialPanel(tutorialPanel)
         displayAnimator.setDisplayGameData(displayGameData);//sets gameData object for animator to us //animator.setGameData(gameData)
         c.add(displayPanel, "Center");//centers the gamePanel on the JPanel
 
-        
         JPanel southPanel = new JPanel();
-        
-         btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
+
+        btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
 
@@ -93,28 +91,27 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
         back.setBorder(borderLine);
         back.setBackground(btnColor);
         southPanel.add(back);
-        
+
         btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
-        
+
         back.addActionListener(this);
         back.setFocusable(false);
-        
+
         c.add(southPanel, "South");
         //displayEnemy = (DisplayEnemy) displayGameData.figures.get(0);
-         //playerShip = (Ship) gameData.figures.get(0);
-        
+        //playerShip = (Ship) gameData.figures.get(0);
+
         displayPanel.startDisplay();
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       if (e.getSource() == back) {
+        if (e.getSource() == back) {
             DisplayAnimator.running = false;
             dispose();
-       }
+        }
     }
 
     @Override
@@ -167,5 +164,4 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
 }

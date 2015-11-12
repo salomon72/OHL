@@ -97,7 +97,7 @@ public class CutsceneShip implements GameFigure {
 
     @Override
     public void setMissile(int m) {
-        
+
     }
 
     @Override
@@ -147,7 +147,6 @@ public class CutsceneShip implements GameFigure {
 
     @Override
     public void setAttributes(Image i, int health) {
-         //this.health = health;
         playerImage = i;
     }
 

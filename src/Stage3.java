@@ -79,8 +79,8 @@ public class Stage3 implements Stage {
         enemy.type = 6;
         return enemy;
     }
-    
-    public Enemy getEnemy4(){
+
+    public Enemy getEnemy4() {
         Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, GamePanel.PHEIGHT / 2, 81, 81) {
             private int count = 0;
             float dx;
