@@ -3,6 +3,7 @@
  Also controls the spawning of enemies and firing of enemies
  */
 
+import java.awt.Image;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class GameData {
     public Thread Stage3Spawner;
     public Thread enemyShootThread;
 
+    private Image playerImage;
+
     public GameData() throws IOException {
 
         figures = Collections.synchronizedList(new ArrayList<GameFigure>());
@@ -55,6 +58,7 @@ public class GameData {
         Stage1Spawner.start();//starts the enemy spawner
         startFiring();//thread that has enemies fire
         enemyShootThread.start();
+        playerImage = Ship.playerImage;
     }
 
     public void setStateChanged(int stage, boolean cutscene) throws IOException, InterruptedException {
@@ -69,6 +73,7 @@ public class GameData {
             Stage1Spawner.start();
             startFiring();
             enemyShootThread.start();
+            Ship.playerImage = playerImage;
         } else if (stage == 2) {
             phase = PHASE.TWO;
             setStage2Spawner();
@@ -77,6 +82,7 @@ public class GameData {
             if (!cutscene) {
                 Stage2Spawner.start();
             }
+            Ship.playerImage = playerImage;
         } else if (stage == 3) {
             phase = PHASE.THREE;
             setStage3Spawner();
@@ -85,12 +91,17 @@ public class GameData {
             if (!cutscene) {
                 Stage3Spawner.start();
             }
+            Ship.playerImage = playerImage;
         }
         if (cutscene) {
             Stage1Spawner.interrupt();
             Stage2Spawner.interrupt();
             Stage3Spawner.interrupt();
             removeEnemies();
+            CutsceneShip cship = new CutsceneShip(0, GamePanel.PHEIGHT / 2);
+            synchronized (figures) {
+                figures.add(cship);
+            }
         }
     }
 
@@ -319,7 +330,7 @@ public class GameData {
                         }
                     }
                 }
-                
+
                 stage3.resetCount();
                 while (count <= 11 && count >= 6) {
                     if (Thread.interrupted()) {
@@ -462,38 +473,37 @@ public class GameData {
 
     private void addPower(int r, GameFigure f) {
         synchronized (figures) {
-            if(GameData.phase==PHASE.ONE){ // if current stage is 1;
-                if(r==5){  // cannot have bonus power in stage one                                          
+            if (GameData.phase == PHASE.ONE) { // if current stage is 1;
+                if (r == 5) {  // cannot have bonus power in stage one                                          
                     return;
-                } 
+                }
                 /*========================== STILL DEBUGGING==============================
-                else{
-                    //if ship is already shooting 2 missiles at once, change power to health 
-                    if(r==3 && Main.missileLevel > 1)
-                        r = 4;                    
-                    else if(r==2 && Shield.count == 1){ // if ship has a shield already,...
-                        if(Main.missileLevel==1) // .. and shoot only one missile @ once, double the missile.
-                            r = 3;
-                        else     // else, change power to health
-                            r = 4;
-                    }                                    
-                }                
-            } else if(GameData.phase==PHASE.TWO || GameData.phase==PHASE.THREE){ // if stage is 2 or 3, ...
-                if(r==3 && Main.missileLevel >=3 ) // and ship shoot 3 missiles @ once, change power to shield
-                    r = 2;
+                 else{
+                 //if ship is already shooting 2 missiles at once, change power to health 
+                 if(r==3 && Main.missileLevel > 1)
+                 r = 4;                    
+                 else if(r==2 && Shield.count == 1){ // if ship has a shield already,...
+                 if(Main.missileLevel==1) // .. and shoot only one missile @ once, double the missile.
+                 r = 3;
+                 else     // else, change power to health
+                 r = 4;
+                 }                                    
+                 }                
+                 } else if(GameData.phase==PHASE.TWO || GameData.phase==PHASE.THREE){ // if stage is 2 or 3, ...
+                 if(r==3 && Main.missileLevel >=3 ) // and ship shoot 3 missiles @ once, change power to shield
+                 r = 2;
             
-             */  
-             //========================== STILL DEBUGGING==============================
-            }            
-            
+                 */
+                //========================== STILL DEBUGGING==============================
+            }
+
             PowerUp pw = new PowerUp(5);
-            pw.setLocation((int)f.getXcoor(), (int)f.getYcoor() + 5);
+            pw.setLocation((int) f.getXcoor(), (int) f.getYcoor() + 5);
             pw.setReleased(true);
             pw.setEnabled(true);
             pw.updateState(1);
             figures.add(pw);
-            
-            
+
         }
         f.notifyObservers(5 + r);
     }
@@ -520,17 +530,17 @@ public class GameData {
                 if (!f.equals(g) && g.isPlayer() == 1) {
                     if (f.collision().intersects(g.collision())) {
                         f.updateState(GameFigure.STATE_DONE);
-                        if(Ship.upgrade)
+                        if (Ship.upgrade) {
                             g.Health(3);//subtract 3 from Enemy's health if ship is upgraded
-                        else 
+                        } else {
                             g.Health(1); // else substract 1 from Enemy's health
-
+                        }
                         if (g.getState() == GameFigure.STATE_DONE) {
                             f.registerObserver(score);//update score upone each enemy destroyed                   
 
                             Random rand = new Random();
                             int r = rand.nextInt(10);
-                            if (r > 1 && r <= 5) {                                
+                            if (r > 1 && r <= 5) {
                                 addPower(r, f); // release POWER                                
                             } else {
                                 f.notifyObservers(5);
@@ -554,12 +564,12 @@ public class GameData {
                             //g.Health(1);//subtract 1 from Player's health 
                         } else if (g.getState() == GameFigure.SHIELD) {
                             Shield.count--;
-                            if(Shield.count <= 0){
+                            if (Shield.count <= 0) {
                                 f.updateState(GameFigure.STATE_DONE);
                             }
-                            if(Shield.count==0){
+                            if (Shield.count == 0) {
                                 g.setState(GameFigure.STATE_TRAVELING);
-                            }                            
+                            }
                         }
                     }
                 }
@@ -581,22 +591,23 @@ public class GameData {
                             f.updateState(GameFigure.STATE_DONE);
                         } else if (f.isMissile() == 41) { // multi-missile
                             f.updateState(GameFigure.STATE_DONE);
-                            if(GameData.phase == PHASE.ONE )
+                            if (GameData.phase == PHASE.ONE) {
                                 Main.missileLevel = 2;
-                            else if(GameData.phase == PHASE.TWO || GameData.phase == PHASE.THREE) {
-                                if(!Ship.upgrade){
-                                    if(Main.missileLevel < 3)
-                                        Main.missileLevel++;                                    
-                                }
-                                else 
+                            } else if (GameData.phase == PHASE.TWO || GameData.phase == PHASE.THREE) {
+                                if (!Ship.upgrade) {
+                                    if (Main.missileLevel < 3) {
+                                        Main.missileLevel++;
+                                    }
+                                } else {
                                     Main.missileLevel = 1;
-                                    
+                                }
+
                             }
 
                         } else if (f.isMissile() == 42) { // health bonus
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(-1);//subtract 1 from Player's health
-                            
+
                         } else if (f.isMissile() == 43) { // Power bonus
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(11);//subtract 1 from Player's health                            

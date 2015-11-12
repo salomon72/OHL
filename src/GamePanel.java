@@ -276,6 +276,7 @@ public class GamePanel extends JPanel {
 
             if (nextStage == 1) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
+                StartCutscene();
                 Thread.sleep(4000);
                 nextStage = 2;
                 stageChange = true;
@@ -298,6 +299,26 @@ public class GamePanel extends JPanel {
             Toolkit.getDefaultToolkit().sync();  //sync the display on some systems
         } catch (InterruptedException e) {
             System.out.println("Graphics error: " + e);
+        }
+    }
+    
+    public void StartCutscene(){
+        if (cutsceneChange) {
+
+            if (nextCutscene == 1) {
+                // planetImage = new BufferedImage(1, 1, 1);
+               
+                collectFromCutscenes();
+                Animator.cutsceneRunning = true;
+                
+
+            }
+            if (nextCutscene == 2) {
+                
+                collectFromCutscenes();
+                Animator.cutsceneRunning = true;
+            }
+            cutsceneChange = false;
         }
     }
 
