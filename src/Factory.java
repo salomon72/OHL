@@ -21,11 +21,7 @@ public class Factory implements GameFigureFactory {
         switch (S) {
             case "Ship":
         {
-            try {
-                type = new Ship(0, GamePanel.PHEIGHT / 2 - 30);//example of object creation
-            } catch (IOException ex) {
-                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            type = new Ship(0, GamePanel.PHEIGHT / 2 - 30);
         }
                 return type;
             case "Enemy": {

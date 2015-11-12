@@ -20,7 +20,6 @@ public class Ship implements GameFigure {
     static Image playerImage;
     static String imagePath = System.getProperty("user.dir");
     static String separator = System.getProperty("file.separator");
-    static Image playerImage;
     static boolean upgrade = false;
     static float x, y;
     int state = STATE_TRAVELING;
