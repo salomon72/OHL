@@ -17,9 +17,9 @@ public class Ship implements GameFigure {
     boolean mouseable = true; // able to move the ship using the mouse to control the spaceship
     // false : means user should use key directions
 
-    static Image playerImage;
     static String imagePath = System.getProperty("user.dir");
     static String separator = System.getProperty("file.separator");
+    static Image playerImage;
     static boolean upgrade = false;
     static float x, y;
     int state = STATE_TRAVELING;
@@ -33,7 +33,6 @@ public class Ship implements GameFigure {
     static Bonus bonus;
     
 
-    @Override
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
     }
@@ -256,16 +255,7 @@ public class Ship implements GameFigure {
 
     @Override
     public boolean containsPowerup() {
-        return false;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void setPlayerImage(Image image) {
-      this.playerImage = playerImage;
-    }
-
-    @Override
-    public Image getPlayerImage() {
-       return playerImage; 
-    }
 }

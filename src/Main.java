@@ -11,7 +11,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,7 +31,8 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class Main extends JFrame
-        implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
+        implements ActionListener, MouseListener, KeyListener
+        , MouseMotionListener, MouseWheelListener {
     
     private final GamePanel gamePanel;
     final GameData gameData;
@@ -54,7 +59,7 @@ public class Main extends JFrame
     private Timer timer;
     private TimerTask task;
     
-    static int powLevel = 1;
+    static int missileLevel = 1;
 
     public Main() throws IOException {
         setSize(1275, 665);//size of initial window
@@ -148,6 +153,7 @@ public class Main extends JFrame
 
         gamePanel.addMouseListener(this);
         gamePanel.addMouseMotionListener(this);
+        gamePanel.addMouseWheelListener(this);
 
         gamePanel.setFocusable(true); // receives keyboard data
         gamePanel.addKeyListener(this);
@@ -220,7 +226,6 @@ public class Main extends JFrame
                 gameData.setStateChanged(2, true);
                 Animator.cutsceneRunning = true;
                 Animator.endcutscene = false;
-                Ship.playerImage = new BufferedImage(1, 1, 1);
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
@@ -239,7 +244,6 @@ public class Main extends JFrame
                 gameData.setStateChanged(3, true);
                 Animator.cutsceneRunning = true;
                 Animator.endcutscene = false;
-                Ship.playerImage = new BufferedImage(1, 1, 1);
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
@@ -248,50 +252,65 @@ public class Main extends JFrame
             //END TEMPORARY BUTTON LISTENERS
         }
     }
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e){
+        if(Bonus.active && Bonus.powerLevel >=1){
+            if(e.getWheelRotation() > 0){ // if wheel goes UP
+                Shield.count += 3;
+                Bonus.powerLevel -= 1;
+                //Bonus.power -= 2;
+                
+            } else { //if wheel goes DOWN                
+                if(Bonus.powerLevel >= 2 && !Bonus.slowMotion){ // start slow motion if not yet activated 
+                    Bonus.slowTimer = System.nanoTime();
+                    Bonus.slowMotion = true;
+                    Bonus.powerLevel -= 2;
+                }                
+            }               
+        }
+    }
 
     private class FireTimerTask extends TimerTask {
 
         @Override
-        public void run() {
-            
-            playerMissle = System.currentTimeMillis();
-            if(powLevel ==1 ){
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
-                synchronized (gameData.figures) {
-                    gameData.figures.add(f);
-                    
+        public void run() {            
+                playerMissle = System.currentTimeMillis();            
+                if(missileLevel == 1){
+                    Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+                    synchronized (gameData.figures){
+                        gameData.figures.add(f);
+                    }
                 }
-            }
-            else if(powLevel == 2){                
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()-5, playerShip.getMyType());          
-                Missile g = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()+5, playerShip.getMyType());
-                            
-                List <GameFigure> l = new ArrayList<>();
-                l.add(f);
-                l.add(g);            
-                synchronized (gameData.figures) {
-                    for(int i=0; i < powLevel; i++)
-                        gameData.figures.add(l.get(i));                       
-                }            
-            }
-            else if(powLevel == 3){
-                Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()-10, playerShip.getMyType());          
-                Missile g = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
-                Missile h = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()+10, playerShip.getMyType());
+                if(missileLevel == 2){                
+                        Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()-7, playerShip.getMyType());          
+                        Missile g = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()+7, playerShip.getMyType());
 
-                List <GameFigure> l = new ArrayList<>();
-                l.add(f);
-                l.add(g);
-                l.add(h);            
-                synchronized (gameData.figures) {
-                    for(int i=0; i < 3; i++)
-                        gameData.figures.add(l.get(i));
-                    
+                        List <GameFigure> l = new ArrayList<>();
+                        l.add(f);
+                        l.add(g);            
+                        synchronized (gameData.figures) {
+                            for(int i=0; i < 2; i++)
+                                gameData.figures.add(l.get(i));                       
+                        }            
                 }
-            }
-                     
-        
-        }   
+                else if(missileLevel == 3 && GameData.getphase()==PHASE.TWO ||GameData.getphase()==PHASE.THREE  ){
+                        Missile f = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()-15, playerShip.getMyType());          
+                        Missile g = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot(), playerShip.getMyType());
+                        Missile h = new Missile(playerShip.getXofMissileShoot(), playerShip.getYofMissileShoot()+15, playerShip.getMyType());
+
+                        List <GameFigure> l = new ArrayList<>();
+                        l.add(f);
+                        l.add(g);
+                        l.add(h);            
+                        synchronized (gameData.figures) {
+                            for(int i=0; i < 3; i++)
+                                gameData.figures.add(l.get(i));
+
+                        }
+                    }
+            
+
+            }   
     }
 
     //below are all of the different keyboard and action events, some are filled some are not

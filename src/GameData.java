@@ -2,8 +2,7 @@
  handles the management of the objects to be rendered and when to remove them.
  Also controls the spawning of enemies and firing of enemies
  */
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -44,8 +43,6 @@ public class GameData {
     public Thread Stage2Spawner;
     public Thread Stage3Spawner;
     public Thread enemyShootThread;
-  
-    private Image playerImage;
 
     public GameData() throws IOException {
 
@@ -58,7 +55,6 @@ public class GameData {
         Stage1Spawner.start();//starts the enemy spawner
         startFiring();//thread that has enemies fire
         enemyShootThread.start();
-        playerImage = figures.get(0).getPlayerImage();
     }
 
     public void setStateChanged(int stage, boolean cutscene) throws IOException, InterruptedException {
@@ -73,7 +69,6 @@ public class GameData {
             Stage1Spawner.start();
             startFiring();
             enemyShootThread.start();
-            Ship.playerImage = playerImage;
         } else if (stage == 2) {
             phase = PHASE.TWO;
             setStage2Spawner();
@@ -82,7 +77,6 @@ public class GameData {
             if (!cutscene) {
                 Stage2Spawner.start();
             }
-            Ship.playerImage = playerImage;
         } else if (stage == 3) {
             phase = PHASE.THREE;
             setStage3Spawner();
@@ -91,19 +85,12 @@ public class GameData {
             if (!cutscene) {
                 Stage3Spawner.start();
             }
-            Ship.playerImage = playerImage;
         }
         if (cutscene) {
             Stage1Spawner.interrupt();
             Stage2Spawner.interrupt();
             Stage3Spawner.interrupt();
             removeEnemies();
-             CutsceneShip cship = new CutsceneShip(0, GamePanel.PHEIGHT/2);
-            synchronized (figures) {
-                figures.add(cship);
-        }
-            //Main.gamePanel.StartCutscene();
-            figures.get(0).setPlayerImage(new BufferedImage(1, 1, 1));
         }
     }
 
@@ -455,7 +442,7 @@ public class GameData {
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                //ThreadPlayer.play(missilelaunch);
+                                ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -473,15 +460,42 @@ public class GameData {
         );
     }
 
-    private void addPower(int r, int x, int y) {
+    private void addPower(int r, GameFigure f) {
         synchronized (figures) {
-            PowerUp pw = new PowerUp(r);
-            pw.setLocation(x, y + 5);
+            if(GameData.phase==PHASE.ONE){ // if current stage is 1;
+                if(r==5){  // cannot have bonus power in stage one                                          
+                    return;
+                } 
+                /*========================== STILL DEBUGGING==============================
+                else{
+                    //if ship is already shooting 2 missiles at once, change power to health 
+                    if(r==3 && Main.missileLevel > 1)
+                        r = 4;                    
+                    else if(r==2 && Shield.count == 1){ // if ship has a shield already,...
+                        if(Main.missileLevel==1) // .. and shoot only one missile @ once, double the missile.
+                            r = 3;
+                        else     // else, change power to health
+                            r = 4;
+                    }                                    
+                }                
+            } else if(GameData.phase==PHASE.TWO || GameData.phase==PHASE.THREE){ // if stage is 2 or 3, ...
+                if(r==3 && Main.missileLevel >=3 ) // and ship shoot 3 missiles @ once, change power to shield
+                    r = 2;
+            
+             */  
+             //========================== STILL DEBUGGING==============================
+            }            
+            
+            PowerUp pw = new PowerUp(5);
+            pw.setLocation((int)f.getXcoor(), (int)f.getYcoor() + 5);
             pw.setReleased(true);
             pw.setEnabled(true);
             pw.updateState(1);
             figures.add(pw);
+            
+            
         }
+        f.notifyObservers(5 + r);
     }
 
     //@@@@@ not done yet - Please Do Not Remove
@@ -506,26 +520,20 @@ public class GameData {
                 if (!f.equals(g) && g.isPlayer() == 1) {
                     if (f.collision().intersects(g.collision())) {
                         f.updateState(GameFigure.STATE_DONE);
-                        g.Health(1);//subtract 1 from Enemy's health
+                        if(Ship.upgrade)
+                            g.Health(3);//subtract 3 from Enemy's health if ship is upgraded
+                        else 
+                            g.Health(1); // else substract 1 from Enemy's health
 
                         if (g.getState() == GameFigure.STATE_DONE) {
-                            f.registerObserver(score);//update score upone each enemy destroyed
+                            f.registerObserver(score);//update score upone each enemy destroyed                   
 
                             Random rand = new Random();
                             int r = rand.nextInt(10);
-                            if (GameData.phase == PHASE.ONE) { //powerups for stage 1
-                                if (g.containsPowerup()) {
-                                    r = (int) (Math.random() * (3) + 2);
-                                    addPower(r, (int) f.getXcoor(), (int) f.getYcoor());
-                                    r = (int) (Math.random() * (3) + 2);
-                                    addPower(r, (int) f.getXcoor(), (int) f.getYcoor());// release POWER
-                                    f.notifyObservers(5 + r);
-                                } else {
-                                    f.notifyObservers(5);
-                                }
-                            } else if (r > 1 && r <= 4) { //powerups for stage 2 and 3
-                                addPower(r, (int) f.getXcoor(), (int) f.getYcoor()); // release POWER
-                                f.notifyObservers(5 + r);
+                            if (r > 1 && r <= 5) {                                
+                                addPower(r, f); // release POWER                                
+                            } else {
+                                f.notifyObservers(5);
                             }
                         }
                     }
@@ -543,10 +551,15 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
                         if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
-                            g.Health(1);//subtract 1 from Player's health 
+                            //g.Health(1);//subtract 1 from Player's health 
                         } else if (g.getState() == GameFigure.SHIELD) {
-                            f.updateState(GameFigure.STATE_DONE);
-                            g.setState(GameFigure.STATE_TRAVELING);
+                            Shield.count--;
+                            if(Shield.count <= 0){
+                                f.updateState(GameFigure.STATE_DONE);
+                            }
+                            if(Shield.count==0){
+                                g.setState(GameFigure.STATE_TRAVELING);
+                            }                            
                         }
                     }
                 }
@@ -556,7 +569,6 @@ public class GameData {
 
     private void powCheck(GameFigure f) {
         synchronized (figures) {
-
             GameFigure g;
             for (int i = 0; i < figures.size(); i++) {
                 g = figures.get(i);
@@ -564,17 +576,30 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
 
                         if (f.isMissile() == 40) { // shield
+                            Shield.count++;
                             g.setState(GameFigure.SHIELD);
                             f.updateState(GameFigure.STATE_DONE);
                         } else if (f.isMissile() == 41) { // multi-missile
                             f.updateState(GameFigure.STATE_DONE);
-                            if (Main.powLevel <= 1) {
-                                Main.powLevel++;
+                            if(GameData.phase == PHASE.ONE )
+                                Main.missileLevel = 2;
+                            else if(GameData.phase == PHASE.TWO || GameData.phase == PHASE.THREE) {
+                                if(!Ship.upgrade){
+                                    if(Main.missileLevel < 3)
+                                        Main.missileLevel++;                                    
+                                }
+                                else 
+                                    Main.missileLevel = 1;
+                                    
                             }
 
                         } else if (f.isMissile() == 42) { // health bonus
                             f.updateState(GameFigure.STATE_DONE);
                             g.Health(-1);//subtract 1 from Player's health
+                            
+                        } else if (f.isMissile() == 43) { // Power bonus
+                            f.updateState(GameFigure.STATE_DONE);
+                            g.Health(11);//subtract 1 from Player's health                            
                         }
                     }
                 }
@@ -619,7 +644,7 @@ public class GameData {
             }
 
             if (Ship.health < 1) {
-                //ThreadPlayer.play(this.explosion);
+                ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
             } //check enemy is over then finish

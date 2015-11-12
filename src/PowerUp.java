@@ -282,19 +282,9 @@ public class PowerUp implements GameFigure {
     public int get() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-   
+
     @Override
     public boolean containsPowerup() {
         return false;
-    }
-
-    @Override
-    public void setPlayerImage(Image image) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Image getPlayerImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -57,11 +57,11 @@ public class CutsceneShip implements GameFigure {
 
     @Override
     public int getMyType() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int get() { //
+    public int get() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -87,22 +87,22 @@ public class CutsceneShip implements GameFigure {
 
     @Override
     public int getState() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public int isMissile() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void setMissile(int m) {
-        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public int isPlayer() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -147,8 +147,7 @@ public class CutsceneShip implements GameFigure {
 
     @Override
     public void setAttributes(Image i, int health) {
-         //this.health = health;
-        playerImage = i;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -159,16 +158,6 @@ public class CutsceneShip implements GameFigure {
     @Override
     public boolean containsPowerup() {
         return false;
-    }
-
-    @Override
-    public void setPlayerImage(Image image) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Image getPlayerImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

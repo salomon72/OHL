@@ -188,15 +188,5 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     public boolean containsPowerup() {
         return false;
     }
-
-    @Override
-    public void setPlayerImage(Image image) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Image getPlayerImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }
