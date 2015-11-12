@@ -20,6 +20,7 @@ public class GamePanel extends JPanel {
     public static final int PWIDTH = 1275; // size of the game panel
     public static final int PHEIGHT = 587;
 
+    public boolean running; // state of the game.
 
     private final Animator animator;//Animator object for the game panel
     private final GameData gameData;//GameData object for the game panel
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel {
     private BufferedImage dbImage = null;
     private final Image gameOver;//image to display upon game over
     private HealthBar health;
+    private final Shield shield;
     private final Image gamewin;
     private final Image gamePaused;
 
@@ -77,12 +79,16 @@ public class GamePanel extends JPanel {
         planetImageTransformed = planetImage;
         scaleCount = 0;
         health = new HealthBar(1, null);
+        shield = new Shield();
         scale = 1;
     }
 
     public void startGame() { //starts the thread for the animator
+        running = true;
+
         Thread t = new Thread(animator);
         t.start();
+
     }
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
@@ -103,8 +109,11 @@ public class GamePanel extends JPanel {
             graphics.drawImage(planetImageTransformed, PWIDTH - planetImageTransformed.getWidth() / 2, PHEIGHT / 2 - planetImageTransformed.getHeight() / 2, null);
         }
         for (int i = 0; i < Ship.health; i++) { //i < 5
-
             graphics.drawImage(health.getHealthimage(), 30 * i, 10, 30, 30, null); //20*i, 10, 30, 30, nul   
+        }
+        
+        for(int j=0; j < Shield.count; j++){ // draw Shield Image
+            graphics.drawImage(shield.getShieldImage(), 30*j, 80, 30, 30, null);
         }
 
         if (nextStage == 1) {
@@ -112,7 +121,6 @@ public class GamePanel extends JPanel {
         }
 
         if (stageChange) {
-
             if (nextStage == 1) {
                 currentStage = new Stage1();
                 planetImageTransformed = planetImage;
@@ -272,6 +280,9 @@ public class GamePanel extends JPanel {
                 nextStage = 2;
                 stageChange = true;
                 gameData.setStateChanged(2, false);
+                
+                Shield.count = 0;
+                Main.missileLevel = 1;
 
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);

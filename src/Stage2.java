@@ -13,6 +13,9 @@ public class Stage2 implements Stage {
     private int count = 0;
     private final Image waterEnemy;
     private final Image airEnemy;
+    
+    static float move1 = 1;
+    static float move2 = 2;
 
     public Stage2() throws IOException {
         String imagePath = System.getProperty("user.dir");
@@ -35,7 +38,7 @@ public class Stage2 implements Stage {
         Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
             @Override
             public void update() {
-                this.x -= 1;
+                this.x -= Stage2.move1;
             }
         };
         enemy.enemyImage = airEnemy;
@@ -55,7 +58,7 @@ public class Stage2 implements Stage {
         Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
             @Override
             public void update() {
-                this.x -= 1;
+                this.x -= Stage2.move2;
             }
         };
         enemy.enemyImage = waterEnemy;
