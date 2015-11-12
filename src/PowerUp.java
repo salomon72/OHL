@@ -24,6 +24,8 @@ public class PowerUp implements GameFigure {
     private double rad;
 
     private int code = -1;
+    //Bonus bonus;
+    
 
     public PowerUp(int type) {
 
@@ -36,33 +38,42 @@ public class PowerUp implements GameFigure {
         }
 
         pRect = new Rectangle(x, y, radius, radius);
+        /*
+        if(GameData.getphase()==PHASE.TWO || GameData.getphase()==PHASE.THREE){
+            bonus = new Bonus(type);
+            bonus.setActive(true);
+        }
+        */
+        
+            
     }
 
     private void createPower() {
 
         if (type == 2) { // shield for 1 enemy's missile
-            speed = 10;
+            speed = 5;
             radius = 10;
             color = Color.ORANGE;
             code = 40;
         } else if (type == 3) { // 2 missiles @ once
 
-            speed = 15;
+            speed = 8;
             radius = 15;
             color = Color.BLUE;
             code = 41;
         } else if (type == 4) { // increase player health
-            speed = 20;
-            radius = 20;
+            speed = 10;
+            radius = 15;
             color = Color.GREEN;
             code = 42;
         }
-        /*
-         else if(type == 5){ // player shield 5 missiles
-         radius = 20;
-         color = Color.BLUE;
+        else if(type == 5){ // bonus
+            speed = 15;
+            radius = 15;
+            color = Color.LIGHT_GRAY;
+            code = 43;
          }
-         */
+         
 
         speed = 10;
         double angle = Math.random() * 30 + 1;
@@ -119,6 +130,12 @@ public class PowerUp implements GameFigure {
             g2d.drawRect(pRect.x, pRect.y, pRect.width, pRect.height);
             g2d.setStroke(new BasicStroke(2));
         }
+        /*
+        if(GameData.getphase()==PHASE.TWO || GameData.getphase()==PHASE.THREE ){
+            if(bonus.isActive())
+                bonus.render(g);
+        }
+        */
     }
 
     @Override
@@ -265,7 +282,7 @@ public class PowerUp implements GameFigure {
     public int get() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+   
     @Override
     public boolean containsPowerup() {
         return false;

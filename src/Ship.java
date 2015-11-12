@@ -2,6 +2,7 @@
  GameFigure for player ship, follows GameFigure interface
  */
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -17,6 +18,10 @@ public class Ship implements GameFigure {
     // false : means user should use key directions
 
     static Image playerImage;
+    static String imagePath = System.getProperty("user.dir");
+    static String separator = System.getProperty("file.separator");
+    static Image playerImage;
+    static boolean upgrade = false;
     static float x, y;
     int state = STATE_TRAVELING;
     static int health;
@@ -26,7 +31,8 @@ public class Ship implements GameFigure {
     private boolean blinking;
     private long blinkTimer;
     
-    DisplayShip displayShip;
+    static Bonus bonus;
+    
 
     @Override
     public PHASE getphase() {
@@ -50,16 +56,17 @@ public class Ship implements GameFigure {
         return 2;
     }
 
-    public Ship(float x, float y) throws IOException {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-        Image i = getImage(imagePath + separator + "images" + separator
+    public Ship(float x, float y) {
+        
+        playerImage = getImage(imagePath + separator + "images" + separator
                 + "playerShip.png");
-        this.setAttributes(i, GameData.MAXHEALTH);
+        health = GameData.MAXHEALTH;
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
-      
+        
+        bonus = new Bonus();
+                
     }
 
     public static Image getImage(String fileName) {
@@ -72,6 +79,16 @@ public class Ship implements GameFigure {
         }
         return image;
     }
+
+    public static void upgradeShip() {        
+        playerImage = getImage(imagePath + separator + "images" + separator
+                + "playerShip3.gif");
+        Missile.upgradeMissile(); 
+        Main.missileLevel = 1;
+        upgrade = true;
+    }
+    
+    
 
     // Missile shoot location
     @Override
@@ -93,12 +110,21 @@ public class Ship implements GameFigure {
             }
         }
         g.drawImage(playerImage, (int) x, (int) y, null);
-       
+        
+        if(GameData.getphase()==PHASE.TWO || GameData.getphase()==PHASE.THREE){            
+            bonus.render(g); // render the bonus system
+        }
+        
     }
 
     @Override
-    public void update() {
-
+    public void update() {     
+        
+        if(GameData.getphase()== PHASE.TWO || GameData.getphase()==PHASE.THREE){
+            bonus.setActive(true);
+            bonus.update();
+        }
+        
         if (blinking) {
             long elapsed = (System.nanoTime() - blinkTimer) / 1000000;
             if (elapsed > 1000) {
@@ -159,8 +185,13 @@ public class Ship implements GameFigure {
 
     @Override
     public void Health(int i) {
+        if(i==11){ // if power is gray, increase bonus by 1.
+            Bonus.increasePower(1);
+            return;
+        }
+        
         if (blinking) {
-            return; // don't do anything if blinking 
+            return; // exit function if blinking 
         }
         health -= i;
         if (health == 0) {
@@ -171,8 +202,13 @@ public class Ship implements GameFigure {
             blinking = true;
             blinkTimer = System.nanoTime();
         }
+        
+        
+        
     }
 
+
+    
     @Override
     public void registerObserver(Observer o) {
         observers.add(o);
@@ -233,5 +269,4 @@ public class Ship implements GameFigure {
     public Image getPlayerImage() {
        return playerImage; 
     }
-    
 }

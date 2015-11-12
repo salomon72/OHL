@@ -21,6 +21,10 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
     int health = 1;
     private final ArrayList<Observer> observers;
     int type;
+    static String imagePath = System.getProperty("user.dir");
+    static String separator = System.getProperty("file.separator");
+    static Image missileImage = getImage(imagePath + separator + "images" + separator
+            + "missile.png");
 
     public PHASE getphase() {
         return GameData.getphase();
@@ -38,10 +42,7 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
             return type;
         }
     }
-    String imagePath = System.getProperty("user.dir");
-    String separator = System.getProperty("file.separator");
-    Image missileImage = getImage(imagePath + separator + "images" + separator
-            + "missile.png");//use 1 onley
+    
 
     public Missile(float x, float y, int type) {
         this.observers = new ArrayList<>();
@@ -66,6 +67,11 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
             JOptionPane.showMessageDialog(null, "Error: Cannot open image:" + fileName);
         }
         return image;
+    }
+    
+    static public void upgradeMissile(){
+        missileImage = getImage(imagePath + separator + "images" + separator
+            + "missileUpgra.gif");
     }
 
     @Override
@@ -170,11 +176,6 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
     @Override
     public void setMissile(int m) {
 
-    }
-    
-    @Override
-    public boolean containsPowerup() {
-        return false;
     }
 
     @Override
