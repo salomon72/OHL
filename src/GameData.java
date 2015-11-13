@@ -453,7 +453,7 @@ public class GameData {
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                ThreadPlayer.play(missilelaunch);
+                                //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -664,7 +664,7 @@ public class GameData {
             }
 
             if (Ship.health < 1) {
-                ThreadPlayer.play(this.explosion);
+                //ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
             } //check enemy is over then finish
