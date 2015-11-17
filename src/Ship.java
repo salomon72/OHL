@@ -2,7 +2,6 @@
  GameFigure for player ship, follows GameFigure interface
  */
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -29,9 +28,8 @@ public class Ship implements GameFigure {
     private int missile = -1;
     private boolean blinking;
     private long blinkTimer;
-    
+
     static Bonus bonus;
-    
 
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
@@ -55,16 +53,16 @@ public class Ship implements GameFigure {
     }
 
     public Ship(float x, float y) {
-        
+
         playerImage = getImage(imagePath + separator + "images" + separator
                 + "playerShip.png");
         health = GameData.MAXHEALTH;
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
-        
+
         bonus = new Bonus();
-                
+
     }
 
     public static Image getImage(String fileName) {
@@ -78,15 +76,13 @@ public class Ship implements GameFigure {
         return image;
     }
 
-    public static void upgradeShip() {        
+    public static void upgradeShip() {
         playerImage = getImage(imagePath + separator + "images" + separator
                 + "playerShip3.gif");
-        Missile.upgradeMissile(); 
+        Missile.upgradeMissile();
         Main.missileLevel = 1;
         upgrade = true;
     }
-    
-    
 
     // Missile shoot location
     @Override
@@ -108,21 +104,21 @@ public class Ship implements GameFigure {
             }
         }
         g.drawImage(playerImage, (int) x, (int) y, null);
-        
-        if(GameData.getphase()==PHASE.TWO || GameData.getphase()==PHASE.THREE){            
+
+        if (GameData.getphase() == PHASE.TWO || GameData.getphase() == PHASE.THREE) {
             bonus.render(g); // render the bonus system
         }
-        
+
     }
 
     @Override
-    public void update() {     
-        
-        if(GameData.getphase()== PHASE.TWO || GameData.getphase()==PHASE.THREE){
+    public void update() {
+
+        if (GameData.getphase() == PHASE.TWO || GameData.getphase() == PHASE.THREE) {
             bonus.setActive(true);
             bonus.update();
         }
-        
+
         if (blinking) {
             long elapsed = (System.nanoTime() - blinkTimer) / 1000000;
             if (elapsed > 1000) {
@@ -183,11 +179,11 @@ public class Ship implements GameFigure {
 
     @Override
     public void Health(int i) {
-        if(i==11){ // if power is gray, increase bonus by 1.
+        if (i == 11) { // if power is gray, increase bonus by 1.
             Bonus.increasePower(1);
             return;
         }
-        
+
         if (blinking) {
             return; // exit function if blinking 
         }
@@ -200,13 +196,8 @@ public class Ship implements GameFigure {
             blinking = true;
             blinkTimer = System.nanoTime();
         }
-        
-        
-        
     }
 
-
-    
     @Override
     public void registerObserver(Observer o) {
         observers.add(o);
@@ -226,7 +217,7 @@ public class Ship implements GameFigure {
 
     @Override
     public void setAttributes(Image i, int health) {
-        this.health = health;
+        Ship.health = health;
         playerImage = i;
     }
 
@@ -236,7 +227,7 @@ public class Ship implements GameFigure {
     }
 
     public void setX(float x) {
-        this.x = x;
+        Ship.x = x;
     }
 
     @Override
@@ -245,7 +236,7 @@ public class Ship implements GameFigure {
     }
 
     public void setY(float y) {
-        this.y = y;
+        Ship.y = y;
     }
 
     @Override
@@ -257,5 +248,4 @@ public class Ship implements GameFigure {
     public boolean containsPowerup() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

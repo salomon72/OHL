@@ -24,11 +24,8 @@ public class PowerUp implements GameFigure {
     private double rad;
 
     private int code = -1;
-    //Bonus bonus;
-    
 
     public PowerUp(int type) {
-
         if (type > 1) {
             enabled = true;
             this.type = type;
@@ -36,20 +33,10 @@ public class PowerUp implements GameFigure {
         } else {
             enabled = false;
         }
-
         pRect = new Rectangle(x, y, radius, radius);
-        /*
-        if(GameData.getphase()==PHASE.TWO || GameData.getphase()==PHASE.THREE){
-            bonus = new Bonus(type);
-            bonus.setActive(true);
-        }
-        */
-        
-            
     }
 
     private void createPower() {
-
         if (type == 2) { // shield for 1 enemy's missile
             speed = 5;
             radius = 10;
@@ -66,14 +53,12 @@ public class PowerUp implements GameFigure {
             radius = 15;
             color = Color.GREEN;
             code = 42;
-        }
-        else if(type == 5){ // bonus
+        } else if (type == 5) { // bonus
             speed = 15;
             radius = 15;
             color = Color.LIGHT_GRAY;
             code = 43;
-         }
-         
+        }
 
         speed = 10;
         double angle = Math.random() * 30 + 1;
@@ -130,12 +115,6 @@ public class PowerUp implements GameFigure {
             g2d.drawRect(pRect.x, pRect.y, pRect.width, pRect.height);
             g2d.setStroke(new BasicStroke(2));
         }
-        /*
-        if(GameData.getphase()==PHASE.TWO || GameData.getphase()==PHASE.THREE ){
-            if(bonus.isActive())
-                bonus.render(g);
-        }
-        */
     }
 
     @Override
@@ -161,16 +140,6 @@ public class PowerUp implements GameFigure {
                 y = radius;
             }
             pRect.setLocation((int) x - radius, (int) y - radius); // set the possition of the rectangle 
-            //pRect.setSize(2*radius, 2*radius);
-
-            /*
-             x -= 5;
-             pRect.setLocation(x, y);
-            
-             if (y + radius > GamePanel.PWIDTH) {
-             state = STATE_DONE;
-             }
-             */
         }
     }
 
@@ -230,17 +199,14 @@ public class PowerUp implements GameFigure {
 
     @Override
     public void registerObserver(Observer o) {
-        return;
     }
 
     @Override
     public void removeObserver(Observer o) {
-        return;
     }
 
     @Override
     public void notifyObservers(int amount) {
-        return;
     }
 
     @Override

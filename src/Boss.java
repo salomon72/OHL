@@ -32,6 +32,7 @@ public class Boss implements GameFigure {
     private PowerUp power;
     private int type;
 
+    @Override
     public int getDamage() {
         if (type == 0) {
             return 1;
@@ -40,10 +41,12 @@ public class Boss implements GameFigure {
         }
     }
 
+    @Override
     public int getMyType() {
         return type;
     }
 
+    @Override
     public int get() {
         return health;
     }
@@ -52,7 +55,7 @@ public class Boss implements GameFigure {
     Boss(float x, float y, int height, int weight, int type) {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
-        Image i = null;
+        Image i;
         phase = GameData.getphase();
         this.type = type;
         i = getImage(imagePath + separator + "images" + separator
@@ -168,9 +171,9 @@ public class Boss implements GameFigure {
 
     @Override
     public void notifyObservers(int amount) {
-        for (Observer o : observers) {
+        observers.stream().forEach((o) -> {
             o.update(amount);
-        }
+        });
     }
 
     @Override

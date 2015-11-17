@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author davidalba
- */
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,24 +8,24 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class DisplayShip implements GameFigure, Display {
-     Image displayShip;
+
+    Image displayShip;
     float x, y;
     int w, h;
-    
-     DisplayShip(Image i, float x, float y) throws IOException {
+
+    DisplayShip(Image i, float x, float y) throws IOException {
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
-         File file = new File(imagePath + separator + "images" + separator
+        File file = new File(imagePath + separator + "images" + separator
                 + "playerShip.png");
         displayShip = ImageIO.read(file);
-        
-         this.x = x;
+
+        this.x = x;
         this.y = y;
-        
-     }
-     
-       
-      public static Image getImage(String fileName) {
+
+    }
+
+    public static Image getImage(String fileName) {
         Image image = null;
         try {
             image = ImageIO.read(new File(fileName));
@@ -178,5 +168,4 @@ public class DisplayShip implements GameFigure, Display {
     public Image getPlayerImage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

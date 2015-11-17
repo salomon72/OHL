@@ -42,7 +42,6 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
             return type;
         }
     }
-    
 
     public Missile(float x, float y, int type) {
         this.observers = new ArrayList<>();
@@ -68,10 +67,10 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
         }
         return image;
     }
-    
-    static public void upgradeMissile(){
+
+    static public void upgradeMissile() {
         missileImage = getImage(imagePath + separator + "images" + separator
-            + "missileUpgra.gif");
+                + "missileUpgra.gif");
     }
 
     @Override
@@ -182,5 +181,4 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
     public boolean containsPowerup() {
         return false;
     }
-
 }

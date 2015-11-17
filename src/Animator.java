@@ -16,7 +16,7 @@ public class Animator implements Runnable {
     volatile static boolean endcutscene = false;
     GamePanel gamePanel = null;
     GameData gameData = null;
-    volatile static boolean  paused = false;
+    volatile static boolean paused = false;
     private int x = 0;
     private int y = 0;
     public Timer backgroundScrollTimer; //private
@@ -25,18 +25,14 @@ public class Animator implements Runnable {
     ActionListener planetScale;
 
     public Animator() {
-        backgroundRender = new ActionListener() { //scrolling background
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                x -= 1;
-            }
-        };
-        planetScale = new ActionListener() { //scrolling background
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gamePanel.transformPlanet();
-            }
-        };
+        backgroundRender = (ActionEvent e) -> {
+            x -= 1;
+        } //scrolling background
+                ;
+        planetScale = (ActionEvent e) -> {
+            gamePanel.transformPlanet();
+        } //scrolling background
+                ;
         backgroundScrollTimer = new Timer(30, backgroundRender);//scrolling background timer
         planetScaleTimer = new Timer(100, planetScale);
 
@@ -56,7 +52,7 @@ public class Animator implements Runnable {
         backgroundScrollTimer.start();
         planetScaleTimer.start();
         while (running && !Thread.interrupted()) {
-            
+
             if (!paused) { // implement all methods if & only if the game is not paused. 
                 if (!cutsceneRunning) {
                     gameData.update();
@@ -74,7 +70,7 @@ public class Animator implements Runnable {
                         Thread.sleep(13);
                         gamePanel.printScreen();
                     } catch (InterruptedException e) {
-                        
+
                     }
                 } else {
                     if (!endcutscene) {

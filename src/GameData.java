@@ -47,7 +47,7 @@ public class GameData {
     public Thread Stage3Spawner;
     public Thread enemyShootThread;
 
-    private Image playerImage;
+    private final Image playerImage;
 
     public GameData() throws IOException {
 
@@ -455,7 +455,7 @@ public class GameData {
                                 }
                                 Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                                 String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                ThreadPlayer.play(missilelaunch);
+                                //ThreadPlayer.play(missilelaunch);
                                 synchronized (figures) {
                                     figures.add(m);
                                 }
@@ -542,10 +542,19 @@ public class GameData {
 
                             Random rand = new Random();
                             int r = rand.nextInt(10);
-                            if (r > 1 && r <= 5) {
-                                addPower(r, f); // release POWER                                
-                            } else {
-                                f.notifyObservers(5);
+                            if (GameData.phase == PHASE.ONE) { //powerups for stage 1
+                                if (g.containsPowerup()) {
+                                    r = (int) (Math.random() * (3) + 2);
+                                    addPower(r, f);
+                                    r = (int) (Math.random() * (3) + 2);
+                                    addPower(r, f);// release POWER
+                                    f.notifyObservers(5 + r);
+                                } else {
+                                    f.notifyObservers(5);
+                                }
+                            } else if (r > 1 && r <= 4) { //powerups for stage 2 and 3
+                                addPower(r, f); // release POWER
+                                f.notifyObservers(5 + r);
                             }
                         }
                     }
@@ -681,7 +690,7 @@ public class GameData {
             }
 
             if (Ship.health < 1) {
-                ThreadPlayer.play(this.explosion);
+                //ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
             } //check enemy is over then finish

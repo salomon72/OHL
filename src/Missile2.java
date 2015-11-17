@@ -29,7 +29,6 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     public PHASE getphase() {
         return GameData.getphase();
-        //throw new UnsupportedOperationException("Not implement!");
     }
     private OPERATION cando = OPERATION.ALL;
 
@@ -155,9 +154,9 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
 
     @Override
     public void notifyObservers(int amount) {
-        for (Observer o : observers) {
+        observers.stream().forEach((o) -> {
             o.update(amount);
-        }
+        });
     }
 
     @Override
@@ -188,5 +187,4 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     public boolean containsPowerup() {
         return false;
     }
-    
 }

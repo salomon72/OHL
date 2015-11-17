@@ -124,6 +124,7 @@ public class Stage1 implements Stage {
             float dx;
             float dy;
             float length;
+
             @Override
             public void update() {
                 dx = Ship.x + 200 - this.x;

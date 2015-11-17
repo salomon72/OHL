@@ -13,7 +13,7 @@ public class Stage2 implements Stage {
     private int count = 0;
     private final Image waterEnemy;
     private final Image airEnemy;
-    
+
     static float move1 = 1;
     static float move2 = 2;
 
