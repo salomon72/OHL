@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/DisplayPanel.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>91</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+<<<<<<< Updated upstream
+            <file>file:/Users/davidalba/SDD-Project/src/Cutscene1.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/DisplayPanel.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/PowerUp.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/GameFigure.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Stage2.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/InterfaceForm.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/ColorShift.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/GameData.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/HealthBar.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/DisplayFigures.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/DisplayEnemy.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Enemy.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/HelpInterface.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Missile.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Boss.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Display.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Missile2.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Animator.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Stage1.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Cutscenes.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/DisplayShip.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/DisplayGameData.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/DisplayAnimator.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Cutscene2.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/TutorialShip.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Main.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/GamePanel.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/CutsceneShip.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/HelpInterface2.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Factory.java</file>
+            <file>file:/Users/davidalba/SDD-Project/src/Ship.java</file>
+=======
+            <file>file:/Users/ashleehopek/SDD-Project%206.02.23%20PM/src/Enemy.java</file>
+            <file>file:/Users/ashleehopek/SDD-Project%206.02.23%20PM/src/Boss.java</file>
+            <file>file:/Users/ashleehopek/SDD-Project%206.02.23%20PM/src/Sound.java</file>
+>>>>>>> Stashed changes
+        </group>
+    </open-files>
+</project-private>
