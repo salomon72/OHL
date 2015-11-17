@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 enum PHASE {
 
@@ -68,7 +70,7 @@ public class GameData {
         enemyShootThread.interrupt();
         removeEnemies();
         if (stage == 1) {
-            phase = PHASE.ONE;
+            //phase = PHASE.ONE;
             setStage1Spawner();
             Stage1Spawner.start();
             startFiring();
@@ -624,7 +626,8 @@ public class GameData {
         GameFigure h;
         synchronized (figures) {
             enemiesSpawned = 0;//count of enemies on game panel
-            for (GameFigure d : figures) {
+            for (int i = 0; i < figures.size(); i++) {
+                GameFigure d = figures.get(i);
                 d.update();//update the movement of the GameFigure
                 if (d.isPlayer() == 1) {
                     enemiesSpawned++;
@@ -635,6 +638,29 @@ public class GameData {
                 if (d.isPlayer() == -1) {
                     if (d.getXcoor() <= -50 || d.getXcoor() >= GamePanel.PWIDTH + 50) {
                         remove.add(d);
+                    }
+                }
+                if (d.isPlayer() == 0) {
+                    if (d.getXcoor() <= -50 || d.getXcoor() >= GamePanel.PWIDTH + 50) {
+                        try {
+                            if (GameData.phase == PHASE.ONE) {
+                                Animator.endcutscene = true;
+                                GamePanel.nextStage = 2;
+                                GamePanel.stageChange = true;
+                                setStateChanged(2, false);
+
+                            } else if (GameData.phase == PHASE.TWO) {
+                                Animator.endcutscene = true;
+                                GamePanel.nextStage = 3;
+                                GamePanel.stageChange = true;
+                                setStateChanged(3, false);
+                            }
+                            remove.add(d);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }

@@ -38,8 +38,8 @@ public class GamePanel extends JPanel {
     private BufferedImage planetImageTransformed;//test planet image
     private float scale;
     private int scaleCount;
-    private int nextStage;
-    private boolean stageChange;
+    static public int nextStage;
+    static public boolean stageChange;
     private int nextCutscene;
     private boolean cutsceneChange;
 
@@ -276,21 +276,31 @@ public class GamePanel extends JPanel {
 
             if (nextStage == 1) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
-                StartCutscene();
+               
                 Thread.sleep(4000);
-                nextStage = 2;
-                stageChange = true;
-                gameData.setStateChanged(2, false);
                 
+                animator.gamePanel.setNextCutscene(1);
+                animator.gamePanel.setCutsceneChange(true);
+                gameData.setStateChanged(2, true);
+                GameData.setphase(PHASE.ONE);
+                Animator.cutsceneRunning = true;
+                Animator.endcutscene = false;
+                Ship.playerImage = new BufferedImage(1, 1, 1);
                 Shield.count = 0;
                 Main.missileLevel = 1;
 
             } else if (nextStage == 2) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
-                nextStage = 3;
-                stageChange = true;
-                gameData.setStateChanged(3, false);
+                animator.gamePanel.setNextCutscene(2);
+                animator.gamePanel.setCutsceneChange(true);
+                gameData.setStateChanged(3, true);
+                GameData.setphase(PHASE.TWO);
+                Animator.cutsceneRunning = true;
+                Animator.endcutscene = false;
+                Ship.playerImage = new BufferedImage(1, 1, 1);
+                Shield.count = 0;
+                Main.missileLevel = 1;
             } else if (nextStage == 3) {
                 g.drawString(endText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
