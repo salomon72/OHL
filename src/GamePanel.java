@@ -278,25 +278,19 @@ public class GamePanel extends JPanel {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                
                 Thread.sleep(4000);
-<<<<<<< HEAD
-                
                 animator.gamePanel.setNextCutscene(1);
                 animator.gamePanel.setCutsceneChange(true);
                 gameData.setStateChanged(2, true);
                 GameData.setphase(PHASE.ONE);
+                planetImageTransformed = new BufferedImage(1, 1, 1);
                 Animator.cutsceneRunning = true;
                 Animator.endcutscene = false;
                 Ship.playerImage = new BufferedImage(1, 1, 1);
-=======
-                nextStage = 2;
-                stageChange = true;
-                gameData.setStateChanged(2, false);
-
->>>>>>> origin/master
                 Shield.count = 0;
                 Main.missileLevel = 1;
 
             } else if (nextStage == 2) {
+                
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 animator.gamePanel.setNextCutscene(2);
