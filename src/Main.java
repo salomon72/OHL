@@ -36,11 +36,6 @@ public class Main extends JFrame
     private final Animator animator;
 
     private final JTextField text;
-    private final JButton stage1test;
-    private final JButton cutscene1test;
-    private final JButton stage2test;
-    private final JButton cutscene2test;
-    private final JButton stage3test;
     private final JButton quitButton;
 
     // button's font & Colors
@@ -93,59 +88,7 @@ public class Main extends JFrame
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
-
-        //BEGIN TEMPORARY BUTTONS
-        stage1test = new JButton("Stage1");
-        stage1test.setVisible(true);
-        stage1test.setFont(btnFont);
-        stage1test.setBorder(borderLine);
-        stage1test.setBackground(btnColor);
-        southPanel.add(stage1test);
-
-        cutscene1test = new JButton("Cutscene1");
-        cutscene1test.setVisible(true);
-        cutscene1test.setFont(btnFont);
-        cutscene1test.setBorder(borderLine);
-        cutscene1test.setBackground(btnColor);
-        southPanel.add(cutscene1test);
-
-        stage2test = new JButton("Stage2");
-        stage2test.setVisible(true);
-        stage2test.setFont(btnFont);
-        stage2test.setBorder(borderLine);
-        stage2test.setBackground(btnColor);
-        southPanel.add(stage2test);
-
-        cutscene2test = new JButton("Cutscene2");
-        cutscene2test.setVisible(true);
-        cutscene2test.setFont(btnFont);
-        cutscene2test.setBorder(borderLine);
-        cutscene2test.setBackground(btnColor);
-        southPanel.add(cutscene2test);
-
-        stage3test = new JButton("Stage3");
-        stage3test.setVisible(true);
-        stage3test.setFont(btnFont);
-        stage3test.setBorder(borderLine);
-        stage3test.setBackground(btnColor);
-        southPanel.add(stage3test);
-
-        stage1test.setFocusable(false);
-        stage1test.addActionListener(this);
-
-        cutscene1test.setFocusable(false);
-        cutscene1test.addActionListener(this);
-
-        stage2test.setFocusable(false);
-        stage2test.addActionListener(this);
-
-        cutscene2test.setFocusable(false);
-        cutscene2test.addActionListener(this);
-
-        stage3test.setFocusable(false);
-        stage3test.addActionListener(this);
-        //END TEMPORARY BUTTONS
-
+        
         c.add(southPanel, "South");
 
         gamePanel.addMouseListener(this);
@@ -169,86 +112,6 @@ public class Main extends JFrame
     public void actionPerformed(ActionEvent ae) {//controls the quit button
         if (ae.getSource() == quitButton) {
             animator.running = false;
-        }
-        //BEGIN TEMPRARY BUTTON LISTENERS
-        if (ae.getSource() == stage1test) {
-            try {
-                GameData.setphase(PHASE.ONE);
-                animator.gamePanel.setNextStage(1);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(1, false);
-                Animator.endcutscene = true;
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (ae.getSource() == stage2test) {
-            try {
-                GameData.setphase(PHASE.TWO);
-                animator.gamePanel.setNextStage(2);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(2, false);
-                animator.startTimer();
-                Animator.endcutscene = true;
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (ae.getSource() == stage3test) {
-            try {
-                GameData.setphase(PHASE.THREE);
-                animator.gamePanel.setNextStage(3);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(3, false);
-                Animator.endcutscene = true;
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (ae.getSource() == cutscene1test) {
-            try {
-                animator.gamePanel.setNextCutscene(1);
-                animator.gamePanel.setCutsceneChange(true);
-                GameData.setphase(PHASE.TWO);
-                animator.gamePanel.setNextStage(2);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(2, true);
-                Animator.cutsceneRunning = true;
-                Animator.endcutscene = false;
-                Ship.playerImage = new BufferedImage(1, 1, 1);
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        if (ae.getSource() == cutscene2test) {
-            try {
-                animator.gamePanel.setNextCutscene(2);
-                animator.gamePanel.setCutsceneChange(true);
-                GameData.setphase(PHASE.THREE);
-                animator.gamePanel.setNextStage(3);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(3, true);
-                Animator.cutsceneRunning = true;
-                Animator.endcutscene = false;
-                Ship.playerImage = new BufferedImage(1, 1, 1);
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //END TEMPORARY BUTTON LISTENERS
         }
     }
 

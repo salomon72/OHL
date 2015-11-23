@@ -117,6 +117,33 @@ public class Stage2 implements Stage {
         count++;
         return enemy;
     }
+    
+    public Enemy powerupEnemy() {
+        Random randomGenerator = new Random();
+        int temp = randomGenerator.nextInt(450);
+        Enemy enemy = new Enemy(GamePanel.PWIDTH + 10, temp, 81, 81) {
+            float dx;
+            float dy;
+            float length;
+
+            @Override
+            public void update() {
+                dx = Ship.x + 200 - this.x;
+                dy = Ship.y + 20 - this.y;
+                length = (float) Math.sqrt(dx * dx + dy * dy);
+                dx /= length;
+                dy /= length;
+                dx *= 2.5;
+                dy *= 2.5;
+                this.x += dx;
+                this.y += dy;
+            }
+        };
+        enemy.enemyImage = airEnemy;
+        enemy.type = 2;
+        enemy.setPowerup();
+        return enemy;
+    }
 
     @Override
     public BufferedImage getBackgroundImage() {

@@ -24,10 +24,7 @@ public class CutsceneShip implements GameFigure {
     }
 
     public CutsceneShip(float x, float y) {
-        String imagePath = System.getProperty("user.dir");
-        String separator = System.getProperty("file.separator");
-        Image i = getImage(imagePath + separator + "images" + separator
-                + "playerShip.png");
+        Image i = GameData.playerImage;
         this.setAttributes(i, GameData.MAXHEALTH);
         this.observers = new ArrayList<>();
         this.x = x;
