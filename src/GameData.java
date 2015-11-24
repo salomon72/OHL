@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,7 +46,7 @@ public class GameData {
     public Thread Stage3Spawner;
     public Thread enemyShootThread;
 
-    private final Image playerImage;
+    public static Image playerImage;
 
     public GameData() throws IOException {
 
@@ -70,7 +69,7 @@ public class GameData {
         enemyShootThread.interrupt();
         removeEnemies();
         if (stage == 1) {
-            //phase = PHASE.ONE;
+            phase = PHASE.ONE;
             setStage1Spawner();
             Stage1Spawner.start();
             startFiring();
@@ -245,6 +244,12 @@ public class GameData {
                             figures.add(enemy);
                         }
                     }
+                    if (count % 5 == 0) {
+                        Enemy enemy = stage2.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     count++;
                 }
                 while (count >= 10 && count <= 15) {
@@ -285,6 +290,12 @@ public class GameData {
                             figures.add(enemy);
                         }
                     }
+                    if (count % 5 == 0) {
+                        Enemy enemy = stage2.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     count++;
                 }
                 while (count >= 30 && count <= 35) {
@@ -295,6 +306,12 @@ public class GameData {
                     synchronized (figures) {
                         Enemy enemy = stage2.getEnemy4();
                         figures.add(enemy);
+                    }
+                    if (count % 5 == 0) {
+                        Enemy enemy = stage2.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
                     }
                     try {
                         Thread.sleep(1000);//interval in which enemies are spawned
@@ -323,6 +340,12 @@ public class GameData {
                     synchronized (figures) {
                         figures.add(enemy);
                     }
+                    if (count % 5 == 0) {
+                        enemy = stage3.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     count++;
                     if (count == 6) {
                         try {
@@ -342,6 +365,12 @@ public class GameData {
                     synchronized (figures) {
                         figures.add(enemy);
                     }
+                    if (count % 5 == 0) {
+                        enemy = stage3.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
                     count++;
                     if (count == 12) {
                         try {
@@ -359,6 +388,12 @@ public class GameData {
                     Enemy enemy = stage3.getEnemy1();
                     synchronized (figures) {
                         figures.add(enemy);
+                    }
+                    if (count % 5 == 0) {
+                        enemy = stage3.powerupEnemy();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
                     }
                     count++;
                     if (count == 18) {
@@ -382,6 +417,12 @@ public class GameData {
                     }
                     if (count % 3 == 0) {
                         enemy = stage3.getEnemy4();
+                        synchronized (figures) {
+                            figures.add(enemy);
+                        }
+                    }
+                    if (count % 5 == 0) {
+                        enemy = stage3.powerupEnemy();
                         synchronized (figures) {
                             figures.add(enemy);
                         }
@@ -437,75 +478,48 @@ public class GameData {
     }
 
     public final void startFiring() {
-        enemyShootThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GameFigure f;
-                while (!Thread.interrupted()) {//FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
-                    for (int i = 0; i < figures.size(); i++) {
-                        int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
-                        int type = figures.get(i).getMyType();//get enemy to fire
-                        if ((type == 7 && temp <= 75) || (temp <= 75 && temp >= 30)) {//if random number is between 90 and 30, enemy will fire
-                            f = figures.get(i);//get enemy to fire
-                            if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
-                                int tempMissile = f.getMyType();
-
-                                if (type == 7 || type == 8 || type == 9) {
-                                    tempMissile = 1 + (int) (Math.random() * 7);
-                                }
-                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
-                                String missilelaunch = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                                //ThreadPlayer.play(missilelaunch);
-                                synchronized (figures) {
-                                    figures.add(m);
-                                }
+        enemyShootThread = new Thread(() -> {
+            GameFigure f;
+            while (!Thread.interrupted()) {
+                //FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
+                for (int i = 0; i < figures.size(); i++) {
+                    int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
+                    int type = figures.get(i).getMyType();//get enemy to fire
+                    if ((type == 7 && temp <= 75) || (temp <= 75 && temp >= 30)) {
+                        //if random number is between 90 and 30, enemy will fire
+                        f = figures.get(i);//get enemy to fire
+                        if (f.isPlayer() == 1 || f.isPlayer() == 2) {
+                            //check is the object collected from list is the player, do not fire if player.
+                            int tempMissile = f.getMyType();
+                            if (type == 7 || type == 8 || type == 9) {
+                                tempMissile = 1 + (int) (Math.random() * 7);
+                            }
+                            Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
+                            String missilelaunch1 = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
+                            //ThreadPlayer.play(missilelaunch);
+                            synchronized (figures) {
+                                figures.add(m);
                             }
                         }
                     }
-                    try {
-                        Thread.sleep(1000);//interval between enemy fire
-                    } catch (InterruptedException ex) {
-                        return;
-                    }
+                }
+                try {
+                    Thread.sleep(1000);//interval between enemy fire
+                } catch (InterruptedException ex) {
+                    return;
                 }
             }
-        }
-        );
+        });
     }
 
     private void addPower(int r, GameFigure f) {
         synchronized (figures) {
-            if (GameData.phase == PHASE.ONE) { // if current stage is 1;
-                if (r == 5) {  // cannot have bonus power in stage one                                          
-                    return;
-                }
-                /*========================== STILL DEBUGGING==============================
-                 else{
-                 //if ship is already shooting 2 missiles at once, change power to health 
-                 if(r==3 && Main.missileLevel > 1)
-                 r = 4;                    
-                 else if(r==2 && Shield.count == 1){ // if ship has a shield already,...
-                 if(Main.missileLevel==1) // .. and shoot only one missile @ once, double the missile.
-                 r = 3;
-                 else     // else, change power to health
-                 r = 4;
-                 }                                    
-                 }                
-                 } else if(GameData.phase==PHASE.TWO || GameData.phase==PHASE.THREE){ // if stage is 2 or 3, ...
-                 if(r==3 && Main.missileLevel >=3 ) // and ship shoot 3 missiles @ once, change power to shield
-                 r = 2;
-            
-                 */
-                //========================== STILL DEBUGGING==============================
-            }
-
-            PowerUp pw = new PowerUp(5);
+            PowerUp pw = new PowerUp(r);
             pw.setLocation((int) f.getXcoor(), (int) f.getYcoor() + 5);
             pw.setReleased(true);
             pw.setEnabled(true);
             pw.updateState(1);
             figures.add(pw);
-
         }
         f.notifyObservers(5 + r);
     }
@@ -540,21 +554,31 @@ public class GameData {
                         if (g.getState() == GameFigure.STATE_DONE) {
                             f.registerObserver(score);//update score upone each enemy destroyed                   
 
-                            Random rand = new Random();
-                            int r = rand.nextInt(10);
+                            int r;
                             if (GameData.phase == PHASE.ONE) { //powerups for stage 1
                                 if (g.containsPowerup()) {
-                                    r = (int) (Math.random() * (3) + 2);
-                                    addPower(r, f);
                                     r = (int) (Math.random() * (3) + 2);
                                     addPower(r, f);// release POWER
                                     f.notifyObservers(5 + r);
                                 } else {
                                     f.notifyObservers(5);
                                 }
-                            } else if (r > 1 && r <= 4) { //powerups for stage 2 and 3
-                                addPower(r, f); // release POWER
-                                f.notifyObservers(5 + r);
+                            } else if (GameData.phase == PHASE.TWO) { //powerups for stage 2
+                                if (g.containsPowerup()) {
+                                    r = 5;
+                                    addPower(r, f);// release POWER
+                                    f.notifyObservers(5 + r);
+                                } else {
+                                    f.notifyObservers(5);
+                                }
+                            } else if (GameData.phase == PHASE.THREE) { //powerups for stage 3
+                                if (g.containsPowerup()) {
+                                    r = (int) (Math.random() * (4) + 2);
+                                    addPower(r, f);// release POWER
+                                    f.notifyObservers(5 + r);
+                                } else {
+                                    f.notifyObservers(5);
+                                }
                             }
                         }
                     }
@@ -632,7 +656,6 @@ public class GameData {
     public void update() {
         List<GameFigure> remove = new ArrayList<>();//list of all game figures marked for removal
         GameFigure f;
-        GameFigure h;
         synchronized (figures) {
             enemiesSpawned = 0;//count of enemies on game panel
             for (int i = 0; i < figures.size(); i++) {
