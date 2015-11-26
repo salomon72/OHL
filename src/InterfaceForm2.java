@@ -3,6 +3,7 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -39,6 +40,7 @@ public class InterfaceForm2 extends JPanel {
 
     private BufferedImage dbImage = null;
     private final BufferedImage backgroundImage;//image for the background of the game
+    private final BufferedImage playerShip;
     
     
     public InterfaceForm2() throws IOException {
@@ -49,13 +51,23 @@ public class InterfaceForm2 extends JPanel {
         backgroundImage = ImageIO.read(file);
         //setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
+        File file2 = new File(imagePath + separator + "images" + separator //load
+                + "playerShip.png");
+        playerShip = ImageIO.read(file2);
         
     }
     
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, null);
+        Font font = new Font("Impact", Font.BOLD, 150);//
+            g.setFont(font);
+            g.setColor(Color.ORANGE);
+            g.drawImage(backgroundImage, 0, 0, null);
+            g.drawImage(playerShip, 500, 200, 300, 300, null); //show playership on time screen
+            String text1 = "Galileo!";
+            g.drawString(text1, 450, 150);
+            
     }
     
      public static Image getImage(String fileName) {//functions that reads image files
@@ -88,5 +100,9 @@ public class InterfaceForm2 extends JPanel {
     
     public BufferedImage getBackgroundImage() {
         return backgroundImage;
+    }
+    
+    public BufferedImage getPlayerShipImage(){
+        return playerShip;
     }
 }
