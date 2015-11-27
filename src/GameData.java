@@ -21,7 +21,7 @@ public class GameData {
     public static int MAXHEIGHT = 550;
     public static int MINHEIGHT = 20;
     public static int MAXENEMY = 35;
-
+    private SoundPlayer soundPlayerFX;
     public static int MAXHEALTH = 5;
     final List<GameFigure> figures;
     int count = 0;

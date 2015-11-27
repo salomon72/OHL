@@ -15,12 +15,16 @@ public class Boss implements GameFigure {
     int w, h;
     int state = STATE_TRAVELING;
     private int health;
+    private int shield;
+    private int blast = 15;
+    private long blast_stamp = 0;
     private PHASE phase;
     private OPERATION cando = OPERATION.FLY;
     private int damage;
     float dx;
     float dy;
     float length;
+    SoundPlayer soundPlayerFX;
 
     public OPERATION canDo() {
         return cando;
@@ -59,7 +63,7 @@ public class Boss implements GameFigure {
         phase = GameData.getphase();
         this.type = type;
         i = getImage(imagePath + separator + "images" + separator
-                + "enemy" + Integer.toString(this.type) + ".png");
+                + "enemy" + Integer.toString(this.type) + "s.png");
 
         cando = OPERATION.ALL;
         this.setAttributes(i, GameData.MAXHEALTH * 4);
@@ -84,13 +88,36 @@ public class Boss implements GameFigure {
 
     @Override
     public void render(Graphics g) {
-        if (state != STATE_DEAD) {
-            g.drawImage(enemyImage, (int) x, (int) y, null);
-        }
+      String imagePath = System.getProperty("user.dir");
+      String separator = System.getProperty("file.separator");
 
-        if (power.isEnabled() && power.isReleased()) {
-            power.render(g);
+      switch (state) {
+      case STATE_EXPLODING : {
+        if (blast > 0) {
+          if ((System.currentTimeMillis() - blast_stamp) > 150) {     
+            enemyImage = getImage(imagePath + separator + "images" + separator
+                  + "explosion" + Integer.toString(blast) + ".png");
+            blast = blast - 1;
+            if (blast == 0) {
+              state = STATE_DONE;
+            }
+            blast_stamp = System.currentTimeMillis();
+          }
         }
+        g.drawImage(enemyImage, (int) x, (int) y, null);
+        break;
+      }
+      default : {
+        if (state != STATE_DEAD) {
+          g.drawImage(enemyImage, (int) x, (int) y, null);
+        }
+        break;
+      }
+      }
+
+      if (power.isEnabled() && power.isReleased()) {
+          power.render(g);
+      }
     }
 
     @Override
@@ -133,10 +160,25 @@ public class Boss implements GameFigure {
 
     @Override
     public void Health(int i) {
-        health -= i;
-        if (health <= 0) {
-            state = STATE_DONE;
+      String imagePath = System.getProperty("user.dir");
+      String separator = System.getProperty("file.separator");
+      if (shield > 0) {
+        shield -= i; 
+        if (shield <= 0) {
+          enemyImage = getImage(imagePath + separator + "images" + separator
+                + "enemy" + Integer.toString(this.type) + ".png");
         }
+      } else {
+        health -= i;
+        if ((health <= 0) && (state == STATE_TRAVELING)) {
+            soundPlayerFX = new SoundPlayer(imagePath + separator + 
+              "images" + System.getProperty("file.separator") + "blast1.wav");
+            soundPlayerFX.play();
+          
+            
+            state = STATE_EXPLODING;
+        }
+      }
     }
 
     @Override
@@ -179,6 +221,7 @@ public class Boss implements GameFigure {
     @Override
     public void setAttributes(Image i, int health) {
         this.health = health;
+        this.shield = health;
         enemyImage = i;
     }
 

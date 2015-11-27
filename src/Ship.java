@@ -82,15 +82,13 @@ public class Ship implements GameFigure {
         return image;
     }
 
-    public static void upgradeShip() {
+   
+        public static void upgradeShip() {
         playerImage = getImage(imagePath + separator + "images" + separator
                 + "playerShip3.gif");
         Missile.upgradeMissile();
         Main.missileLevel = 1;
-        xOffset = 70;
-        yOffset = 19;
         upgrade = true;
-        GameData.playerImage = Ship.playerImage;
     }
 
     // Missile shoot location
