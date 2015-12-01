@@ -483,9 +483,7 @@ private       Clip clip;
     //==================================================================
 
     public static void main(String[] args) throws IOException {//runs the Main constructor that ultimately starts the entire game
-        JFrame menu = new InterfaceForm();
-        menu.setSize(500, 350);
-        menu.setLocation(300, 100);
+        JFrame menu = new StartUpMenu();
         menu.setResizable(false);
         menu.setVisible(true);
     }
