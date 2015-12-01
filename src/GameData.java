@@ -513,15 +513,31 @@ public class GameData {
     }
 
     private void addPower(int r, GameFigure f) {
-        synchronized (figures) {
+        synchronized (figures) {            
+            //if ship is already shooting 2 missiles at once, change power to health 
+            if(r==3 && Main.missileLevel > 1){
+                r = 2;                                               
+            }
+            if(r==2 && Ship.health <= 5){ 
+                r = 4;                        
+            }
+            if (r==4 && Ship.health >5 ){
+                if(GameData.phase==PHASE.TWO || GameData.phase==PHASE.THREE){
+                    r = 5;
+                }
+                else
+                    r = 2;
+            }
+            
             PowerUp pw = new PowerUp(r);
             pw.setLocation((int) f.getXcoor(), (int) f.getYcoor() + 5);
             pw.setReleased(true);
             pw.setEnabled(true);
             pw.updateState(1);
             figures.add(pw);
+            f.notifyObservers(5 + r);
         }
-        f.notifyObservers(5 + r);
+        
     }
 
     //@@@@@ not done yet - Please Do Not Remove
@@ -582,6 +598,11 @@ public class GameData {
                             }
                         }
                     }
+                } else if(!f.equals(g) && g.isMissile()==1){
+                    if(f.collision().intersects(g.collision())){
+                        f.Health(1);
+                        g.Health(1);
+                    }                    
                 }
             }
         }

@@ -52,7 +52,7 @@ public class InterfaceForm2 extends JPanel {
         //setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
         File file2 = new File(imagePath + separator + "images" + separator //load
-                + "playerShip.png");
+                + "Galileo.jpg"); //playerShip
         playerShip = ImageIO.read(file2);
         
     }
@@ -61,12 +61,12 @@ public class InterfaceForm2 extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Font font = new Font("Impact", Font.BOLD, 150);//
-            g.setFont(font);
+            g.setFont(font);//
             g.setColor(Color.ORANGE);
             g.drawImage(backgroundImage, 0, 0, null);
-            g.drawImage(playerShip, 500, 200, 300, 300, null); //show playership on time screen
+            g.drawImage(playerShip, 0, 0, 1275, 590, null); //show playership on time screen
             String text1 = "Galileo!";
-            g.drawString(text1, 450, 150);
+           // g.drawString(text1, 450, 150);
             
     }
     

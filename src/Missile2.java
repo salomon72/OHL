@@ -21,7 +21,7 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     public static int SOUNDFX = 0;
     public static SoundPlayer soundPlayerFX;
     public static long SOUNDFX_TIMESTAMP = 0;
-    int health = 1;
+    int health = 4;
     int type;
     private final ArrayList<Observer> observers;
 
@@ -165,7 +165,7 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     @Override
     public void Health(int i) {
         health -= i;
-        if (health == 0) {
+        if (health <= 0) {
             state = 0;
         }
     }
