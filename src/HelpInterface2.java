@@ -57,6 +57,7 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
     private JTextField text2;
     private JButton quitButton;
     private JButton back;
+    private JButton startTutorial;
 
     Font btnFont;
     Border borderLine;
@@ -91,14 +92,25 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
         back.setBorder(borderLine);
         back.setBackground(btnColor);
         southPanel.add(back);
-
+        
         btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
+        
+        startTutorial = new JButton("Tutorial");
+        startTutorial.setVisible(true);
+        startTutorial.setFont(btnFont);
+        startTutorial.setBorder(borderLine);
+        startTutorial.setBackground(btnColor);
+        southPanel.add(startTutorial);//
+
 
         back.addActionListener(this);
         back.setFocusable(false);
 
+        startTutorial.addActionListener(this);
+        startTutorial.setFocusable(false);
+        
         c.add(southPanel, "South");
         //displayEnemy = (DisplayEnemy) displayGameData.figures.get(0);
         //playerShip = (Ship) gameData.figures.get(0);
@@ -111,6 +123,15 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
         if (e.getSource() == back) {
             DisplayAnimator.running = false;
             dispose();
+        }
+        if(e.getSource() == startTutorial){
+            try {
+                JFrame practice = new Tutorial();
+                practice.setResizable(false);
+                practice.setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(HelpInterface2.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
