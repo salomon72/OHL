@@ -492,7 +492,7 @@ public class GameData {
                             //check is the object collected from list is the player, do not fire if player.
                             int tempMissile = f.getMyType();
                             if (type == 7 || type == 8 || type == 9) {
-                                tempMissile = 1 + (int) (Math.random() * 7);
+                                tempMissile = type;
                             }
                             Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
                             String missilelaunch1 = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
