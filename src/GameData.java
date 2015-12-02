@@ -582,12 +582,7 @@ public class GameData {
                             }
                         }
                     }
-                } else if (!f.equals(g) && g.isMissile() == 1) {
-                    if (f.collision().intersects(g.collision())) {
-                        f.Health(1);
-                        g.Health(1);
-                    }
-                }
+                } 
             }
         }
     }
@@ -601,7 +596,7 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
                         if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
-                            //g.Health(1);//subtract 1 from Player's health 
+                            g.Health(1);//subtract 1 from Player's health 
                         } else if (g.getState() == GameFigure.SHIELD) {
                             Shield.count--;
                             if (Shield.count <= 0) {

@@ -66,7 +66,13 @@ public class Boss implements GameFigure {
                 + "enemy" + Integer.toString(this.type) + "s.png");
 
         cando = OPERATION.ALL;
-        this.setAttributes(i, GameData.MAXHEALTH * 4);
+        this.setAttributes(i, GameData.MAXHEALTH * 20);
+        if(GameData.getphase() == PHASE.TWO){
+            this.setAttributes(i, GameData.MAXHEALTH * 45);
+        }
+        if(GameData.getphase() == PHASE.THREE){
+            this.setAttributes(i, GameData.MAXHEALTH * 150);
+        }
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
@@ -195,7 +201,7 @@ public class Boss implements GameFigure {
 
     @Override
     public float getYofMissileShoot() {
-        return y + 17;
+        return y + 23;
     }
 
     @Override

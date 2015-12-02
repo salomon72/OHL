@@ -170,7 +170,7 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     @Override
     public void Health(int i) {
         health -= i;
-        if (health <= 0) {
+        if (health == 0) {
             state = 0;
         }
     }
