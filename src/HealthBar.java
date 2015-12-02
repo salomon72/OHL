@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.*;
@@ -14,8 +13,6 @@ import java.awt.geom.Point2D;
 public class HealthBar extends JFrame implements GameFigure {
 
     Point2D.Float target;
-    private int state = STATE_TRAVELING;
-    private final ArrayList<Observer> observers;
     private int health;
     private Image healthimage;
 
@@ -33,7 +30,6 @@ public class HealthBar extends JFrame implements GameFigure {
     }
 
     public HealthBar(int s, String name) {
-        this.observers = new ArrayList<>();
 
         String imagePath = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
@@ -98,10 +94,6 @@ public class HealthBar extends JFrame implements GameFigure {
 
     @Override
     public void Health(int i) {
-        health -= i;
-        if (health <= 0) {
-            state = 0;
-        }
     }
 
     @Override
@@ -156,21 +148,6 @@ public class HealthBar extends JFrame implements GameFigure {
     @Override
     public void setMissile(int m) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private class Bar extends JLabel {
-
-        //Default Bar constructor.
-        public Bar() {
-            super();
-        }
-
-        // Bar constructor.
-        //the ImageIcon used in the bar 
-        public Bar(ImageIcon im) {
-            super();
-            this.setIcon(im);
-        }
     }
 
     @Override

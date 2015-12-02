@@ -104,7 +104,7 @@ public class Stage3 implements Stage {
         count++;
         return enemy;
     }
-    
+
     public Enemy powerupEnemy() {
         Random randomGenerator = new Random();
         int temp = randomGenerator.nextInt(450);

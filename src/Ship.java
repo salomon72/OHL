@@ -28,29 +28,34 @@ public class Ship implements GameFigure {
     private int missile = -1;
     private boolean blinking;
     private long blinkTimer;
-    
+
     private static int xOffset;
     private static int yOffset;
 
     static Bonus bonus;
 
+    @Override
     public PHASE getphase() {
         throw new UnsupportedOperationException("Not implement!");
     }
-    private OPERATION cando = OPERATION.ALL;
+    private final OPERATION cando = OPERATION.ALL;
 
+    @Override
     public OPERATION canDo() {
         return cando;
     }
 
+    @Override
     public int getMyType() {
         return 1;
     }
 
+    @Override
     public int get() {
         return health;
     }
 
+    @Override
     public int getDamage() {
         return 2;
     }
@@ -63,7 +68,7 @@ public class Ship implements GameFigure {
         this.observers = new ArrayList<>();
         Ship.x = x;
         Ship.y = y;
-        
+
         xOffset = 47;
         yOffset = 39;
 
@@ -82,13 +87,15 @@ public class Ship implements GameFigure {
         return image;
     }
 
-   
-        public static void upgradeShip() {
+    public static void upgradeShip() {
         playerImage = getImage(imagePath + separator + "images" + separator
                 + "playerShip3.gif");
         Missile.upgradeMissile();
-        Main.missileLevel = 1;
+        Main.missileLevel = 2;
+        xOffset = 70;
+        yOffset = 19;
         upgrade = true;
+        GameData.playerImage = Ship.playerImage;
     }
 
     // Missile shoot location

@@ -16,9 +16,9 @@ public class TutorialEnemy implements TutorialGameFigures {
     int w, h;
     int state = STATE_TRAVELING;
     private int health;
-    private PowerUp power;
+    private final PowerUp power;
 
-    private ArrayList<Observer> observers;
+    private final ArrayList<Observer> observers;
 
     TutorialEnemy(float x, float y, int height, int weight) {
         String imagePath = System.getProperty("user.dir");

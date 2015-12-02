@@ -1,6 +1,5 @@
-import java.io.File;
+
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import java.awt.Color;
@@ -23,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,23 +31,14 @@ import javax.swing.border.LineBorder;
 
 public class Main extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener {
-private AudioInputStream input;
-private       Clip clip;
-  
+
     private final GamePanel gamePanel;
     final GameData gameData;
     private final Animator animator;
-    
+
     // sound players
-    private SoundPlayer soundPlayerMusic;
-    private SoundPlayer soundPlayerFX;
-    private long playerMissileFX = 0;
+    private final SoundPlayer soundPlayerMusic;
     private final JTextField text;
-    private final JButton stage1test;
-    private final JButton cutscene1test;
-    private final JButton stage2test;
-    private final JButton cutscene2test;
-    private final JButton stage3test;
     private final JButton quitButton;
 
     // button's font & Colors
@@ -79,10 +67,8 @@ private       Clip clip;
         animator.setGameData(gameData);//sets gameData object for animator to use
         gamePanel = new GamePanel(animator, gameData);
         animator.setGamePanel(gamePanel);//sets the gamePanel object for animator to use
-         // create a new SoundPlayer object
         soundPlayerMusic = new SoundPlayer("images/Shovel.wav");
         soundPlayerMusic.loop();
-        
 
         c.add(gamePanel, "Center");//centers the gamePanel on the JPanel
 
@@ -108,58 +94,6 @@ private       Clip clip;
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
 
-        //BEGIN TEMPORARY BUTTONS
-        stage1test = new JButton("Stage1");
-        stage1test.setVisible(true);
-        stage1test.setFont(btnFont);
-        stage1test.setBorder(borderLine);
-        stage1test.setBackground(btnColor);
-        southPanel.add(stage1test);
-
-        cutscene1test = new JButton("Cutscene1");
-        cutscene1test.setVisible(true);
-        cutscene1test.setFont(btnFont);
-        cutscene1test.setBorder(borderLine);
-        cutscene1test.setBackground(btnColor);
-        southPanel.add(cutscene1test);
-
-        stage2test = new JButton("Stage2");
-        stage2test.setVisible(true);
-        stage2test.setFont(btnFont);
-        stage2test.setBorder(borderLine);
-        stage2test.setBackground(btnColor);
-        southPanel.add(stage2test);
-
-        cutscene2test = new JButton("Cutscene2");
-        cutscene2test.setVisible(true);
-        cutscene2test.setFont(btnFont);
-        cutscene2test.setBorder(borderLine);
-        cutscene2test.setBackground(btnColor);
-        southPanel.add(cutscene2test);
-
-        stage3test = new JButton("Stage3");
-        stage3test.setVisible(true);
-        stage3test.setFont(btnFont);
-        stage3test.setBorder(borderLine);
-        stage3test.setBackground(btnColor);
-        southPanel.add(stage3test);
-
-        stage1test.setFocusable(false);
-        stage1test.addActionListener(this);
-
-        cutscene1test.setFocusable(false);
-        cutscene1test.addActionListener(this);
-
-        stage2test.setFocusable(false);
-        stage2test.addActionListener(this);
-
-        cutscene2test.setFocusable(false);
-        cutscene2test.addActionListener(this);
-
-        stage3test.setFocusable(false);
-        stage3test.addActionListener(this);
-        //END TEMPORARY BUTTONS
-
         c.add(southPanel, "South");
 
         gamePanel.addMouseListener(this);
@@ -182,87 +116,7 @@ private       Clip clip;
     @Override
     public void actionPerformed(ActionEvent ae) {//controls the quit button
         if (ae.getSource() == quitButton) {
-            animator.running = false;
-        }
-        //BEGIN TEMPRARY BUTTON LISTENERS
-        if (ae.getSource() == stage1test) {
-            try {
-                GameData.setphase(PHASE.ONE);
-                animator.gamePanel.setNextStage(1);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(1, false);
-                Animator.endcutscene = true;
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (ae.getSource() == stage2test) {
-            try {
-                GameData.setphase(PHASE.TWO);
-                animator.gamePanel.setNextStage(2);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(2, false);
-                animator.startTimer();
-                Animator.endcutscene = true;
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (ae.getSource() == stage3test) {
-            try {
-                GameData.setphase(PHASE.THREE);
-                animator.gamePanel.setNextStage(3);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(3, false);
-                Animator.endcutscene = true;
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (ae.getSource() == cutscene1test) {
-            try {
-                animator.gamePanel.setNextCutscene(1);
-                animator.gamePanel.setCutsceneChange(true);
-                GameData.setphase(PHASE.TWO);
-                animator.gamePanel.setNextStage(2);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(2, true);
-                Animator.cutsceneRunning = true;
-                Animator.endcutscene = false;
-                Ship.playerImage = new BufferedImage(1, 1, 1);
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        if (ae.getSource() == cutscene2test) {
-            try {
-                animator.gamePanel.setNextCutscene(2);
-                animator.gamePanel.setCutsceneChange(true);
-                GameData.setphase(PHASE.THREE);
-                animator.gamePanel.setNextStage(3);
-                animator.gamePanel.setStageChange(true);
-                gameData.setStateChanged(3, true);
-                Animator.cutsceneRunning = true;
-                Animator.endcutscene = false;
-                Ship.playerImage = new BufferedImage(1, 1, 1);
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //END TEMPORARY BUTTON LISTENERS
+            Animator.running = false;
         }
     }
 
@@ -272,7 +126,6 @@ private       Clip clip;
             if (e.getWheelRotation() > 0) { // if wheel goes UP
                 Shield.count += 3;
                 Bonus.powerLevel -= 1;
-                //Bonus.power -= 2;
 
             } else { //if wheel goes DOWN                
                 if (Bonus.powerLevel >= 2 && !Bonus.slowMotion) { // start slow motion if not yet activated 
@@ -360,22 +213,22 @@ private       Clip clip;
             switch (ke.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (!playerShip.mouseable) {
-                        playerShip.y -= 25;
+                        Ship.y -= 25;
                     }
                     break;
                 case KeyEvent.VK_DOWN:
                     if (!playerShip.mouseable) {
-                        playerShip.y += 25;
+                        Ship.y += 25;
                     }
                     break;
                 case KeyEvent.VK_LEFT:
                     if (!playerShip.mouseable) {
-                        playerShip.x -= 25;
+                        Ship.x -= 25;
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
                     if (!playerShip.mouseable) {
-                        playerShip.x += 25;
+                        Ship.x += 25;
                     }
                     break;
                 case KeyEvent.VK_M: // activate or de-activate mouse control
@@ -445,7 +298,7 @@ private       Clip clip;
 
     @Override
     public void mouseDragged(MouseEvent e) {//fires missles from the player as long as the player clicks and drags, also updates position
-        if (playerShip.mouseable && !animator.paused) { // == true
+        if (playerShip.mouseable && !Animator.paused) { // == true
             Ship.x = e.getX();
             Ship.y = e.getY();
         }
@@ -458,8 +311,8 @@ private       Clip clip;
             if (playerShip.mouseable && !Animator.paused) {
                 Ship.x = e.getX();
                 Ship.y = e.getY();
-                if (e.getX() > 0 && e.getX() < GamePanel.PWIDTH - playerShip.playerImage.getWidth(null)
-                        && e.getY() > 0 && e.getY() < GamePanel.PHEIGHT - playerShip.playerImage.getHeight(null)) {
+                if (e.getX() > 0 && e.getX() < GamePanel.PWIDTH - Ship.playerImage.getWidth(null)
+                        && e.getY() > 0 && e.getY() < GamePanel.PHEIGHT - Ship.playerImage.getHeight(null)) {
                     hideMouse();    // hide mouse cursor when cursor is in the war zone; the gamePanel area 
                 } else {
                     showMouse(); // show cursor otherwise
@@ -469,7 +322,6 @@ private       Clip clip;
         }
     }
 
-    //==================================================================
     private void hideMouse() { // hide Cursor
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Cursor invisible = getToolkit().createCustomCursor(
@@ -480,7 +332,6 @@ private       Clip clip;
     private void showMouse() { // show Cursor
         gamePanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
-    //==================================================================
 
     public static void main(String[] args) throws IOException {//runs the Main constructor that ultimately starts the entire game
         JFrame menu = new StartUpMenu();

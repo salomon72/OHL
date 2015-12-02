@@ -22,7 +22,6 @@ public class Enemy implements GameFigure {
     private int health;
     private PHASE phase;
     private OPERATION cando = OPERATION.FLY;
-    private int damage;
     private boolean containsPowerup = false;
 
     public OPERATION canDo() {
@@ -61,7 +60,6 @@ public class Enemy implements GameFigure {
             i = getImage(imagePath + separator + "images" + separator
                     + "Enemy0.png");
             type = 0;
-            damage = 1;
         } else if (GameData.getphase() == PHASE.TWO) {
             Random randomGenerator = new Random();
             int temp = randomGenerator.nextInt(3);
@@ -69,7 +67,6 @@ public class Enemy implements GameFigure {
             i = getImage(imagePath + separator + "images" + separator
                     + "enemy" + Integer.toString(temp) + ".png");
             type = temp;
-            damage = type;
         } else if (GameData.getphase() == PHASE.THREE) {
             Random randomGenerator = new Random();
             int temp = randomGenerator.nextInt(3);
@@ -78,7 +75,15 @@ public class Enemy implements GameFigure {
                     + "enemy" + Integer.toString(temp) + ".png");
             type = temp;
         }
-        this.setAttributes(i, 6);
+        if(GameData.getphase() == PHASE.ONE){
+            this.setAttributes(i, 3);
+        }
+        else if(GameData.getphase() == PHASE.TWO){
+            this.setAttributes(i, 6);
+        }
+        else{
+            this.setAttributes(i, 15);
+        }
         this.observers = new ArrayList<>();
         this.x = x;
         this.y = y;
@@ -275,7 +280,6 @@ public class Enemy implements GameFigure {
 
     @Override
     public Rectangle collision() {
-        // CHANGE SIZE OF IMAGE
         return new Rectangle((int) x, (int) y, 30, 44);
     }
 

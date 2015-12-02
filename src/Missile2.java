@@ -25,20 +25,23 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
     int type;
     private final ArrayList<Observer> observers;
 
-    private static String imagePath = System.getProperty("user.dir");
-    private static String separator = System.getProperty("file.separator");
+    private static final String imagePath = System.getProperty("user.dir");
+    private static final String separator = System.getProperty("file.separator");
     Image missileImage = getImage(imagePath + separator + "images" + separator
             + "missile" + Integer.toString(type) + ".png");
 
+    @Override
     public PHASE getphase() {
         return GameData.getphase();
     }
     private OPERATION cando = OPERATION.ALL;
 
+    @Override
     public OPERATION canDo() {
         return cando;
     }
 
+    @Override
     public int getDamage() {
         if (type == 0) {
             return 1;
@@ -47,52 +50,54 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
         }
     }
 
+    @Override
     public int getMyType() {
         return type;
     }
 
+    @Override
     public int get() {
         return health;
     }
-    
+
     public void playSound() {
-      Missile2.SOUNDFX = (Missile2.SOUNDFX + 1) % 10;
-      if ((System.currentTimeMillis() - Missile2.SOUNDFX_TIMESTAMP) > 1000) {     
-        switch (type) {
-          case 7 :  
-          case 8 :  
-          case 9 : {
-            Missile2.soundPlayerFX = new SoundPlayer(imagePath + separator + "images" + separator
-                    + "missile" + Integer.toString(17 - type) + ".wav");
-            break;
-          }
-          default : {
-            Missile2.soundPlayerFX = new SoundPlayer(imagePath + separator + "images" + separator
-                    + "missile" + Integer.toString(Missile2.SOUNDFX) + ".wav");
-            break;
-          }
+        Missile2.SOUNDFX = (Missile2.SOUNDFX + 1) % 10;
+        if ((System.currentTimeMillis() - Missile2.SOUNDFX_TIMESTAMP) > 1000) {
+            switch (type) {
+                case 7:
+                case 8:
+                case 9: {
+                    Missile2.soundPlayerFX = new SoundPlayer(imagePath + separator + "images" + separator
+                            + "missile" + Integer.toString(17 - type) + ".wav");
+                    break;
+                }
+                default: {
+                    Missile2.soundPlayerFX = new SoundPlayer(imagePath + separator + "images" + separator
+                            + "missile" + Integer.toString(Missile2.SOUNDFX) + ".wav");
+                    break;
+                }
+            }
+            Missile2.SOUNDFX_TIMESTAMP = System.currentTimeMillis();
+            Missile2.soundPlayerFX.play();
         }
-        Missile2.SOUNDFX_TIMESTAMP = System.currentTimeMillis();
-        Missile2.soundPlayerFX.play();
-      }
     }
 
     public Missile2(float x, float y, int type) {
         this.observers = new ArrayList<>();
         this.type = type;
         switch (type) {
-        case 7 : 
-        case 8 :   
-        case 9 : {  
-          missileImage = getImage(imagePath + separator + "images" + separator
-                + "missile" + Integer.toString(17 - type) + ".png");
-          break;
-        }
-        default : {
-          missileImage = getImage(imagePath + separator + "images" + separator
-                  + "missile" + Integer.toString(type) + ".png");
-          break;
-        }
+            case 7:
+            case 8:
+            case 9: {
+                missileImage = getImage(imagePath + separator + "images" + separator
+                        + "missile" + Integer.toString(17 - type) + ".png");
+                break;
+            }
+            default: {
+                missileImage = getImage(imagePath + separator + "images" + separator
+                        + "missile" + Integer.toString(type) + ".png");
+                break;
+            }
         }
         setFrameFromCenter(x, y, x, y);
         playSound();
@@ -120,7 +125,7 @@ public class Missile2 extends Ellipse2D.Float implements GameFigure {
             x -= 3 * UNIT_TRAVEL_DISTANCE;//speed up for boss
         } else {
             x -= UNIT_TRAVEL_DISTANCE;
-        }       
+        }
     }
 
     public void updateState() {

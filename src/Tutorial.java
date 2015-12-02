@@ -18,21 +18,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class Tutorial extends JFrame
         implements ActionListener, MouseListener, KeyListener, MouseMotionListener {
 
-    //private final GamePanel gamePanel;
     private final TutorialPanel tutorialPanel;
     private final TutorialGameData gameData;
 
-    //private final Animator animator;
     private final TutorialAnimator tutorialAnimator;
-    private JTextField text;
-    private JTextField text2;
     private final JButton quitButton;
     private final JButton back;
 

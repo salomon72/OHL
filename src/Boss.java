@@ -88,49 +88,57 @@ public class Boss implements GameFigure {
 
     @Override
     public void render(Graphics g) {
-      String imagePath = System.getProperty("user.dir");
-      String separator = System.getProperty("file.separator");
+        String imagePath = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
 
-      switch (state) {
-      case STATE_EXPLODING : {
-        if (blast > 0) {
-          if ((System.currentTimeMillis() - blast_stamp) > 150) {     
-            enemyImage = getImage(imagePath + separator + "images" + separator
-                  + "explosion" + Integer.toString(blast) + ".png");
-            blast = blast - 1;
-            if (blast == 0) {
-              state = STATE_DONE;
+        switch (state) {
+            case STATE_EXPLODING: {
+                if (blast > 0) {
+                    if ((System.currentTimeMillis() - blast_stamp) > 150) {
+                        enemyImage = getImage(imagePath + separator + "images" + separator
+                                + "explosion" + Integer.toString(blast) + ".png");
+                        blast = blast - 1;
+                        if (blast == 0) {
+                            state = STATE_DONE;
+                        }
+                        blast_stamp = System.currentTimeMillis();
+                    }
+                }
+                g.drawImage(enemyImage, (int) x, (int) y, null);
+                break;
             }
-            blast_stamp = System.currentTimeMillis();
-          }
+            default: {
+                if (state != STATE_DEAD) {
+                    g.drawImage(enemyImage, (int) x, (int) y, null);
+                }
+                break;
+            }
         }
-        g.drawImage(enemyImage, (int) x, (int) y, null);
-        break;
-      }
-      default : {
-        if (state != STATE_DEAD) {
-          g.drawImage(enemyImage, (int) x, (int) y, null);
-        }
-        break;
-      }
-      }
 
-      if (power.isEnabled() && power.isReleased()) {
-          power.render(g);
-      }
+        if (power.isEnabled() && power.isReleased()) {
+            power.render(g);
+        }
     }
 
     @Override
     public void update() {
-        dx = Ship.x + 200 - this.x;
-        dy = Ship.y + 20 - this.y;
-        length = (float) Math.sqrt(dx * dx + dy * dy);
-        dx /= length;
-        dy /= length;
-        dx *= 2;
-        dy *= 2;
-        this.x += dx;
-        this.y += dy;
+        switch (state) {
+            case STATE_EXPLODING: {
+                break;
+            }
+            default: {
+                dx = Ship.x + 200 - this.x;
+                dy = Ship.y + 12 - this.y;
+                length = (float) Math.sqrt(dx * dx + dy * dy);
+                dx /= length;
+                dy /= length;
+                dx *= 2;
+                dy *= 2;
+                this.x += dx;
+                this.y += dy;
+                break;
+            }
+        }
     }
 
     @Override
@@ -160,25 +168,24 @@ public class Boss implements GameFigure {
 
     @Override
     public void Health(int i) {
-      String imagePath = System.getProperty("user.dir");
-      String separator = System.getProperty("file.separator");
-      if (shield > 0) {
-        shield -= i; 
-        if (shield <= 0) {
-          enemyImage = getImage(imagePath + separator + "images" + separator
-                + "enemy" + Integer.toString(this.type) + ".png");
+        String imagePath = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
+        if (shield > 0) {
+            shield -= i;
+            if (shield <= 0) {
+                enemyImage = getImage(imagePath + separator + "images" + separator
+                        + "enemy" + Integer.toString(this.type) + ".png");
+            }
+        } else {
+            health -= i;
+            if ((health <= 0) && (state == STATE_TRAVELING)) {
+                soundPlayerFX = new SoundPlayer(imagePath + separator
+                        + "images" + System.getProperty("file.separator") + "blast1.wav");
+                soundPlayerFX.play();
+
+                state = STATE_EXPLODING;
+            }
         }
-      } else {
-        health -= i;
-        if ((health <= 0) && (state == STATE_TRAVELING)) {
-            soundPlayerFX = new SoundPlayer(imagePath + separator + 
-              "images" + System.getProperty("file.separator") + "blast1.wav");
-            soundPlayerFX.play();
-          
-            
-            state = STATE_EXPLODING;
-        }
-      }
     }
 
     @Override

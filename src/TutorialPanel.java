@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -20,12 +21,11 @@ public class TutorialPanel extends JPanel {
     JPanel test;
     public boolean running; // state of the game.
 
-    // private final Animator animator;//Animator object for the game panel
     private final TutorialAnimator tutorialAnimator;
     private final TutorialGameData gameData;//GameData object for the game panel
     private Graphics graphics; //graphics object for the game panel to use to render
 
-    private Image dbImage = null;
+    private BufferedImage dbImage = null;
 
     private HealthBar health;
 
@@ -58,7 +58,7 @@ public class TutorialPanel extends JPanel {
 
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
-            dbImage = createImage(PWIDTH, PHEIGHT);
+            dbImage = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB);
             if (dbImage == null) {
                 System.out.println("dbImage is null");
                 return;
@@ -114,7 +114,6 @@ public class TutorialPanel extends JPanel {
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
         } catch (Exception e) {
-            System.out.println("Graphics error: " + e);
         }
 
     }

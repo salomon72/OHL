@@ -11,5 +11,4 @@ public class ScoreObserver implements Observer {
     public void update(int amount) {
         score += amount;
     }
-
 }

@@ -8,8 +8,8 @@ public class DisplayAnimator implements Runnable {
     static boolean running;
     DisplayGameData displayGameData = null;
     DisplayPanel displayPanel = null;
-    private int x = 0;
-    private int y = 0;
+    private final int x = 0;
+    private final int y = 0;
 
     @Override
 
