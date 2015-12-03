@@ -67,7 +67,7 @@ public class HelpInterface2 extends JFrame implements ActionListener, MouseListe
     private DisplayEnemy displayEnemy;
 
     public HelpInterface2() throws IOException {
-        setSize(1275, 650);//size of initial window /1245,960
+        setSize(1275, 665);//size of initial window /1245,960
         setLocation(50, 100);//location of initial window
         setTitle("Galileo GameFigures");//title of the initial window
         Container c = getContentPane();//container for JPanel items 
