@@ -1,7 +1,6 @@
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -18,7 +17,6 @@ public class InterfaceForm2 extends JPanel {
     public static final int PHEIGHT = 587;
 
     public boolean running; // state of the game.
-
     private BufferedImage dbImage = null;
     private final BufferedImage backgroundImage;//image for the background of the game
     private final BufferedImage playerShip;
@@ -39,18 +37,8 @@ public class InterfaceForm2 extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Font font = new Font("Impact", Font.BOLD, 150);//
-<<<<<<< HEAD
-            g.drawImage(backgroundImage, 0, 0, null);
-            g.drawImage(playerShip, 0, 0, 1275, 590, null); //show playership on time screen
-           // g.drawString(text1, 450, 150);
-            
-=======
-        g.setFont(font);//
-        g.setColor(Color.ORANGE);
         g.drawImage(backgroundImage, 0, 0, null);
-        g.drawImage(playerShip, 0, 0, 1275, 590, null); //show playership on time screen            
->>>>>>> origin/master
+        g.drawImage(playerShip, 0, 0, 1275, 590, null); //show playership on time screen           
     }
 
     public static Image getImage(String fileName) {//functions that reads image files

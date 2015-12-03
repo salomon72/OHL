@@ -75,13 +75,11 @@ public class Enemy implements GameFigure {
                     + "enemy" + Integer.toString(temp) + ".png");
             type = temp;
         }
-        if(GameData.getphase() == PHASE.ONE){
+        if (GameData.getphase() == PHASE.ONE) {
             this.setAttributes(i, 3);
-        }
-        else if(GameData.getphase() == PHASE.TWO){
+        } else if (GameData.getphase() == PHASE.TWO) {
             this.setAttributes(i, 6);
-        }
-        else{
+        } else {
             this.setAttributes(i, 15);
         }
         this.observers = new ArrayList<>();

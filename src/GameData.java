@@ -24,14 +24,14 @@ public class GameData {
     public static int MAXHEALTH = 5;
     final List<GameFigure> figures;
     int count = 0;
-    int countEnemy = 0;
+    static int countEnemy = 0;
     boolean FINISHED = false;
     boolean gameEnd = false;
     boolean bossTime = false;
     boolean BOSS = false;
     boolean isStarting = true;
     boolean isBossDied = false;
-    boolean isBossCreated = false;
+    static boolean isBossCreated = false;
     private int enemiesSpawned;
     private static PHASE phase;
     ScoreObserver score = new ScoreObserver();
@@ -563,15 +563,7 @@ public class GameData {
                                 } else {
                                     f.notifyObservers(5);
                                 }
-                            } else if (GameData.phase == PHASE.TWO) { //powerups for stage 2
-                                if (g.containsPowerup()) {
-                                    r = 5;
-                                    addPower(r, f);// release POWER
-                                    f.notifyObservers(5 + r);
-                                } else {
-                                    f.notifyObservers(5);
-                                }
-                            } else if (GameData.phase == PHASE.THREE) { //powerups for stage 3
+                            } else if (GameData.phase == PHASE.TWO || GameData.phase == PHASE.THREE) { //powerups for stage 3
                                 if (g.containsPowerup()) {
                                     r = (int) (Math.random() * (4) + 2);
                                     addPower(r, f);// release POWER
@@ -582,7 +574,12 @@ public class GameData {
                             }
                         }
                     }
-                } 
+                } else if (!f.equals(g) && g.isMissile() == 1) {
+                    if (f.collision().intersects(g.collision())) {
+                        f.Health(1);
+                        g.Health(1);
+                    }
+                }
             }
         }
     }

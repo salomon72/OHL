@@ -67,10 +67,10 @@ public class Boss implements GameFigure {
 
         cando = OPERATION.ALL;
         this.setAttributes(i, GameData.MAXHEALTH * 20);
-        if(GameData.getphase() == PHASE.TWO){
+        if (GameData.getphase() == PHASE.TWO) {
             this.setAttributes(i, GameData.MAXHEALTH * 45);
         }
-        if(GameData.getphase() == PHASE.THREE){
+        if (GameData.getphase() == PHASE.THREE) {
             this.setAttributes(i, GameData.MAXHEALTH * 150);
         }
         this.observers = new ArrayList<>();

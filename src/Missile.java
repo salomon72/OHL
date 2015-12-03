@@ -148,9 +148,9 @@ public class Missile extends Ellipse2D.Float implements GameFigure {
 
     @Override
     public void notifyObservers(int amount) {
-        observers.stream().forEach((o) -> {
+        for (Observer o : observers) {
             o.update(amount);
-        });
+        }
     }
 
     @Override

@@ -225,6 +225,8 @@ public class GamePanel extends JPanel {
         int score = gameData.score.score;//collect score from observers
         try {
             g = this.getGraphics();
+            GameData.isBossCreated = false;
+            GameData.countEnemy = 0;
             Font font = new Font("Impact", Font.BOLD, 40);//font of displayed score
             String text = "Your final score was: " + score;//text of displated score
             String tryAgain = "You have failed! Try again!";

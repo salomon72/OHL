@@ -1,3 +1,4 @@
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -15,8 +16,8 @@ import javax.swing.JOptionPane;
  *
  * @author davidalba
  */
-public class DisplayMissile implements GameFigure, Display{
-    
+public class DisplayMissile implements GameFigure, Display {
+
     Image displayMissile;
     float x, y;
     int w, h;
@@ -43,7 +44,6 @@ public class DisplayMissile implements GameFigure, Display{
         }
         return image;
     }
-
 
     @Override
     public int getDamage() {
@@ -169,5 +169,5 @@ public class DisplayMissile implements GameFigure, Display{
     public Image getCharacterImage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
