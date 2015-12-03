@@ -41,9 +41,8 @@ public class DisplayPanel extends JPanel {
              displayEnemy5, displayEnemy6, displayEnemy7, displayEnemy8, displayEnemy9;    
      private Image displayShip, displayShip1, displayShip2, displayShip3;
      private Image displayMissile, displayMissile0, displayMissile1, displayMissile2, displayMissile3, displayMissile4, 
-             displayMissile5, displayMissile6, displayMissile7, displayMissile8, displayMissile9, displayMissile10;
+             displayMissile5, displayMissile6, displayMissile7;
      private Image displayHeart;
-     private Image displayShield;
      
      private boolean stageChange;
     private int nextStage;
@@ -80,11 +79,8 @@ public class DisplayPanel extends JPanel {
         displayMissile5 = getImage(imagePath + separator + "images" + separator + "missile5.png");
         displayMissile6 = getImage(imagePath + separator + "images" + separator + "missile6.png");
         displayMissile7 = getImage(imagePath + separator + "images" + separator + "missile7.png");
-        displayMissile8 = getImage(imagePath + separator + "images" + separator + "missile8.png");
-        displayMissile9 = getImage(imagePath + separator + "images" + separator + "missile9.png");
-        displayMissile10 = getImage(imagePath + separator + "images" + separator + "missile10.png");
         displayHeart = getImage(imagePath + separator + "images" + separator + "heart.png");
-        displayShield = getImage(imagePath + separator + "images" + separator + "shield3.png");
+        
         
         
         setBackground(Color.black); // sets background color behind the background image
@@ -116,7 +112,6 @@ public class DisplayPanel extends JPanel {
         //graphics.drawImage(displayHeart, x+30, y, null);
         graphics.drawImage(displayHeart, x+500, y+10, 30, 30, null); //x+400, y+10
         graphics.drawImage(displayMissile,x+900, y+20, null);
-        graphics.drawImage(displayShield, x+1100, y,30, 30,null); //shield icon
         
         graphics.drawImage(displayEnemy, x+10, y+100, null); //x+10,y+100
         graphics.drawImage(displayEnemy9, x+500, y+100, null); //stage 1 boss
@@ -143,9 +138,7 @@ public class DisplayPanel extends JPanel {
         graphics.drawImage(displayMissile4, x+950, y+175, null);
         graphics.drawImage(displayMissile5, x+1020, y+175, null);
         graphics.drawImage(displayMissile7, x+1070, y+175, null);
-        graphics.drawImage(displayMissile8, x+950, y+230, null);
-        graphics.drawImage(displayMissile9, x+1150, y+230, null);
-        graphics.drawImage(displayMissile10, x+950, y+255, null);
+        
         
         
         //displayShip.getGraphics();
@@ -230,10 +223,6 @@ public void printScreen() { //use active rendering to put the buffered image on-
                 g.drawString(text12, 590, 430);
                 String text13 = ("These are the enemies' weapons");
                 g.drawString(text13, 950, 130);
-                String text14 = ("This appears when the player");
-                g.drawString(text14, 1050, 50);
-                String text15 = ("acquires a sheild");
-                g.drawString(text15, 1050, 65);
                 String text100 = ("In this game the player will control a flying spaceship which runs through each of three stages.");
                 g.drawString(text100, 200,500);
                 String text101 = ("The player fires bullets and other weapons at various enemies, which differ in point values.");
