@@ -61,11 +61,8 @@ public class InterfaceForm2 extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Font font = new Font("Impact", Font.BOLD, 150);//
-            g.setFont(font);//
-            g.setColor(Color.ORANGE);
             g.drawImage(backgroundImage, 0, 0, null);
             g.drawImage(playerShip, 0, 0, 1275, 590, null); //show playership on time screen
-            String text1 = "Galileo!";
            // g.drawString(text1, 450, 150);
             
     }
