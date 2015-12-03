@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Shield {
 
-    private Image shieldImage;
+    private final Image shieldImage;
     static int count;
 
     public Shield() {

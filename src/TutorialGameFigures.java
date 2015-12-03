@@ -29,8 +29,6 @@ public interface TutorialGameFigures {
 
     public float getYcoor();
 
-    //void registerObserver(Observer o);//attach a score observer to the object
-    //void removeObserver(Observer o);//remove a score observer from the object
     void notifyObservers(int amount);//notify all score observers attached to object, "amount" indicates the amount of score gained
 
     void setAttributes(Image i, int health);// sets the image and the initial health of the object

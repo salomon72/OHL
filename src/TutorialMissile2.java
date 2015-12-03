@@ -24,15 +24,6 @@ public class TutorialMissile2 extends Ellipse2D.Float implements TutorialGameFig
     String separator = System.getProperty("file.separator");
     Image missileImage;
 
-    public PHASE getphase() {
-        return GameData.getphase();
-    }
-    private OPERATION cando = OPERATION.ALL;
-
-    public OPERATION canDo() {
-        return cando;
-    }
-
     public int getDamage() {
         if (type == 0) {
             return 1;

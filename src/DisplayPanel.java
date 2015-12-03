@@ -1,6 +1,4 @@
 
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,26 +12,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author davidalba
- */
 public class DisplayPanel extends JPanel {
-    
+
     public static final int PWIDTH = 1245; // size of the game panel 852
     public static final int PHEIGHT = 610; //480
     JPanel test;
     public boolean running; // state of the game.
-    
+
     private DisplayAnimator displayAnimator;
     private DisplayGameData displayGameData;//GameData object for the game panel
     private Graphics graphics; //graphics object for the game panel to use to render
+<<<<<<< HEAD
     
      private Image backgroundImage;
      private Image dbImage = null;
@@ -48,9 +37,21 @@ public class DisplayPanel extends JPanel {
      private boolean stageChange;
     private int nextStage;
     private boolean StageChange;
+=======
+
+    private Image backgroundImage;
+    private BufferedImage dbImage = null;
+    private Image displayEnemy, displayEnemy1, displayEnemy2, displayEnemy3, displayEnemy4,
+            displayEnemy5, displayEnemy6, displayEnemy7, displayEnemy8, displayEnemy9;
+    private Image displayShip, displayShip1, displayShip2, displayShip3;
+    private Image displayMissile, displayMissile0, displayMissile1, displayMissile2, displayMissile3, displayMissile4,
+            displayMissile5, displayMissile6, displayMissile7;
+    private Image displayHeart;
+
+>>>>>>> origin/master
     private Display currentDisplay;
-     
-     public DisplayPanel(DisplayAnimator displayAnimator, DisplayGameData displayGameData) throws IOException { //Animator animator
+
+    public DisplayPanel(DisplayAnimator displayAnimator, DisplayGameData displayGameData) throws IOException { //Animator animator
         this.displayAnimator = displayAnimator;
         this.displayGameData = displayGameData;
 
@@ -84,25 +85,28 @@ public class DisplayPanel extends JPanel {
         displayMissile9 = getImage(imagePath + separator + "images" + separator + "missile9.png");
         displayMissile10 = getImage(imagePath + separator + "images" + separator + "missile10.png");
         displayHeart = getImage(imagePath + separator + "images" + separator + "heart.png");
+<<<<<<< HEAD
         displayShield = getImage(imagePath + separator + "images" + separator + "shield3.png");
         
         
+=======
+
+>>>>>>> origin/master
         setBackground(Color.black); // sets background color behind the background image
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));//sets the size of the JPanel
-     }
+    }
 
-    
-      public void startDisplay() { //starts the thread for the animator
+    public void startDisplay() { //starts the thread for the animator
         running = true;
 
         Thread t = new Thread(displayAnimator);
         t.start();
 
     }
-    
+
     public void gameRender(int x, int y) throws IOException { // called each iteration of the animator thread
         if (dbImage == null) {
-            dbImage = createImage(PWIDTH, PHEIGHT);
+            dbImage = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB);
             if (dbImage == null) {
                 System.out.println("dbImage is null");
                 return;
@@ -113,6 +117,7 @@ public class DisplayPanel extends JPanel {
         graphics.drawImage(backgroundImage, x, y, null);
         graphics.drawImage(dbImage, x, y, test);
         graphics.drawImage(displayShip, x, y, null);
+<<<<<<< HEAD
         //graphics.drawImage(displayHeart, x+30, y, null);
         graphics.drawImage(displayHeart, x+500, y+10, 30, 30, null); //x+400, y+10
         graphics.drawImage(displayMissile,x+900, y+20, null);
@@ -160,6 +165,34 @@ public class DisplayPanel extends JPanel {
             //stageChange = false;
         
         
+=======
+        graphics.drawImage(displayHeart, x + 500, y + 10, 30, 30, null); //x+400, y+10
+        graphics.drawImage(displayMissile, x + 900, y + 20, null);
+
+        graphics.drawImage(displayEnemy, x + 10, y + 100, null); //x+10,y+100
+        graphics.drawImage(displayEnemy9, x + 500, y + 100, null); //stage 1 boss
+
+        graphics.drawImage(displayEnemy1, x + 50, y + 220, null); //stage 2 enemy in the sea
+        graphics.drawImage(displayEnemy2, x + 140, y + 220, null); //stage 2 enemy in the air
+        graphics.drawImage(displayEnemy3, x + 230, y + 220, null); //stage 2 enemy in the sea
+        graphics.drawImage(displayEnemy8, x + 500, y + 220, null); //stage 2 boss
+
+        graphics.drawImage(displayEnemy4, x + 50, y + 390, null); //stage 3 enemy tank
+        graphics.drawImage(displayEnemy5, x + 140, y + 390, null); //stage 3 enemy
+        graphics.drawImage(displayEnemy6, x + 230, y + 390, null); //stage 3 enemy
+        graphics.drawImage(displayEnemy7, x + 500, y + 390, null); //stage 3 boss
+
+        graphics.drawImage(displayMissile0, x + 950, y + 150, null);
+        graphics.drawImage(displayMissile1, x + 1020, y + 150, null);
+        graphics.drawImage(displayMissile3, x + 1070, y + 150, null);
+        graphics.drawImage(displayMissile4, x + 950, y + 175, null);
+        graphics.drawImage(displayMissile5, x + 1020, y + 175, null);
+        graphics.drawImage(displayMissile7, x + 1070, y + 175, null);
+
+        currentDisplay = new DisplayShip(displayShip, x, y);
+        collectFromDisplay();
+
+>>>>>>> origin/master
         synchronized (displayGameData.figures) {//runs through each game figures and renders them
             GameFigure f;
             for (int i = 0; i < displayGameData.figures.size(); i++) {
@@ -168,7 +201,7 @@ public class DisplayPanel extends JPanel {
             }
         }
     }
-    
+
     public static Image getImage(String fileName) {//functions that reads image files
         Image image = null;
         try {
@@ -179,15 +212,12 @@ public class DisplayPanel extends JPanel {
         }
         return image;
     }
-    
-     private void collectFromDisplay() {
+
+    private void collectFromDisplay() {
         displayShip = (Image) currentDisplay.getCharacterImage();
     }
 
-    
-     
-    
-public void printScreen() { //use active rendering to put the buffered image on-screen
+    public void printScreen() { //use active rendering to put the buffered image on-screen
         Graphics g, h;
         try {
             g = this.getGraphics();
@@ -198,17 +228,16 @@ public void printScreen() { //use active rendering to put the buffered image on-
             g.setColor(Color.RED);
             h.setFont(font2);
             h.setColor(Color.white);
-            
+
             if ((g != null) && (dbImage != null)) {
                 g.drawImage(dbImage, 0, 0, null);
                 String text1 = "This is the player ship controlled through the game"; //playership
                 g.drawString(text1, 70, 50);
-                String text2 = "This is one of the five hearts comprising the player's health"; 
+                String text2 = "This is one of the five hearts comprising the player's health";
                 g.drawString(text2, 450, 50); //650, 50
                 String text3 = ("This is the player missile");
-                g.drawString(text3, 850, 50); //50, 180
-                
-                String text4 = ("This is the first type of enemy encountered in space, stage 1"); 
+                g.drawString(text3, 850, 50); //50, 180  
+                String text4 = ("This is the first type of enemy encountered in space, stage 1");
                 g.drawString(text4, 70, 130);
                 String text5 = ("This is the boss that appears at the end of stage 1");
                 g.drawString(text5, 600, 130);
@@ -223,9 +252,7 @@ public void printScreen() { //use active rendering to put the buffered image on-
                 String text10 = ("This is the boss that appears at the end of stage 2");
                 g.drawString(text10, 560, 260);
                 String text11 = ("These are the enemies of stage 3, land");
-                g.drawString(text11,30, 380);
-                //String text12 = ("Battletank");
-                //g.drawString(text12, 35, 460);
+                g.drawString(text11, 30, 380);
                 String text12 = ("This is the boss that appears at the end of stage 3");
                 g.drawString(text12, 590, 430);
                 String text13 = ("These are the enemies' weapons");
@@ -235,7 +262,7 @@ public void printScreen() { //use active rendering to put the buffered image on-
                 String text15 = ("acquires a sheild");
                 g.drawString(text15, 1050, 65);
                 String text100 = ("In this game the player will control a flying spaceship which runs through each of three stages.");
-                g.drawString(text100, 200,500);
+                g.drawString(text100, 200, 500);
                 String text101 = ("The player fires bullets and other weapons at various enemies, which differ in point values.");
                 g.drawString(text101, 200, 515);
                 String text102 = ("The player can also acquire different power-ups throughout the game by defeating enemies and acheiving a certain amount of points");
@@ -248,8 +275,6 @@ public void printScreen() { //use active rendering to put the buffered image on-
         } catch (Exception e) {
             System.out.println("Graphics error: " + e);
         }
-          
 
     }
-  }
-
+}

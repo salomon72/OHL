@@ -13,7 +13,6 @@ public class TutorialGameData {
     boolean FINISHED = false;
     boolean bossTime = false;
     boolean BOSS = false;
-    private int enemiesSpawned;
     ScoreObserver score = new ScoreObserver();
 
     public TutorialGameData() {
@@ -38,18 +37,15 @@ public class TutorialGameData {
 
     public final void startSpawner() {
         Thread enemySpawner;
-        enemySpawner = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (count < 35) {//loop spawns enemies, add condition to stop the spawning of enemies
-                    spawnEnemy();
-                    try {
-                        Thread.sleep(750);//interval in which enemies are spawned
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    count++;
+        enemySpawner = new Thread(() -> {
+            while (count < 35) {//loop spawns enemies, add condition to stop the spawning of enemies
+                spawnEnemy();
+                try {
+                    Thread.sleep(750);//interval in which enemies are spawned
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                count++;
             }
         });
         enemySpawner.start();//starts the enemy spawner
@@ -57,32 +53,28 @@ public class TutorialGameData {
 
     public final void startFiring() {
         Thread enemyShoot;
-        enemyShoot = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                TutorialGameFigures f;
-                while (!FINISHED) {//FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
-                    for (int i = 0; i < figures.size(); i++) {
-                        int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
-                        if (temp <= 90 && temp >= 30) {//if random number is between 90 and 30, enemy will fire
-                            f = figures.get(i);//get enemy to fire
-                            if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
-                                TutorialMissile2 m = new TutorialMissile2(f.getXofMissileShoot(), f.getYofMissileShoot(), 1);
-                                synchronized (figures) {
-                                    figures.add(m);
-                                }
+        enemyShoot = new Thread(() -> {
+            TutorialGameFigures f;
+            while (!FINISHED) {//FINISHED indicated whether the game is over or not. Enemies will fire if on the screen as long as the game is not over
+                for (int i = 0; i < figures.size(); i++) {
+                    int temp = 1 + (int) (Math.random() * 100); //random generator for enemies to fire randomly
+                    if (temp <= 90 && temp >= 30) {//if random number is between 90 and 30, enemy will fire
+                        f = figures.get(i);//get enemy to fire
+                        if (f.isPlayer() == 1 || f.isPlayer() == 2) {//check is the object collected from list is the player, do not fire if player.
+                            TutorialMissile2 m = new TutorialMissile2(f.getXofMissileShoot(), f.getYofMissileShoot(), 1);
+                            synchronized (figures) {
+                                figures.add(m);
                             }
                         }
-                        try {
-                            Thread.sleep(100);//interval between enemy fire
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    }
+                    try {
+                        Thread.sleep(100);//interval between enemy fire
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GameData.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
-        }
-        );
+        });
         enemyShoot.start();//start the enemy shooting thread.
     }
 
@@ -92,13 +84,9 @@ public class TutorialGameData {
         TutorialGameFigures f;
         TutorialGameFigures g;
         synchronized (figures) {
-            enemiesSpawned = 0;//count of enemies on game panel
             for (int d = 0; d < figures.size(); d++) {
                 h = figures.get(d);//get each GameFigure on game panel
                 h.update();//update the movement of the GameFigure
-                if (h.isPlayer() >= 1) {//check is GameFigure is player
-                    enemiesSpawned++;//count each non-player GameFigure
-                }
             }
             for (int j = 0; j < figures.size(); j++) {//collision detection loop, checks each GameFigure for collisions between figures.
                 g = figures.get(j);

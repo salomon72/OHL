@@ -21,82 +21,59 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author davidalba
- */
 public class StartUpMenu extends JFrame
-        implements ActionListener, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener{
-    
-    //private final GamePanel gamePanel;
-   // final GameData gameData;
-    //private final Animator animator;
+        implements ActionListener, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener {
+
     private final InterfaceForm2 interfaceForm;
-     
+
     private final JButton startButton;
     private final JButton helpButton;
     private final JButton quitButton;
-    
-    
+
     Font btnFont;
     Border borderLine;
     Color btnColor;
-    
-    
+
     public StartUpMenu() throws IOException {
         setSize(1275, 665);//size of initial window
         setLocation(50, 100);//location of initial window
         setTitle("Main Menu");//title of the initial window
         GameData.setphase(PHASE.ONE);
         Container c = getContentPane();//container for JPanel items
-        
-        //animator = new Animator();
-        //gameData = new GameData();
-        //animator.setGameData(gameData);//sets gameData object for animator to use
-        //gamePanel = new GamePanel(animator, gameData);
+
         interfaceForm = new InterfaceForm2();
-        //animator.setGamePanel(gamePanel);//sets the gamePanel object for animator to use
-        
-        //c.add(gamePanel, "Center");//centers the gamePanel on the JPanel
+
         c.add(interfaceForm, "Center");
 
         JPanel southPanel = new JPanel();
-        
+
         btnFont = new Font("Bodoni MT Black", Font.ROMAN_BASELINE, 25);
         borderLine = new LineBorder(Color.BLUE, 5);
         btnColor = new Color(190, 175, 170);
-        
-      
+
         startButton = new JButton("Start");
         startButton.setVisible(true);
         startButton.setFont(btnFont);
         startButton.setBorder(borderLine);
         startButton.setBackground(btnColor);
         southPanel.add(startButton);
-        
+
         helpButton = new JButton("Help");
         helpButton.setVisible(true);
         helpButton.setFont(btnFont);
         helpButton.setBorder(borderLine);
         helpButton.setBackground(btnColor);
         southPanel.add(helpButton);
-        
+
         quitButton = new JButton("Quit");
         quitButton.setVisible(true);
         quitButton.setFont(btnFont);
         quitButton.setBorder(borderLine);
         quitButton.setBackground(btnColor);
         southPanel.add(quitButton);
-        
-        
+
         c.add(southPanel, "South");
-        
+
         startButton.setFocusable(false);
         startButton.addActionListener(this);
 
@@ -105,17 +82,16 @@ public class StartUpMenu extends JFrame
 
         quitButton.setFocusable(false);
         quitButton.addActionListener(this);
-       
+
     }
-     
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == quitButton) {
             System.exit(0);
         }
-        
-        if (ae.getSource() == startButton){
+
+        if (ae.getSource() == startButton) {
             try {
                 Main game = new Main();
                 game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,18 +101,18 @@ public class StartUpMenu extends JFrame
                 Logger.getLogger(StartUpMenu.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if (ae.getSource() == helpButton){
+
+        if (ae.getSource() == helpButton) {
             HelpInterface2 h;
-        try {
-            h = new HelpInterface2();
-            h.setSize(1275, 650);
-            h.setLocation(300, 100); //400, 200
-            h.setResizable(false);
-            h.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(InterfaceForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                h = new HelpInterface2();
+                h.setSize(1275, 650);
+                h.setLocation(300, 100); //400, 200
+                h.setResizable(false);
+                h.setVisible(true);
+            } catch (IOException ex) {
+
+            }
         }
     }
 
@@ -194,5 +170,5 @@ public class StartUpMenu extends JFrame
     public void mouseWheelMoved(MouseWheelEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

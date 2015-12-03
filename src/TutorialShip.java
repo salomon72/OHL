@@ -149,7 +149,7 @@ public class TutorialShip implements TutorialGameFigures {
 
     @Override
     public void setAttributes(Image i, int health) {
-        this.health = health;
+        TutorialShip.health = health;
         playerImage = i;
     }
 

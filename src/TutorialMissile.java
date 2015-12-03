@@ -20,15 +20,6 @@ public class TutorialMissile extends Ellipse2D.Float implements TutorialGameFigu
     int health = 1;
     int type;
 
-    public PHASE getphase() {
-        return GameData.getphase();
-    }
-    private OPERATION cando = OPERATION.ALL;
-
-    public OPERATION canDo() {
-        return cando;
-    }
-
     public int getDamage() {
         if (type == 0) {
             return 1;

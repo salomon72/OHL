@@ -276,7 +276,7 @@ public class GamePanel extends JPanel {
 
             if (nextStage == 1) {
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
-               
+
                 Thread.sleep(4000);
                 animator.gamePanel.setNextCutscene(1);
                 animator.gamePanel.setCutsceneChange(true);
@@ -290,7 +290,7 @@ public class GamePanel extends JPanel {
                 Main.missileLevel = 1;
 
             } else if (nextStage == 2) {
-                
+
                 g.drawString(stageText, GamePanel.PWIDTH / 2, GamePanel.PHEIGHT / 2 + 200);
                 Thread.sleep(4000);
                 animator.gamePanel.setNextCutscene(2);
@@ -317,8 +317,6 @@ public class GamePanel extends JPanel {
         if (cutsceneChange) {
 
             if (nextCutscene == 1) {
-                // planetImage = new BufferedImage(1, 1, 1);
-
                 collectFromCutscenes();
                 Animator.cutsceneRunning = true;
 

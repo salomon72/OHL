@@ -21,7 +21,6 @@ public class GameData {
     public static int MAXHEIGHT = 550;
     public static int MINHEIGHT = 20;
     public static int MAXENEMY = 35;
-    private SoundPlayer soundPlayerFX;
     public static int MAXHEALTH = 5;
     final List<GameFigure> figures;
     int count = 0;
@@ -77,6 +76,7 @@ public class GameData {
             Ship.playerImage = playerImage;
         } else if (stage == 2) {
             phase = PHASE.TWO;
+            Main.missileLevel = 2;
             setStage2Spawner();
             startFiring();
             enemyShootThread.start();
@@ -460,7 +460,6 @@ public class GameData {
     }
 
     public void spawnBossStage2() {
-        //seperate method to spawn boss
         GameFigureFactory factory = new Factory("BossStage2");
         synchronized (figures) {
             figures.add(factory.createFigure());
@@ -469,7 +468,6 @@ public class GameData {
     }
 
     public void spawnBossStage3() {
-        //seperate method to spawn boss
         GameFigureFactory factory = new Factory("BossStage3");
         synchronized (figures) {
             figures.add(factory.createFigure());
@@ -494,11 +492,11 @@ public class GameData {
                             if (type == 7 || type == 8 || type == 9) {
                                 tempMissile = type;
                             }
-                            Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
-                            String missilelaunch1 = imagePath + separator + "images" + separator + f.getMyType() + ".mp3";
-                            //ThreadPlayer.play(missilelaunch);
-                            synchronized (figures) {
-                                figures.add(m);
+                            if (figures.get(i).getState() != GameFigure.STATE_EXPLODING) {
+                                Missile2 m = new Missile2(f.getXofMissileShoot(), f.getYofMissileShoot(), tempMissile);
+                                synchronized (figures) {
+                                    figures.add(m);
+                                }
                             }
                         }
                     }
@@ -513,22 +511,22 @@ public class GameData {
     }
 
     private void addPower(int r, GameFigure f) {
-        synchronized (figures) {            
+        synchronized (figures) {
             //if ship is already shooting 2 missiles at once, change power to health 
-            if(r==3 && Main.missileLevel > 1){
-                r = 2;                                               
+            if (r == 3 && Main.missileLevel > 1) {
+                r = 2;
             }
-            if(r==2 && Ship.health <= 5){ 
-                r = 4;                        
+            if (r == 2 && Ship.health <= 5) {
+                r = 4;
             }
-            if (r==4 && Ship.health >5 ){
-                if(GameData.phase==PHASE.TWO || GameData.phase==PHASE.THREE){
+            if (r == 4 && Ship.health > 5) {
+                if (GameData.phase == PHASE.TWO || GameData.phase == PHASE.THREE) {
                     r = 5;
-                }
-                else
+                } else {
                     r = 2;
+                }
             }
-            
+
             PowerUp pw = new PowerUp(r);
             pw.setLocation((int) f.getXcoor(), (int) f.getYcoor() + 5);
             pw.setReleased(true);
@@ -537,20 +535,6 @@ public class GameData {
             figures.add(pw);
             f.notifyObservers(5 + r);
         }
-        
-    }
-
-    //@@@@@ not done yet - Please Do Not Remove
-    private void playerCheck(GameFigure player) {
-        GameFigure g;
-        for (int i = 0; i < figures.size(); i++) {
-
-        }
-
-    }
-
-    //@@@@@ not done yet - Please Do Not Remove
-    private void enemyCheck(GameFigure f) {
 
     }
 
@@ -598,12 +582,7 @@ public class GameData {
                             }
                         }
                     }
-                } else if(!f.equals(g) && g.isMissile()==1){
-                    if(f.collision().intersects(g.collision())){
-                        f.Health(1);
-                        g.Health(1);
-                    }                    
-                }
+                } 
             }
         }
     }
@@ -617,7 +596,7 @@ public class GameData {
                     if (f.collision().intersects(g.collision())) {
                         if (g.getState() == GameFigure.STATE_TRAVELING) {
                             f.updateState(GameFigure.STATE_DONE);
-                            //g.Health(1);//subtract 1 from Player's health 
+                            g.Health(1);//subtract 1 from Player's health 
                         } else if (g.getState() == GameFigure.SHIELD) {
                             Shield.count--;
                             if (Shield.count <= 0) {
@@ -734,7 +713,6 @@ public class GameData {
             }
 
             if (Ship.health < 1) {
-                //ThreadPlayer.play(this.explosion);
                 FINISHED = true;
                 figures.get(0).setState(Ship.STATE_TRAVELING);
             } //check enemy is over then finish

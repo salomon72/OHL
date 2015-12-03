@@ -17,9 +17,6 @@ public class Bonus {
 
     public Bonus() {
         active = false;
-        //powerLevel = 0;
-        //power = 0;
-        //color = Color.LIGHT_GRAY;
         color = new Color(144, 14, 242);
     }
 
