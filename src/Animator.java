@@ -1,7 +1,7 @@
 /*
  class that runs the thread that updates the screen
  */
-
+/*hhg*/
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
